@@ -8,9 +8,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 import PythonTools.ClassTools as CT
-import SpectraTools.PAS as PAS
-import SpectraTools.PASGas as PASG
-import SpectraTools.PASLiquid as PASL
+import SensorTools.PAS as PAS
+import SensorTools.PASGas as PASG
+import SensorTools.PASLiquid as PASL
 
 reload(PAS)
 reload(PASG)

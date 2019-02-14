@@ -37,7 +37,7 @@ class Test_init(unittest.TestCase):
         mess = [
             {
             "class": "PASGas",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_gas_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_gas_testdata",
             "filename": "NW1017.ASD",       
             "temperature_channel": 0,
             "audio_channel": 2,
@@ -46,7 +46,7 @@ class Test_init(unittest.TestCase):
             "audio_inverted": True,
             },{
             "class": "PASLiquid",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_liquid_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_liquid_testdata",
             "filename": "NW1006.ASD",
             "temperature_channel": 0,
             "audio_channel": 1,
@@ -91,7 +91,7 @@ class Test_batches(unittest.TestCase):
 
         gas = {
             "class": "PASGas",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_gas_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_gas_testdata",
             "filename": "NW1017.ASD",       
             "temperature_channel": 0,
             "audio_channel": 2,
@@ -101,7 +101,7 @@ class Test_batches(unittest.TestCase):
         }
         liquid = {
             "class": "PASLiquid",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_liquid_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_liquid_testdata",
             "filename": "NW1006.ASD",
             "temperature_channel": 0,
             "audio_channel": 1,
@@ -150,7 +150,7 @@ class Test_batches(unittest.TestCase):
 
         gas = {
             "class": "PASGas",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_gas_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_gas_testdata",
             "filename": "NW1017.ASD",       
             "temperature_channel": 0,
             "audio_channel": 2,
@@ -160,7 +160,7 @@ class Test_batches(unittest.TestCase):
         }
         liquid = {
             "class": "PASLiquid",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_liquid_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_liquid_testdata",
             "filename": "NW1006.ASD",
             "temperature_channel": 0,
             "audio_channel": 1,
@@ -199,7 +199,7 @@ class Test_batches(unittest.TestCase):
 
         gas = {
             "class": "PASGas",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_gas_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_gas_testdata",
             "filename": "NW1017.ASD",       
             "temperature_channel": 0,
             "audio_channel": 2,
@@ -209,7 +209,7 @@ class Test_batches(unittest.TestCase):
         }
         liquid = {
             "class": "PASLiquid",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_liquid_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_liquid_testdata",
             "filename": "NW1006.ASD",
             "temperature_channel": 0,
             "audio_channel": 1,
@@ -239,7 +239,7 @@ class Test_batches(unittest.TestCase):
 
         gas = {
             "class": "PASGas",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_gas_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_gas_testdata",
             "filename": "NW1017.ASD",       
             "temperature_channel": 0,
             "audio_channel": 2,
@@ -249,7 +249,7 @@ class Test_batches(unittest.TestCase):
         }
         liquid = {
             "class": "PASLiquid",
-            "path": "C:\\Python\\SpectraTools\\Tests\\PAS_liquid_testdata",
+            "path": "C:\\Python\\SensorTools\\Tests\\PAS_liquid_testdata",
             "filename": "NW1006.ASD",
             "temperature_channel": 0,
             "audio_channel": 1,
