@@ -280,9 +280,6 @@ class RefractiveIndex(LS.LinearSpectrum):
         http://www.rp-photonics.com/chromatic_dispersion.html
         numpy.log() is natural log
         
-        CHANGELOG:
-        20170315/RB: started function. 
-        
         INPUT:
         wl_um (ndarray): wavelengths in micron 
         gvd: group velocity dispersion in fs^2/mm
@@ -293,6 +290,7 @@ class RefractiveIndex(LS.LinearSpectrum):
         t_out (ndarray): 3D array with pulse lengths wl_um x t x d
         
         Changelog:
+        20170315/RB: started function. 
         2019-02-15/RB: moved to RefractiveIndexTools
         
         """
