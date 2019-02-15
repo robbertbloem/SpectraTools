@@ -232,15 +232,6 @@ class RefractiveIndex(LS.LinearSpectrum):
         """   
         if self.verbose > 1:
             print("RefractiveIndex.get_ri()")    
-
-        # if wl_um is None and self.x is None:
-            # raise ValueError("RefractiveIndex.get_ri(): no wavelengths to calculate the refractive index for.")
-  
-        # elif wl_um is not None:
-            # self.x = wl_um
-            
-        # elif self.x is None:            
-            
             
         if numpy.amin(self.x) < self.x_range[0]:
             raise ValueError("RefractiveIndex.get_ri(): lowest wavelength is below range.")
@@ -248,9 +239,9 @@ class RefractiveIndex(LS.LinearSpectrum):
         if numpy.amax(self.x) > self.x_range[1]:
             raise ValueError("RefractiveIndex.get_ri(): highest wavelength is above range.")
             
-        ri = RIF.ri(x = self.x, s = self.coefficients, formula = self.formula, verbose = self.verbose)
-        
-        return ri
+        self.n = RIF.ri(x = self.x, s = self.coefficients, formula = self.formula, verbose = self.verbose)
+
+        return self.n
 
 
     def get_gvd(self):
@@ -276,14 +267,50 @@ class RefractiveIndex(LS.LinearSpectrum):
             
         gvd = RIF.gvd(x = self.x, s = self.coefficients, formula = self.formula, verbose = self.verbose)
         
-        gvd = (1e21 * gvd * self.x**3) / (2 * numpy.pi * (CONST.c_ms)**2)
+        self.gvd = (1e21 * gvd * self.x**3) / (2 * numpy.pi * (CONST.c_ms)**2)
         
-        return gvd
+        return self.gvd
+
+
+    def get_dispersive_pulse_broadening(self, t_fs, d_mm):
+        """
+        Calculates the effect the group velocity dispersion has on an unchirped Gaussian pulse. 
+        
+        Source:
+        http://www.rp-photonics.com/chromatic_dispersion.html
+        numpy.log() is natural log
+        
+        CHANGELOG:
+        20170315/RB: started function. 
+        
+        INPUT:
+        wl_um (ndarray): wavelengths in micron 
+        gvd: group velocity dispersion in fs^2/mm
+        t: pulse durations
+        d: thicknesses of material
+        
+        OUTPUT:
+        t_out (ndarray): 3D array with pulse lengths wl_um x t x d
+        
+        Changelog:
+        2019-02-15/RB: moved to RefractiveIndexTools
+        
+        """
+        t_fs = CF.make_numpy_ndarray(t_fs)
+        d_mm = CF.make_numpy_ndarray(d_mm)
+
+        W, T, D = numpy.meshgrid(self.x, t_fs, d_mm, indexing = "ij")
+        G, dump, dump = numpy.meshgrid(self.gvd, t_fs, d_mm, indexing = "ij")
+
+        t_out = T * numpy.sqrt(1 + (4 * numpy.log(2) * G * D/ T**2)**2 )
+        
+        return t_out
 
 
 
 
-            
+
+    
 
 if __name__ == "__main__": 
     pass
