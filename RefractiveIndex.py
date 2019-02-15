@@ -8,9 +8,11 @@ import matplotlib.pyplot as plt
 
 import SpectraTools.LinearSpectrum as LS
 import RefractiveIndexTools.Resources.RI_read_yaml as RIRY
+import RefractiveIndexTools.Resources.RI_Functions as RIF
 
 importlib.reload(LS)
 importlib.reload(RIRY)
+importlib.reload(RIF)
 """
  
 INPUT:
@@ -195,11 +197,32 @@ class RefractiveIndex(LS.LinearSpectrum):
         if "range" in self.db_record:
             self.x_range = self.db_record["range"]
         elif "data" in self.db_record:
-            self.x_range = [self.db_record["data"][0,0], self.db_record["data"][-1,0]]
+            self.x_range = [numpy.amin(self.db_record["data"][:,0]), numpy.amax(self.db_record["data"][:,0])]
             
+    def get_ri(self, wl_um):
+        """
+         
+        INPUT:
+        - 
 
+        OUTPUT:
+        - 
 
+        CHANGELOG:
+        2019-02-15/RB: started function
+        """   
+        if self.verbose > 1:
+            print("RefractiveIndex.get_ri()")    
 
+        if numpy.amin(wl_um) < self.x_range[0]:
+            raise ValueError("RefractiveIndex.get_ri(): lowest wavelength is below range.")
+
+        if numpy.amax(wl_um) > self.x_range[1]:
+            raise ValueError("RefractiveIndex.get_ri(): highest wavelength is above range.")
+            
+        ri = RIF.ri(x = wl_um, s = self.coefficients, formula = self.formula, verbose = self.verbose)
+        
+        return ri
 
 
 

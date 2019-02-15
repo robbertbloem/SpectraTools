@@ -250,7 +250,17 @@ class Test_importdata(unittest.TestCase):
                 
                 if "coefficients" in m:
                     with self.subTest(m["type"] + " coefficients"):   
-                        self.assertTrue(numpy.allclose(c.coefficients, m["coefficients"]))            
+                        self.assertTrue(numpy.allclose(c.coefficients, m["coefficients"]))    
+                
+                for check in m["check"]:
+                    if "ri_check" in check: 
+                        ri = c.get_ri(check["wl_um"])
+                        self.assertTrue(numpy.allclose(ri, check["ri_check"], rtol = self.rtol_ri))
+
+
+        
+                
+                        
 
     @unittest.expectedFailure
     def test_importing_expected_failure(self):

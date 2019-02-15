@@ -1,10 +1,305 @@
+import importlib
+
 import numpy
 import matplotlib 
 import matplotlib.pyplot as plt
 
 import PythonTools.CommonFunctions as CF
+import PythonTools.Mathematics as MATH
+
+importlib.reload(CF)
+importlib.reload(MATH)
+
 
 # REFRACTIVE INDEX
+
+def ri(x, s , formula, verbose):
+
+    if formula == "tabulated n":
+        return ri_tabulated_n(x, s, verbose = verbose)
+    elif formula == "tabulated nk":
+        return ri_tabulated_nk(x, s, verbose = verbose)
+    elif formula == "formula 1":
+        return ri_formula_1(x, s, verbose = verbose)
+    elif formula == "formula 2":
+        return ri_formula_2(x, s, verbose = verbose)        
+    elif formula == "formula 3":
+        return ri_formula_3(x, s, verbose = verbose)        
+    elif formula == "formula 4":
+        return ri_formula_4(x, s, verbose = verbose)        
+    elif formula == "formula 5":
+        return ri_formula_5(x, s, verbose = verbose)        
+    elif formula == "formula 6":
+        return ri_formula_6(x, s, verbose = verbose)        
+    elif formula == "formula 7":
+        return ri_formula_7(x, s, verbose = verbose)        
+        
+        
+        
+        
+        
+def ri_tabulated_n(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_tabulated_n()")  
+    
+    print(type(s))
+        
+    ri = MATH.interpolate_data(s[:,0], s[:,1], x) 
+    
+    return ri
+
+
+def ri_tabulated_nk(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_tabulated_nk()")  
+            
+    ri = MATH.interpolate_data(s[:,0], s[:,1], x) 
+
+    return ri    
+    
+    
+def ri_formula_1(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_1()")  
+            
+    n_terms = int(len(s) / 2 - 0.5)        
+    ri = numpy.ones(len(x)) + s[0] 
+    l = x**2
+    for i in range(n_terms):
+        ri += (s[2*i+1] * l) / (l - s[2*i+2]**2)
+    ri = numpy.sqrt(ri)   
+
+    return ri
+
+    
+def ri_formula_2(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_2()")  
+        
+    n_terms = int(len(s) / 2 - 0.5)        
+    ri = numpy.ones(len(x)) + s[0] 
+    l = x**2
+    for i in range(n_terms):
+        ri += (s[2*i+1] * l) / (l - s[2*i+2])
+    ri = numpy.sqrt(ri)            
+
+    return ri    
+
+
+def ri_formula_3(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_3()")  
+            
+    n_terms = int(len(s) / 2 - 0.5)        
+    ri = numpy.zeros(len(x)) + s[0] 
+    for i in range(n_terms):
+        ri += s[2*i+1] * x**s[2*i+2]
+    ri = numpy.sqrt(ri)
+
+    return ri   
+    
+    
+def ri_formula_4(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_4()")  
+
+    ri = numpy.zeros(len(x)) + s[0] 
+    n_coeff = len(s)
+    if n_coeff >= 5:
+        ri += (s[1] * x**s[2]) / ( x**2  - s[3]**s[4])
+    if n_coeff >= 9:
+        ri += (s[5] * x**s[6]) / ( x**2  - s[7]**s[8])
+    
+    n_terms = int((len(s) - 9)/ 2)        
+    for i in range(n_terms):
+        ri += s[2*i+9] * x**s[2*i+10]
+    ri = numpy.sqrt(ri)        
+
+    return ri   
+
+
+def ri_formula_5(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_5()")  
+
+    n_terms = int(len(s) / 2 - 0.5)        
+    ri = numpy.zeros(len(x)) + s[0] 
+    for i in range(n_terms):
+        ri += s[2*i+1] * x**s[2*i+2]        
+
+
+    return ri   
+
+
+def ri_formula_6(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_6()")  
+
+    n_terms = int(len(s) / 2 - 0.5)        
+    ri = numpy.ones(len(x)) + s[0] 
+    l = x**-2
+    for i in range(n_terms):
+        ri += (s[2*i+1]) / (s[2*i+2] - l)        
+
+    return ri       
+
+
+def ri_formula_7(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_7()")  
+        
+    l = x**2
+    n_terms = len(s) - 3
+    t1 = s[1] / (l - 0.028)
+    t2 = s[2] * ( 1 / (l - 0.028))**2
+    ri = s[0] + t1 + t2 
+    for i in range(n_terms):
+        ri += s[i+3] * l**(i+1)     
+
+    return ri 
+
+def ri_formula_8(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_8()")  
+        
+    raise NotImplementedError(error_string + "formula 8")   
+
+
+
+def ri_formula_9(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_9()")  
+        
+    raise NotImplementedError(error_string + "formula 9")  
+
+
+
+
+
+
+    
+# GVD
 
 def gvd_formula_1(x, s): 
     """
