@@ -1,16 +1,16 @@
-from importlib import reload
+import importlib
+import yaml
+import urllib
 
 import numpy
 import matplotlib 
 import matplotlib.pyplot as plt
 
-import yaml
 
-import urllib
 
 import PythonTools.CommonFunctions as CF
 
-reload(CF)
+importlib.reload(CF)
 
 def string_to_cols(string, ncols = 1, verbose = 0):
     """
