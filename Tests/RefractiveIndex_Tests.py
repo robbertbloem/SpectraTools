@@ -254,12 +254,13 @@ class Test_importdata(unittest.TestCase):
                 
                 for check in m["check"]:
                     if "ri_check" in check: 
-                        ri = c.get_ri(check["wl_um"])
+                        c.x = check["wl_um"]
+                        ri = c.get_ri()
                         self.assertTrue(numpy.allclose(ri, check["ri_check"], rtol = self.rtol_ri))
 
                     if "gvd_check" in check: 
-                        gvd = c.get_gvd(check["wl_um"])
-                        print(gvd, check["gvd_check"])
+                        c.x = check["wl_um"]
+                        gvd = c.get_gvd()
                         self.assertTrue(numpy.allclose(gvd, check["gvd_check"], rtol = self.rtol_gvd, atol = self.atol_gvd))
         
                 
@@ -279,13 +280,22 @@ class Test_importdata(unittest.TestCase):
                  
                 if "range" in m:
                     with self.subTest(m["type"] + " range"):   
-                        self.assertTrue(numpy.allclose(c.x_range, numpy.array([0,10])))
+                        self.assertTrue(numpy.allclose(c.x_range, numpy.arange(len(c.x_range))))
                 
                 if "coefficients" in m:
                     with self.subTest(m["type"] + " coefficients"):   
-                        self.assertTrue(numpy.allclose(c.coefficients, numpy.array([0,10])))            
+                        self.assertTrue(numpy.allclose(c.coefficients, numpy.arange(len(c.coefficients))))            
 
+                for check in m["check"]:
+                    if "ri_check" in check: 
+                        c.x = check["wl_um"]
+                        ri = c.get_ri()
+                        self.assertTrue(numpy.allclose(ri, numpy.arange(len(ri), rtol = self.rtol_ri)))
 
+                    if "gvd_check" in check: 
+                        c.x = check["wl_um"]
+                        gvd = c.get_gvd()
+                        self.assertTrue(numpy.allclose(gvd, numpy.arange(len(gvd), rtol = self.rtol_gvd, atol = self.atol_gvd)))
 
 
                         

@@ -7,6 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 import PythonTools.Constants as CONST
+import PythonTools.CommonFunctions as CF
 import SpectraTools.LinearSpectrum as LS
 import RefractiveIndexTools.Resources.RI_read_yaml as RIRY
 import RefractiveIndexTools.Resources.RI_Functions as RIF
@@ -137,6 +138,22 @@ class RefractiveIndex(LS.LinearSpectrum):
             self.filename = None            
 
 
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        if type(value) == tuple:
+            self._x = numpy.arange(value[0], value[1])
+        else:
+            self._x = CF.make_numpy_ndarray(value)
+
+    @x.deleter
+    def x(self):
+        self._x = None            
+            
+
     def import_data(self):
         """
          
@@ -201,7 +218,7 @@ class RefractiveIndex(LS.LinearSpectrum):
         elif "data" in self.db_record:
             self.x_range = [numpy.amin(self.db_record["data"][:,0]), numpy.amax(self.db_record["data"][:,0])]
             
-    def get_ri(self, wl_um):
+    def get_ri(self):
         """
          
         INPUT:
@@ -216,18 +233,27 @@ class RefractiveIndex(LS.LinearSpectrum):
         if self.verbose > 1:
             print("RefractiveIndex.get_ri()")    
 
-        if numpy.amin(wl_um) < self.x_range[0]:
+        # if wl_um is None and self.x is None:
+            # raise ValueError("RefractiveIndex.get_ri(): no wavelengths to calculate the refractive index for.")
+  
+        # elif wl_um is not None:
+            # self.x = wl_um
+            
+        # elif self.x is None:            
+            
+            
+        if numpy.amin(self.x) < self.x_range[0]:
             raise ValueError("RefractiveIndex.get_ri(): lowest wavelength is below range.")
 
-        if numpy.amax(wl_um) > self.x_range[1]:
+        if numpy.amax(self.x) > self.x_range[1]:
             raise ValueError("RefractiveIndex.get_ri(): highest wavelength is above range.")
             
-        ri = RIF.ri(x = wl_um, s = self.coefficients, formula = self.formula, verbose = self.verbose)
+        ri = RIF.ri(x = self.x, s = self.coefficients, formula = self.formula, verbose = self.verbose)
         
         return ri
 
 
-    def get_gvd(self, wl_um):
+    def get_gvd(self):
         """
          
         INPUT:
@@ -242,15 +268,15 @@ class RefractiveIndex(LS.LinearSpectrum):
         if self.verbose > 1:
             print("RefractiveIndex.get_gvd()")    
 
-        if numpy.amin(wl_um) < self.x_range[0]:
+        if numpy.amin(self.x) < self.x_range[0]:
             raise ValueError("RefractiveIndex.get_gvd(): lowest wavelength is below range.")
 
-        if numpy.amax(wl_um) > self.x_range[1]:
+        if numpy.amax(self.x) > self.x_range[1]:
             raise ValueError("RefractiveIndex.get_gvd(): highest wavelength is above range.")
             
-        gvd = RIF.gvd(x = wl_um, s = self.coefficients, formula = self.formula, verbose = self.verbose)
+        gvd = RIF.gvd(x = self.x, s = self.coefficients, formula = self.formula, verbose = self.verbose)
         
-        gvd = (1e21 * gvd * wl_um**3) / (2 * numpy.pi * (CONST.c_ms)**2)
+        gvd = (1e21 * gvd * self.x**3) / (2 * numpy.pi * (CONST.c_ms)**2)
         
         return gvd
 
