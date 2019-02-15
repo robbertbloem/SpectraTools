@@ -1,14 +1,14 @@
 
 import unittest
+import pathlib
 
-
-from importlib import reload
+import importlib
 
 import numpy
 
 import RefractiveIndexTools.Resources.RI_read_yaml as RIRY
 
-reload(RIRY)
+importlib.reload(RIRY)
 
 
 
@@ -21,7 +21,7 @@ class Test_coefficient_file(unittest.TestCase):
         paf = "C:\\Python\\Data\\refractiveindex\\data\\main\\CaF2\\Daimon-20.yml"
         out = RIRY.import_refractive_index(paf, verbose = self.flag_verbose)
         
-    def test_import_file(self):
+    def test_import_file_path_as_string(self):
         paf = "C:\\Python\\Data\\refractiveindex\\data\\main\\CaF2\\Daimon-20.yml"
         out = RIRY.import_refractive_index(paf, verbose = self.flag_verbose)
         
@@ -33,6 +33,20 @@ class Test_coefficient_file(unittest.TestCase):
 
         self.assertTrue(out["range"][0] == 0.138)
         self.assertTrue(out["range"][1] == 2.326)
+
+    def test_import_file_pathlib(self):
+        paf = pathlib.Path(r"C:\\Python\\Data\\refractiveindex\\data\\main\\CaF2\\Daimon-20.yml")
+        out = RIRY.import_refractive_index(paf, verbose = self.flag_verbose)
+        
+        check = [0, 0.443749998, 0.00178027854, 0.444930066, 0.00788536061, 0.150133991, 0.0124119491, 8.85319946, 2752.28175]
+        self.assertTrue(numpy.allclose(out["coefficients"], check))
+        
+        check = "formula 2"
+        self.assertTrue(out["type"] == check)
+
+        self.assertTrue(out["range"][0] == 0.138)
+        self.assertTrue(out["range"][1] == 2.326)
+
         
 
 class Test_data_n_file(unittest.TestCase):
