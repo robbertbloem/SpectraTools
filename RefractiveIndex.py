@@ -9,6 +9,19 @@ import SpectraTools.LinearSpectrum as LS
 
 importlib.reload(LS)
 
+"""
+ 
+INPUT:
+- 
+
+OUTPUT:
+- 
+
+CHANGELOG:
+2019-02-15/RB: started function
+"""    
+
+
 class RefractiveIndex(LS.LinearSpectrum):
     """
     Class for processing refractive indices.
@@ -32,13 +45,20 @@ class RefractiveIndex(LS.LinearSpectrum):
     + calculate_reflection (with air)
 
     CHANGELOG:
-    2019-02-05/RB: started class
+    2019-02-15/RB: started class
     """ 
     def __init__(self, verbose = 0, **kwargs):
         """
-        
-        2019/02/15-RB: started function
-        """
+         
+        INPUT:
+        - 
+
+        OUTPUT:
+        - 
+
+        CHANGELOG:
+        2019-02-15/RB: started function
+        """    
         self.verbose = verbose
         if self.verbose > 1:
             print("RefractiveIndexTools.RefractiveIndexSpectrum.__init__()")           
@@ -89,8 +109,21 @@ class RefractiveIndex(LS.LinearSpectrum):
 
 
     def import_data(self):
-    
-        RIRY.import_refractive_index(paf = paf, verbose = verbose)
+        """
+         
+        INPUT:
+        - 
+
+        OUTPUT:
+        - 
+
+        CHANGELOG:
+        2019-02-15/RB: started function
+        """      
+        res = RIRY.import_refractive_index(paf = paf, verbose = verbose)
+        
+        
+        
 
 
 
