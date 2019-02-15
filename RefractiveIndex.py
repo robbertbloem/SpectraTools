@@ -1,5 +1,6 @@
 import importlib
 import pathlib
+import warnings
 
 import numpy
 import matplotlib 
@@ -61,7 +62,7 @@ class RefractiveIndex(LS.LinearSpectrum):
         """    
         self.verbose = verbose
         if self.verbose > 1:
-            print("RefractiveIndexTools.RefractiveIndexSpectrum.__init__()")           
+            print("RefractiveIndexTools.RefractiveIndex.__init__()")           
         if verbose > 2:
             print("kwargs:")  
             for k, v in kwargs.items():
@@ -119,8 +120,26 @@ class RefractiveIndex(LS.LinearSpectrum):
 
         CHANGELOG:
         2019-02-15/RB: started function
-        """      
-        res = RIRY.import_refractive_index(paf = paf, verbose = verbose)
+        """    
+        if self.verbose > 1:
+            print("RefractiveIndex.import_data()")
+        
+        if self.path is None and self.filename is None:
+            warnings.warn("RefractiveIndex.import_data(): path and filename are not defined.")
+            return 0
+        elif self.path is None:
+            warnings.warn("RefractiveIndex.import_data(): path is not defined.")
+            return 0
+        elif self.filename is None:
+            if self.path.suffix == "yml":
+                paf = self.path
+            else:
+                warnings.warn("RefractiveIndex.import_data(): filename is not defined.")
+                return 0
+        else:
+            paf = self.path.joinpath(self.filename)
+        
+        # self.db_record = RIRY.import_refractive_index(paf = paf, verbose = verbose)
         
         
         
