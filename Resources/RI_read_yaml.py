@@ -16,6 +16,8 @@ def string_to_cols(string, ncols = 1, verbose = 0):
     """
     Data is a string. Convert this to a ndarray ncols. 
     """
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_read_yaml.string_to_cols()")       
     data = CF.string_with_numbers_to_list(string)
     if ncols > 1:
         n = int(len(data) / ncols)
@@ -24,7 +26,10 @@ def string_to_cols(string, ncols = 1, verbose = 0):
   
   
 def import_refractive_index(paf, verbose = 0):
-
+    
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_read_yaml.import_refractive_data()")   
+    
     stream = open(paf, "r")
     docs = yaml.load_all(stream)
 
@@ -32,7 +37,7 @@ def import_refractive_index(paf, verbose = 0):
 
     for doc in docs:
         
-        if verbose >= 1:
+        if verbose > 2:
             for k,v in doc.items():
                 print(k, "->", v)
 
