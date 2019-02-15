@@ -14,7 +14,21 @@ importlib.reload(MATH)
 # REFRACTIVE INDEX
 
 def ri(x, s , formula, verbose):
+    """
+    Function to calculate the refractive index.
+    
+    INPUT:
+    - 
 
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """     
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri()")  
+        
     if formula == "tabulated n":
         return ri_tabulated_n(x, s, verbose = verbose)
     elif formula == "tabulated nk":
@@ -33,8 +47,12 @@ def ri(x, s , formula, verbose):
         return ri_formula_6(x, s, verbose = verbose)        
     elif formula == "formula 7":
         return ri_formula_7(x, s, verbose = verbose)        
-        
-        
+    elif formula == "formula 8":
+        return ri_formula_8(x, s, verbose = verbose)   
+    elif formula == "formula 9":
+        return ri_formula_9(x, s, verbose = verbose)           
+    else:
+        raise NotImplementedError("RefractiveIndex.Resources.RI_Functions.ri(): Type of formula is not recognized.")
         
         
         
@@ -52,8 +70,6 @@ def ri_tabulated_n(x, s, verbose = 0):
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_tabulated_n()")  
-    
-    print(type(s))
         
     ri = MATH.interpolate_data(s[:,0], s[:,1], x) 
     
@@ -300,6 +316,11 @@ def ri_formula_9(x, s, verbose = 0):
 
     
 # GVD
+
+
+
+
+
 
 def gvd_formula_1(x, s): 
     """
