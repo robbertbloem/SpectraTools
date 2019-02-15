@@ -95,7 +95,7 @@ class Test_importdata(unittest.TestCase):
         {
             "type": "tabulated n", 
             "filename": pathlib.Path(r"main\\Al2O3\\Boidin.yml"),
-            # "range": [0.54, 18.2], 
+            "range": [0.3, 18.003], 
             # "coefficients": [0, 4.45813734, 0.200859853, 0.467216334, 0.391371166, 2.89566290, 47.1362108],
             "check": [
                 {
@@ -113,7 +113,7 @@ class Test_importdata(unittest.TestCase):
         {
             "type": "tabulated nk", 
             "filename": pathlib.Path(r"main\\Ag\\Babar.yml"),
-            # "range": [0.54, 18.2], 
+            "range": [0.2066, 12.4], 
             # "coefficients": [0, 4.45813734, 0.200859853, 0.467216334, 0.391371166, 2.89566290, 47.1362108],
             "check": [
                 {
@@ -235,17 +235,49 @@ class Test_importdata(unittest.TestCase):
     
     def test_importing(self):
         for m in self.mess:
+        
             with self.subTest(m["type"]):
                 c = RI.RefractiveIndex(verbose = self.verbose, path = path, filename = m["filename"])
                 res = c.import_data() 
-                print(m["type"], c.x_range)
-            
+
+                if "type" in m:
+                    with self.subTest(m["type"] + " type"):
+                        self.assertTrue(c.formula == m["type"])
+                 
+                if "range" in m:
+                    with self.subTest(m["type"] + " range"):   
+                        self.assertTrue(numpy.allclose(c.x_range, m["range"]))
+                
+                if "coefficients" in m:
+                    with self.subTest(m["type"] + " coefficients"):   
+                        self.assertTrue(numpy.allclose(c.coefficients, m["coefficients"]))            
+
+    @unittest.expectedFailure
+    def test_importing_expected_failure(self):
+        for m in self.mess[-1]:
+        
+            with self.subTest(m["type"]):
+                c = RI.RefractiveIndex(verbose = self.verbose, path = path, filename = m["filename"])
+                res = c.import_data() 
+
+                if "type" in m:
+                    with self.subTest(m["type"] + " type"):
+                        self.assertTrue(c.formula == "fiets")
+                 
+                if "range" in m:
+                    with self.subTest(m["type"] + " range"):   
+                        self.assertTrue(numpy.allclose(c.x_range, numpy.array([0,10])))
+                
+                if "coefficients" in m:
+                    with self.subTest(m["type"] + " coefficients"):   
+                        self.assertTrue(numpy.allclose(c.coefficients, numpy.array([0,10])))            
 
 
-        
-        
+
+
+                        
 if __name__ == '__main__': 
-    verbosity = 1
+    verbosity = 2
 
     
     if 1:
