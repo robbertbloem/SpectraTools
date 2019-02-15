@@ -310,7 +310,52 @@ def ri_formula_9(x, s, verbose = 0):
     raise NotImplementedError(error_string + "formula 9")  
 
 
+# extinction coefficient
 
+def extinction_coefficient(x, s , formula, verbose):
+    """
+    Find the extinction coefficient.
+    
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """     
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.extinction_coefficient()")  
+        
+
+    if formula == "tabulated nk":
+        return k_tabulated_nk(x, s, verbose = verbose)
+    elif formula in ["tabulated n", "formula 1", "formula 2", "formula 3", "formula 4", "formula 5", "formula 6", "formula 7", "formula 8", "formula 9"]:
+        raise NotImplementedError("RefractiveIndex.Resources.RI_Functions.extinction_coefficient(): extinction coefficient is not implemented for formula '{:s}',".format(str(formula)))         
+    else:
+        raise NotImplementedError("RefractiveIndex.Resources.RI_Functions.extinction_coefficient(): Type of formula '{:s}' is not recognized.".format(str(formula)))
+
+
+        
+def k_tabulated_nk(x, s, verbose = 0):
+    """
+     
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.k_tabulated_nk()")  
+            
+    k = MATH.interpolate_data(s[:,0], s[:,2], x) 
+
+    return k    
 
 
 
