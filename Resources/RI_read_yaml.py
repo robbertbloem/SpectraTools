@@ -8,7 +8,7 @@ import yaml
 
 import urllib
 
-import SpectraTools.Resources.CommonFunctions as CF
+import PythonTools.CommonFunctions as CF
 
 reload(CF)
 
