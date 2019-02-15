@@ -33,6 +33,48 @@ class Test_init(unittest.TestCase):
         filename = pathlib.Path(r"main\\Ar\\Bideau-Mehu.yml")
         RI.RefractiveIndex(verbose = self.verbose, path = path)
 
+class Test_importdata_paths_and_filenames(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 1
+ 
+    def test_path_filename(self):
+        filename = pathlib.Path(r"main\\Ar\\Bideau-Mehu.yml")
+        c = RI.RefractiveIndex(verbose = self.verbose, path = path, filename = filename)
+        res = c.import_data()     
+        
+    def test_no_path_no_filename(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            c = RI.RefractiveIndex(verbose = self.verbose)
+            res = c.import_data()
+            self.assertTrue(len(w) == 1)
+            self.assertTrue(res == 0)
+            assert "path" in str(w[-1].message)
+            assert "filename" in str(w[-1].message)
+
+    def test_path_no_filename(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            c = RI.RefractiveIndex(verbose = self.verbose, path = path)
+            res = c.import_data()
+            self.assertTrue(len(w) == 1)
+            self.assertTrue(res == 0)  
+            assert "filename" in str(w[-1].message)            
+
+    def test_no_path_filename(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            filename = pathlib.Path("Bideau-Mehu.yml")
+            c = RI.RefractiveIndex(verbose = self.verbose, filename = filename)
+            res = c.import_data()
+            self.assertTrue(len(w) == 1)
+            self.assertTrue(res == 0)    
+            assert "path" in str(w[-1].message)            
+    
+        
+        
+        
 class Test_importdata(unittest.TestCase):
 
     def setUp(self):
@@ -114,41 +156,6 @@ class Test_importdata(unittest.TestCase):
         }
  
 
-    def test_path_filename(self):
-        filename = pathlib.Path(r"main\\Ar\\Bideau-Mehu.yml")
-        c = RI.RefractiveIndex(verbose = self.verbose, path = path, filename = filename)
-        res = c.import_data()     
-        
- 
-    def test_no_path_no_filename(self):
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            c = RI.RefractiveIndex(verbose = self.verbose)
-            res = c.import_data()
-            self.assertTrue(len(w) == 1)
-            self.assertTrue(res == 0)
-            assert "path" in str(w[-1].message)
-            assert "filename" in str(w[-1].message)
-
-    def test_path_no_filename(self):
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            c = RI.RefractiveIndex(verbose = self.verbose, path = path)
-            res = c.import_data()
-            self.assertTrue(len(w) == 1)
-            self.assertTrue(res == 0)  
-            assert "filename" in str(w[-1].message)            
-
-    def test_no_path_filename(self):
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            filename = pathlib.Path("Bideau-Mehu.yml")
-            c = RI.RefractiveIndex(verbose = self.verbose, filename = filename)
-            res = c.import_data()
-            self.assertTrue(len(w) == 1)
-            self.assertTrue(res == 0)    
-            assert "path" in str(w[-1].message)            
-    
 
 
         
@@ -164,6 +171,13 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)
 
+    if 1:
+        """
+        + import_data
+        """
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_importdata_paths_and_filenames)
+        unittest.TextTestRunner(verbosity = verbosity).run(suite)             
+        
     if 1:
         """
         + import_data
