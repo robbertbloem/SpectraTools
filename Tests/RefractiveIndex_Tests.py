@@ -257,7 +257,10 @@ class Test_importdata(unittest.TestCase):
                         ri = c.get_ri(check["wl_um"])
                         self.assertTrue(numpy.allclose(ri, check["ri_check"], rtol = self.rtol_ri))
 
-
+                    if "gvd_check" in check: 
+                        gvd = c.get_gvd(check["wl_um"])
+                        print(gvd, check["gvd_check"])
+                        self.assertTrue(numpy.allclose(gvd, check["gvd_check"], rtol = self.rtol_gvd, atol = self.atol_gvd))
         
                 
                         

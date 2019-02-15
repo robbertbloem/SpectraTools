@@ -6,10 +6,12 @@ import numpy
 import matplotlib 
 import matplotlib.pyplot as plt
 
+import PythonTools.Constants as CONST
 import SpectraTools.LinearSpectrum as LS
 import RefractiveIndexTools.Resources.RI_read_yaml as RIRY
 import RefractiveIndexTools.Resources.RI_Functions as RIF
 
+importlib.reload(CONST)
 importlib.reload(LS)
 importlib.reload(RIRY)
 importlib.reload(RIF)
@@ -225,7 +227,32 @@ class RefractiveIndex(LS.LinearSpectrum):
         return ri
 
 
+    def get_gvd(self, wl_um):
+        """
+         
+        INPUT:
+        - 
 
+        OUTPUT:
+        - 
+
+        CHANGELOG:
+        2019-02-15/RB: started function
+        """   
+        if self.verbose > 1:
+            print("RefractiveIndex.get_gvd()")    
+
+        if numpy.amin(wl_um) < self.x_range[0]:
+            raise ValueError("RefractiveIndex.get_gvd(): lowest wavelength is below range.")
+
+        if numpy.amax(wl_um) > self.x_range[1]:
+            raise ValueError("RefractiveIndex.get_gvd(): highest wavelength is above range.")
+            
+        gvd = RIF.gvd(x = wl_um, s = self.coefficients, formula = self.formula, verbose = self.verbose)
+        
+        gvd = (1e21 * gvd * wl_um**3) / (2 * numpy.pi * (CONST.c_ms)**2)
+        
+        return gvd
 
 
 

@@ -317,15 +317,53 @@ def ri_formula_9(x, s, verbose = 0):
     
 # GVD
 
+def gvd(x, s , formula, verbose):
+    """
+    Function to calculate the group velocity dispersion.
+    
+    INPUT:
+    - 
+
+    OUTPUT:
+    - 
+
+    CHANGELOG:
+    2019-02-15/RB: started function
+    """     
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.gvd()")  
+        
+
+    if formula == "formula 1":
+        return gvd_formula_1(x, s, verbose = verbose)
+    elif formula == "formula 2":
+        return gvd_formula_2(x, s, verbose = verbose)        
+    elif formula == "formula 3":
+        return gvd_formula_3(x, s, verbose = verbose)        
+    elif formula == "formula 4":
+        return gvd_formula_4(x, s, verbose = verbose)        
+    elif formula == "formula 5":
+        return gvd_formula_5(x, s, verbose = verbose)        
+    elif formula == "formula 6":
+        return gvd_formula_6(x, s, verbose = verbose)  
+
+    elif formula in ["tabulated n", "tabulated nk", "formula 7", "formula 8", "formula 9"]:
+        raise NotImplementedError("RefractiveIndex.Resources.RI_Functions.gvd(): GVD is not implemented for formula '{:s}',".format(str(formula)))         
+    else:
+        raise NotImplementedError("RefractiveIndex.Resources.RI_Functions.gvd(): Type of formula '{:s}' is not recognized.".format(str(formula)))
 
 
 
 
 
-def gvd_formula_1(x, s): 
+
+def gvd_formula_1(x, s, verbose = 0): 
     """
     Formula 1 and 2 are the same, except that some coefficients are squared. 
     """
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.gvd_formula_1()")  
+        
     if len(s) > 9:
         raise NotImplementedError("The GVD can only be calculated for the first 9 terms.")
     
@@ -371,13 +409,31 @@ def gvd_formula_1(x, s):
     return y
 
 
-def gvd_formula_3(x, s):
+def gvd_formula_2(x, s, verbose = 0): 
+    """
+    Formula 1 and 2 are the same, except that some coefficients are squared. 
+    """
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.gvd_formula_1()")  
+        
+    s = numpy.copy(s)
+    for i in range(len(s)):
+        if i > 0 and i % 2 == 0:
+            s[i] = numpy.sqrt(s[i])
+    return gvd_formula_1(x, s, verbose)
+    
+
+    
+    
+def gvd_formula_3(x, s, verbose = 0):
 
     """
     http://www.wolframalpha.com/input/?i=second+derivative+of+sqrt(a+%2B+b*x%5Ec+%2B+d*x%5Ee+%2B+f*x%5Eg+%2B+h*x%5Ei+%2B+j*x%5Ek+%2B+l*x%5Em+%2B+n*x%5Eo+%2Bp*x%5Eq)+with+respect+to+x
     
     """
-
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.gvd_formula_3()")  
+        
     if len(s) < 17:
         _s = numpy.zeros(17, dtype = "float")
         _s[:len(s)] = s
@@ -429,12 +485,15 @@ def gvd_formula_3(x, s):
     return y
 
 
-def gvd_formula_4(x, s):
+def gvd_formula_4(x, s, verbose = 0):
     """
     http://www.wolframalpha.com/input/?i=second+derivative+of+sqrt(a%2B+(b*x%5Ec)%2F(x%5E2-d%5Ee)+%2B+(f*x%5Eg)%2F(x%5E2-h%5Ei)+%2B+j*x%5Ek+%2B+l*x%5Em+%2B+n*x%5Eo+%2B+p*x%5Eq+)+with+respect+to+x
     
     
     """
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.gvd_formula_4()")  
+        
     if len(s) < 17:
         _s = numpy.zeros(17, dtype = "float")
         _s[:len(s)] = s
@@ -488,13 +547,15 @@ def gvd_formula_4(x, s):
 
     
     
-def gvd_formula_5(x, s):
+def gvd_formula_5(x, s, verbose = 0):
 
     """
     Formula 5 
     http://www.wolframalpha.com/input/?i=second+derivative+of+a%2B+b*x%5Ec+%2B+d*x%5Ee+%2B+f*x%5Eg+%2Bh*x%5Ei+%2B+j*x%5Ek+with+respect+to+x
     """
-    
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.gvd_formula_5()")  
+        
     if len(s) < 11:
         _s = numpy.zeros(11, dtype = "float")
         _s[:len(s)] = s
@@ -511,11 +572,13 @@ def gvd_formula_5(x, s):
     return y
     
     
-def gvd_formula_6(x, s):  
+def gvd_formula_6(x, s, verbose = 0):  
     """
     http://www.wolframalpha.com/input/?i=second+derivative+of+1%2Ba%2B+b%2F(c-x%5E-2)+%2B+d%2F(e-x%5E-2)+%2B+f%2F(g-x%5E-2)+%2B+h%2F(i-x%5E-2)+%2B+j%2F(k-x%5E-2)+with+respect+to+x
     """
-    
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.gvd_formula_6()")  
+        
     if len(s) < 11:
         _s = numpy.zeros(11, dtype = "float")
         _s[:len(s)] = s
@@ -543,11 +606,13 @@ def gvd_formula_6(x, s):
     
     return y
  
-def gvd_formula_7(x, s):  
+def gvd_formula_7(x, s, verbose = 0):  
     """
     http://www.wolframalpha.com/input/?i=second+derivative+of+a+%2B+b%2F(x%5E2-0.028)%2Bc*(1%2F(x%5E2-0.028))%5E2+%2B+d*x%5E2+%2Be*x%5E4+%2Bf*x%5E6+with+respect+to+x
     """
-
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.ri_formula_9()")  
+        
     if len(s) < 6:
         _s = numpy.zeros(6, dtype = "float")
         _s[:len(s)] = s
