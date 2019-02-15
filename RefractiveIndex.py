@@ -1,4 +1,5 @@
 import importlib
+import pathlib
 
 import numpy
 import matplotlib 
@@ -77,12 +78,12 @@ class RefractiveIndex(LS.LinearSpectrum):
             self.parameters = None    
             
         if "path" in kwargs:
-            self.path = kwargs["path"]            
+            self.path = pathlib.Path(kwargs["path"])
         else:
             self.path = None    
 
         if "filename" in kwargs:
-            self.filename = kwargs["filename"]            
+            self.filename = pathlib.Path(kwargs["filename"])
         else:
             self.filename = None                
 
