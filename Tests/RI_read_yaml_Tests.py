@@ -1,18 +1,12 @@
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
 
-import argparse
 import unittest
-import inspect
+
 
 from importlib import reload
 
 import numpy
-import matplotlib 
-import matplotlib.pyplot as plt
 
-import SpectraTools.Resources.RI_read_yaml as RIRY
+import RefractiveIndexTools.Resources.RI_read_yaml as RIRY
 
 reload(RIRY)
 
