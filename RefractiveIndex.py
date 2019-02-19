@@ -5,9 +5,6 @@ This is a class-based version of earlier RefractiveIndex based scripts. The data
 
 ALL WAVELENGTHS ARE IN MICRON!!!
 
-
-
-
 """
 
 
