@@ -1,3 +1,16 @@
+"""
+RefractiveIndex
+
+This is a class-based version of earlier RefractiveIndex based scripts. The data is taken from the website refractiveindex.info. The database should be downloaded and stored locally. 
+
+ALL WAVELENGTHS ARE IN MICRON!!!
+
+
+
+
+"""
+
+
 import importlib
 import pathlib
 import warnings
@@ -69,7 +82,8 @@ class RefractiveIndex(LS.LinearSpectrum):
         """    
         self.verbose = verbose
         if self.verbose > 1:
-            print("RefractiveIndexTools.RefractiveIndex.__init__()")           
+            print("RefractiveIndexTools.RefractiveIndex.__init__()") 
+            
         if verbose > 2:
             print("kwargs:")  
             for k, v in kwargs.items():
@@ -217,6 +231,7 @@ class RefractiveIndex(LS.LinearSpectrum):
             self.x_range = self.db_record["range"]
         elif "data" in self.db_record:
             self.x_range = [numpy.amin(self.db_record["data"][:,0]), numpy.amax(self.db_record["data"][:,0])]
+
             
     def get_ri(self):
         """
@@ -272,6 +287,7 @@ class RefractiveIndex(LS.LinearSpectrum):
         return self.gvd
 
 
+
     def get_dispersive_pulse_broadening(self, t_fs, d_mm):
         """
         Calculates the effect the group velocity dispersion has on an unchirped Gaussian pulse. 
@@ -280,29 +296,55 @@ class RefractiveIndex(LS.LinearSpectrum):
         http://www.rp-photonics.com/chromatic_dispersion.html
         numpy.log() is natural log
         
+        DESCRIPTION:
+        gvd has to be set (run get_gvd). t_fs and d_mm can be an integer or an array. gvd is always an array (it is the GVD for self.x). The output shape depends on the input:
+        t_fs = int, d_mm = int: [x]
+        t_fs = array, d_mm = int: [x, t_fs]
+        t_fs = int, d_mm = array: [x, d_mm]
+        t_fs = array, d_mm = array: [x, t_fs, d_mm]
+        
         INPUT:
-        wl_um (ndarray): wavelengths in micron 
-        gvd: group velocity dispersion in fs^2/mm
-        t: pulse durations
-        d: thicknesses of material
+        t_fs: pulse durations in fs
+        d_mm: thicknesses of material in mm
         
         OUTPUT:
-        t_out (ndarray): 3D array with pulse lengths wl_um x t x d
+        t_out (ndarray): 1D, 2D, or 3D array with 
         
         Changelog:
         20170315/RB: started function. 
         2019-02-15/RB: moved to RefractiveIndexTools
         
         """
-        t_fs = CF.make_numpy_ndarray(t_fs)
-        d_mm = CF.make_numpy_ndarray(d_mm)
-
-        W, T, D = numpy.meshgrid(self.x, t_fs, d_mm, indexing = "ij")
-        G, dump, dump = numpy.meshgrid(self.gvd, t_fs, d_mm, indexing = "ij")
-
-        t_out = T * numpy.sqrt(1 + (4 * numpy.log(2) * G * D/ T**2)**2 )
+        if self.verbose > 1:
+            print("RefractiveIndex.get_dispersive_pulse_broadening()")    
         
-        return t_out
+        
+        
+        if type(t_fs) == int:
+            t_fs = CF.make_numpy_ndarray(t_fs)
+            t_fs_l = 0
+        else:
+            t_fs = CF.make_numpy_ndarray(t_fs)
+            t_fs_l = len(t_fs)
+            
+        if type(d_mm) == int:
+            d_mm = CF.make_numpy_ndarray(d_mm)  
+            d_mm_l = 0
+        else:
+            d_mm = CF.make_numpy_ndarray(d_mm)  
+            d_mm_l = len(d_mm)  
+          
+        G, T, D = numpy.meshgrid(self.gvd, t_fs, d_mm, indexing = "ij")
+        t_out = T * numpy.sqrt(1 + (4 * numpy.log(2) * G * D/ T**2)**2 )
+
+        if t_fs_l == 0 and d_mm_l == 0:
+            return t_out[:,0,0]
+        elif t_fs_l != 0 and d_mm_l == 0:
+            return t_out[:,:,0]
+        elif t_fs_l == 0 and d_mm_l != 0:
+            return t_out[:,0,:]        
+        else:
+            return t_out
 
 
 

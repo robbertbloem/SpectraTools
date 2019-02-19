@@ -298,28 +298,83 @@ class Test_importdata(unittest.TestCase):
                         self.assertTrue(numpy.allclose(gvd, numpy.arange(len(gvd), rtol = self.rtol_gvd, atol = self.atol_gvd)))
 
 
-                        
+class Test_get_dispersive_pulse_broadening(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 1
+        
+        self.x = numpy.array([2,3])
+        filename = pathlib.Path(r"main\\ZnSe\\Connolly.yml")
+        self.c = RI.RefractiveIndex(verbose = self.verbose, path = path, filename = filename)
+        self.c.import_data() 
+        
+        
+        
+    def test_t_array_d_array(self):
+        
+        self.c.x = self.x[:]
+        self.c.get_gvd()
+        t = numpy.array([50, 100, 150]) 
+        d = numpy.array([1,5,10,20])
+        res = self.c.get_dispersive_pulse_broadening(t, d)
+        self.assertTrue(numpy.all(numpy.shape(res) == numpy.array([2,3,4])))
+        
+    def test_t_int_d_int(self):
+        
+        self.c.x = self.x[:]
+        self.c.get_gvd()
+        t = 50 #numpy.array([50, 100, 150]) 
+        d = 10 #numpy.array([1,5,10,20])
+        res = self.c.get_dispersive_pulse_broadening(t, d)
+        self.assertTrue(numpy.all(numpy.shape(res) == numpy.array([2])))
+
+    def test_t_int_d_array(self):
+        
+        self.c.x = self.x[:]
+        self.c.get_gvd()
+        t = 100 
+        d = numpy.array([1,5,10,20])
+        res = self.c.get_dispersive_pulse_broadening(t, d)
+        self.assertTrue(numpy.all(numpy.shape(res) == numpy.array([2,4])))
+        
+    def test_t_array_d_int(self):
+        
+        self.c.x = self.x[:]
+        self.c.get_gvd()
+        t = numpy.array([50, 100, 150]) 
+        d = 10
+        res = self.c.get_dispersive_pulse_broadening(t, d)
+        self.assertTrue(numpy.all(numpy.shape(res) == numpy.array([2,3])))        
+
+        
 if __name__ == '__main__': 
-    verbosity = 2
+    verbosity = 1
 
     
-    if 1:
+    if 0:
         """
         + __init__
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)
 
-    if 1:
+    if 0:
         """
         + import_data
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_importdata_paths_and_filenames)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)             
         
-    if 1:
+    if 0:
         """
         + import_data
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_importdata)
-        unittest.TextTestRunner(verbosity = verbosity).run(suite)           
+        unittest.TextTestRunner(verbosity = verbosity).run(suite)     
+
+    if 1:
+        """
+        + get_dispersive_pulse_broadening
+        """
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_get_dispersive_pulse_broadening)
+        unittest.TextTestRunner(verbosity = verbosity).run(suite)          
