@@ -354,11 +354,28 @@ class RefractiveIndex(LS.LinearSpectrum):
         else:
             return t_out
 
-
-
-
-
+    def plot_n(self, **kwargs):
     
+        if self.verbose > 1:
+            print("RefractiveIndex.plot_n()")          
+
+        self.plot_spectrum(y_unit = "Refractive index n", **kwargs)
+
+
+    def plot_k(self, **kwargs):
+    
+        if self.verbose > 1:
+            print("RefractiveIndex.plot_k()")          
+
+        self.plot_spectrum(y_unit = "Extinction coefficient k", **kwargs)
+
+        
+    def plot_gvd(self, **kwargs):
+    
+        if self.verbose > 1:
+            print("RefractiveIndex.plot_gvd()")          
+
+        self.plot_spectrum(y_unit = r"Group velocity dispersion (fs$^2$/mm)", **kwargs)        
 
 if __name__ == "__main__": 
     pass
