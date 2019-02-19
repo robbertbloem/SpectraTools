@@ -351,21 +351,21 @@ if __name__ == '__main__':
     verbosity = 1
 
     
-    if 0:
+    if 1:
         """
         + __init__
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)
 
-    if 0:
+    if 1:
         """
         + import_data
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_importdata_paths_and_filenames)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)             
         
-    if 0:
+    if 1:
         """
         + import_data
         """

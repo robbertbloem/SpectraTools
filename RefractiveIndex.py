@@ -86,45 +86,54 @@ class RefractiveIndex(LS.LinearSpectrum):
             for k, v in kwargs.items():
                 print("  {:} : {:}".format(k, v))
 
-        if "x" in kwargs:
-            self.x = kwargs["x"]            
-        else:
-            self.x = None
+        self.x = kwargs.get("x", None)
+        self.x_range = kwargs.get("x_range", None)
+        self.n = kwargs.get("n", None)
+        self.k = kwargs.get("k", None)
+        self.gvd = kwargs.get("gvd", None)
+        self.formula = kwargs.get("formula", None)
+        self.coefficients = kwargs.get("k", None)
+        self.db_record = kwargs.get("db_record", None)
+        
+        # if "x" in kwargs:
+            # self.x = kwargs["x"]            
+        # else:
+            # self.x = None
 
-        if "x_range" in kwargs:
-            self.x_range = kwargs["x_range"]            
-        else:
-            self.x_range = None            
+        # if "x_range" in kwargs:
+            # self.x_range = kwargs["x_range"]            
+        # else:
+            # self.x_range = None            
             
-        if "n" in kwargs:
-            self.n = kwargs["n"]            
-        else:
-            self.n = None
+        # if "n" in kwargs:
+            # self.n = kwargs["n"]            
+        # else:
+            # self.n = None
             
-        if "k" in kwargs:
-            self.k = kwargs["k"]            
-        else:
-            self.k = None
+        # if "k" in kwargs:
+            # self.k = kwargs["k"]            
+        # else:
+            # self.k = None
 
-        if "gvd" in kwargs:
-            self.gvd = kwargs["gvd"]            
-        else:
-            self.gvd = None
+        # if "gvd" in kwargs:
+            # self.gvd = kwargs["gvd"]            
+        # else:
+            # self.gvd = None
 
-        if "formula" in kwargs:
-            self.formula = kwargs["formula"]            
-        else:
-            self.formula = None            
+        # if "formula" in kwargs:
+            # self.formula = kwargs["formula"]            
+        # else:
+            # self.formula = None            
 
-        if "coefficients" in kwargs:
-            self.coefficients = kwargs["coefficients"]            
-        else:
-            self.coefficients = None    
+        # if "coefficients" in kwargs:
+            # self.coefficients = kwargs["coefficients"]            
+        # else:
+            # self.coefficients = None    
 
-        if "db_record" in kwargs:
-            self.db_record = kwargs["db_record"]            
-        else:
-            self.db_record = None  
+        # if "db_record" in kwargs:
+            # self.db_record = kwargs["db_record"]            
+        # else:
+            # self.db_record = None  
             
         if "path" in kwargs:
             if type(kwargs["path"]) in [pathlib.Path, pathlib.WindowsPath, pathlib.PosixPath]:
