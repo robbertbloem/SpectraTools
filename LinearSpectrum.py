@@ -85,25 +85,30 @@ class LinearSpectrum(CT.ClassTools):
             for k, v in kwargs.items():
                 print("  {:} : {:}".format(k, v))
 
-        if "x" in kwargs:
-            self.x = kwargs["x"]            
-        else:
-            self.x = None
+        self.x = kwargs.get("x", None)
+        self.x_unit = kwargs.get("x_unit", "")
+        self.y = kwargs.get("y", None)
+        self.y_unit = kwargs.get("y_unit", "")
+        
+        # if "x" in kwargs:
+            # self.x = kwargs["x"]            
+        # else:
+            # self.x = None
             
-        if "y" in kwargs:
-            self.y = kwargs["y"]
-        else:
-            self.y = None
+        # if "y" in kwargs:
+            # self.y = kwargs["y"]
+        # else:
+            # self.y = None
 
-        if "x_unit" in kwargs:
-            self.x_unit = kwargs["x_unit"]
-        else:
-            self.x_unit = ""
+        # if "x_unit" in kwargs:
+            # self.x_unit = kwargs["x_unit"]
+        # else:
+            # self.x_unit = ""
 
-        if "y_unit" in kwargs:
-            self.y_unit = kwargs["y_unit"]
-        else:
-            self.y_unit = ""
+        # if "y_unit" in kwargs:
+            # self.y_unit = kwargs["y_unit"]
+        # else:
+            # self.y_unit = ""
 
 
         self.nm_labels = ["nm"]
