@@ -87,6 +87,7 @@ class RefractiveIndex(LS.LinearSpectrum):
                 print("  {:} : {:}".format(k, v))
 
         self.x = kwargs.get("x", None)
+        self.x_unit = kwargs.get("x_unit", "um")
         self.x_range = kwargs.get("x_range", None)
         self.n = kwargs.get("n", None)
         self.k = kwargs.get("k", None)
@@ -94,6 +95,7 @@ class RefractiveIndex(LS.LinearSpectrum):
         self.formula = kwargs.get("formula", None)
         self.coefficients = kwargs.get("k", None)
         self.db_record = kwargs.get("db_record", None)
+        
         
         # if "x" in kwargs:
             # self.x = kwargs["x"]            
