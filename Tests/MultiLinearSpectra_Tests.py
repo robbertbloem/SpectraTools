@@ -269,6 +269,15 @@ class Test_batches(unittest.TestCase):
 
         self.assertTrue(self.P.mess[-1]["object"].x_unit is None)
         self.assertTrue(self.P.mess[-1]["object"].y_unit is None)
+
+
+class Test_make_uniform_x(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 0
+
+
+
         
 if __name__ == '__main__': 
 
@@ -278,11 +287,13 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)      
 
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_batches)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)     
         
-        
+    if 1:
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_make_uniform_x)
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)            
         
 
         

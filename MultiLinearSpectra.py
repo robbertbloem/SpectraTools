@@ -237,7 +237,18 @@ class MultiLinearSpectra(CT.ClassTools):
                 # print(self.mess[m]["class"], min_x, max_x)
                 
         return min_x, max_x
+    
+
+    def make_uniform_x(self):
+        """
         
+        
+        """
+        
+        pass
+
+
+    
          
     def bin_data(self, x_resolution, min_x = None, max_x = None, exclude = [], **kwargs):
         """
