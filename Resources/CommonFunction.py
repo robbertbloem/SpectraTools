@@ -1,3 +1,6 @@
+import numpy
+
+
 def find_overlap_in_arrays(x1, x2, verbose = 0):
     """
     
