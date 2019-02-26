@@ -14,8 +14,10 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 import PythonTools.ClassTools as CT
+import PythonTools.Mathematics as MATH
 
 importlib.reload(CT)
+importlib.reload(MATH)
 
 """
  
@@ -143,10 +145,11 @@ class LinearSpectrum(CT.ClassTools):
     @y.deleter
     def y(self):
         self._y = None
-        
-            
+
     def make_bins(self, x_resolution, min_x = None, max_x = None):
         """
+        DEPRECATED. Use make_new_x instead.
+        
         Make bins, given the resolution for x. The values are the center of the bin. This function does not do the actual binning: use bin_data for that.
         
         Caution: the binning starts at the first index. The last bin is most likely partial.
@@ -159,6 +162,28 @@ class LinearSpectrum(CT.ClassTools):
         
         CHANGELOG:
         2019-01-04/RB: started function
+        2019-02-26/RB: moved functionality to make_new_x. 
+        """    
+        
+        print("LinearSpectrum:make_bins(): DEPRECATED")        
+        self.make_bins(x_resolution = x_resolution, min_x = min_x, max_x = max_x)
+        
+            
+    def make_new_x(self, x_resolution, min_x = None, max_x = None):
+        """
+        Make a new x axis, for binning or interpolation. It uses the resolution for x. The values are the center of the bin. This function does not do the actual binning: use bin_data for that.
+        
+        Caution: the binning starts at the first index. The last bin is most likely partial.
+        
+        INPUT:
+        - x_resolution (float): required resolution
+        
+        OUTPUT:
+        - new_x (ndarray): the bins for x. 
+        
+        CHANGELOG:
+        2019-01-04/RB: started function
+        2019-02-26/RB: renamed function make_new_x to make it more applicable for interpolation.
         """               
         if self.verbose > 1:
             print("LinearSpectrum:make_bins()")
