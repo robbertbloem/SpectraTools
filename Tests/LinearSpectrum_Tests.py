@@ -47,7 +47,7 @@ class Test_init(unittest.TestCase):
         self.assertTrue(numpy.allclose(P.x, test))
 
 
-class Test_binning(unittest.TestCase):
+class Test_make_new_x(unittest.TestCase):
 
     def setUp(self):
         self.verbose = 0
@@ -68,7 +68,7 @@ class Test_binning(unittest.TestCase):
         P = LS.LinearSpectrum(verbose = self.verbose, x = x, y = y)
         
         for t in tests:
-            new_x = P.make_bins(t[0])
+            new_x = P.make_new_x(t[0])
             self.assertTrue(numpy.allclose(new_x, t[1]))
 
         
@@ -79,11 +79,11 @@ class Test_binning(unittest.TestCase):
         """    
         x = numpy.array([0,1, 2,3, 4,5, 6,7, 8,9], dtype = numpy.float64)
         P = LS.LinearSpectrum(verbose = self.verbose, x = x)
-        new_x = P.make_bins(2.0)
+        new_x = P.make_new_x(2.0)
 
         x = numpy.array([0,1, 2,3, 4,5, 6,7, 8,9])
         P = LS.LinearSpectrum(verbose = self.verbose, x = x)
-        new_x = P.make_bins(2)
+        new_x = P.make_new_x(2)
                 
         
     def test_make_bins_x_not_set(self):
@@ -94,7 +94,7 @@ class Test_binning(unittest.TestCase):
         """    
         P = LS.LinearSpectrum(verbose = self.verbose)
         x_resolution = 0.1
-        new_x = P.make_bins(x_resolution)
+        new_x = P.make_new_x(x_resolution)
         self.assertTrue(new_x == None) 
         
     def test_bin_data_basic(self):
@@ -105,7 +105,7 @@ class Test_binning(unittest.TestCase):
         x = numpy.array([0,1, 2,3, 4,5, 6,7, 8,9])
         y = numpy.array([1,1, 1,1, 1,2, 2,2, 2,2])
         P = LS.LinearSpectrum(verbose = self.verbose, x = x, y = y)
-        new_x = P.make_bins(2)
+        new_x = P.make_new_x(2)
         
         new_x, new_y = P.bin_data_helper(new_x)
         self.assertTrue(numpy.allclose(new_y[0], [1,1,1.5,2,2]))
@@ -118,7 +118,7 @@ class Test_binning(unittest.TestCase):
         x = numpy.array([0,0.1,1.9, 2.0,3.9, 4.0,5.9]) 
         y = numpy.array([1,1,1,     2,2,     3,3])
         P = LS.LinearSpectrum(verbose = self.verbose, x = x, y = y)
-        new_x = P.make_bins(2)
+        new_x = P.make_new_x(2)
 
         new_x, new_y = P.bin_data_helper(new_x)
         self.assertTrue(numpy.allclose(new_y[0], [1,2,3]))
@@ -131,7 +131,7 @@ class Test_binning(unittest.TestCase):
         x = numpy.array([0,0.1,1.9, 4.0,5.9, 6.0,7.9]) 
         y = numpy.array([1,1,1,     2,2,     3,3])
         P = LS.LinearSpectrum(verbose = self.verbose, x = x, y = y)
-        new_x = P.make_bins(2)
+        new_x = P.make_new_x(2)
 
         new_x, new_y = P.bin_data_helper(new_x)
         self.assertTrue(numpy.isnan(new_y[0,1]))
@@ -148,7 +148,7 @@ class Test_binning(unittest.TestCase):
         y1 = numpy.array([4,4,4,     5,5,     6,6])
         y2 = numpy.array([1,1,1,     2,2,     3,3])
         P = LS.LinearSpectrum(verbose = self.verbose, x = x, y = y1)
-        new_x = P.make_bins(2)
+        new_x = P.make_new_x(2)
 
         new_x, new_y = P.bin_data_helper(new_x, y = y2)
         self.assertTrue(numpy.isnan(new_y[0,1]))
@@ -411,7 +411,7 @@ if __name__ == '__main__':
         + bin_data_helper
         + bin_data
         """
-        suite = unittest.TestLoader().loadTestsFromTestCase(Test_binning)
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_make_new_x)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)    
     
     if 1:
