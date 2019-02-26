@@ -239,13 +239,39 @@ class MultiLinearSpectra(CT.ClassTools):
         return min_x, max_x
     
 
-    def make_uniform_x(self):
+    def make_uniform_x(self, x_resolution, min_x = None, max_x = None, bin_above = 2.0, **kwargs):
+        """
+        This function will make a new x-axis. It will look at the number of data points on the old and new x-axis, if the old x-axis has bin_above (default = 2) or more times more data points, it will bin the data. Otherwise it will interpolate it. 
+        
+        
+        
+        INPUT:
+        - x_resolution (number): resolution
+        - min_x (number): start of the range
+        - max_x (number): end of the range
+        
+        if min_x and/or max_x are not given, then the lowest and/or highest values in self.mess will be used. 
+
+        OUTPUT:
+        - 
+
+        CHANGELOG:
+        2019-02-26/RB: started function
         """
         
+        if min_x is None or max_x is None:
+            a, b = self.get_min_max_x(**kwargs)
+            if min_x is None:
+                min_x = a
+            if max_x is None:
+                max_x = b
         
-        """
+        new_x = numpy.arange(min_x, max_x + x_resolution / 2, x_resolution)
         
-        pass
+        for m in range(len(self.mess)):
+            if m not in exclude and self.mess[m]["class"] not in exclude:
+                resolution = (numpy.amax(m.x) - numpy.amin(m.x)) / len(m.x)
+                
 
 
     
