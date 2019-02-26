@@ -381,6 +381,48 @@ class LinearSpectrum(CT.ClassTools):
         self.y = y[0]
 
 
+    def interpolate_data_helper(self, new_x = None, x_resolution = None):
+        """
+         
+        
+        INPUT:
+        - 
+        
+        OUTPUT:
+        - 
+        
+        CHANGELOG:
+        2019-02-26/RB: started function
+        """    
+        if self.verbose > 1:
+            print("LinearSpectra.interpolate_data_helper()") 
+
+        if new_x is None:
+            if x_resolution is None:
+                return None
+            else:
+                new_x = self.make_bins(x_resolution)            
+            
+        MATH.interpolate_data(self.x, self.y, new_x, interpolate_kind = "default", verbose = self.verbose)
+        
+    def interpolate_data(self, new_x = None, x_resolution = None):
+        """
+        Placeholder function.
+        
+        INPUT:
+        - 
+        
+        OUTPUT:
+        - 
+        
+        CHANGELOG:
+        2019-02-26/RB: started function
+        """     
+        if self.verbose > 1:
+            print("LinearSpectra.interpolate_data()")         
+
+        self.interpolate_data_helper(new_x = new_x, x_resolution = x_resolution)            
+
     def crop_x(self, min_x = None, max_x = None, **kwargs):
         """
         Wrapper around LinearSpectra.find_indices_for_cropping().
