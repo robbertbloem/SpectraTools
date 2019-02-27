@@ -8,7 +8,7 @@ import numpy
 import matplotlib 
 import matplotlib.pyplot as plt
 
-import SpectraTools.Resources.CommonFunctions as CF
+import SpectraTools.Resources.CommonFunction as CF
 
 reload(CF)
 
@@ -170,8 +170,31 @@ class Test_indices_for_binning(unittest.TestCase):
     def setUp(self):
         self.verbose = 0
         
-    def basic(self):
+    def test_basic(self):
+        tests = [
+            {
+            "s": "simple",
+            "x":   numpy.array([0,1, 2,3, 4,5, 6,7, 8,9]),
+            "test":  numpy.array([0,0, 1,1, 2,2, 3,3, 4,4]),
+            "new_x": numpy.array([1, 3, 5, 7, 9]),
+            },{
+            "s": "missing in x", 
+            "x":   numpy.array([2,3,4,1,6,8]),
+            "test":  numpy.array([1,1,2,0,3,4]),
+            "new_x": numpy.array([1, 3, 5, 7, 9]),
+            },{
+            "s": "x over value", 
+            "x":   numpy.array([-2,-1,   0,1,2,3,4,5,6,7,8,9, 10,11]),
+            "test":  numpy.array([-1,-1, 0,0,1,1,2,2,3,3,4,4, -1,-1]),
+            "new_x": numpy.array([1, 3, 5, 7, 9]),
+            },
+        ]
         
+        for t in tests:
+            with self.subTest(t["s"]):
+                res = CF.indices_for_binning(t["x"], t["new_x"])
+                print("res", res)
+                self.assertTrue(numpy.allclose(res, t["test"]))
 
        
 
@@ -179,11 +202,11 @@ if __name__ == '__main__':
 
     verbosity = 1
         
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)      
     
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_overlap_in_arrays)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)             
 

@@ -6,6 +6,7 @@ def indices_for_binning(x, new_x):
     """
     Returns an array with length x, containing indices how to map the values in x to new_x. 
     new_x is the center of the bin!
+    if x is outside of the bins, the index will be -1.
     
     INPUT:
     - x (ndarray): 
@@ -17,11 +18,21 @@ def indices_for_binning(x, new_x):
     
     CHANGELOG:
     2019-02-27/RB: started function
+    
+    NOTES:
+    new_x is the center of each bin:    1, 3, 5, 7, 9
+    bins are the limits of the bins:   0, 2, 4, 6, 8, 10 (it has an index extra!)
+    the limits of the bins are: 0-1.99.., 2-3.99.. etc. 
+    x = 1 will be written in bins[1] = 2. digitized does not contain 0, even though this is a valid index of new_x, this is why 1 is subtracted at the end.
+
     """       
     x_r = new_x[1] - new_x[0]
-    bins = numpy.concatenate((new_x - x_r/2, numpy.array([new_x[-1] + x_r])))
-    digitized = numpy.digitize(x, bins, right = False)
-    return digitized    
+    bins = numpy.concatenate((new_x - x_r/2, numpy.array([new_x[-1] + x_r/2])))
+    digitized = numpy.digitize(x, bins, right = False) 
+    idx = numpy.where(numpy.logical_or(x < bins[0], x >= bins[-1]))[0]
+    digitized[idx] = 0
+    
+    return digitized - 1
 
 
 
