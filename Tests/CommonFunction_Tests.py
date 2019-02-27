@@ -165,7 +165,13 @@ class Test_find_overlap_in_arrays(unittest.TestCase):
                     self.assertEqual(start, t[3][0])
                     self.assertEqual(finish, t[3][1])                
 
+class Test_indices_for_binning(unittest.TestCase):
 
+    def setUp(self):
+        self.verbose = 0
+        
+    def basic(self):
+        
 
        
 
@@ -181,7 +187,9 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_overlap_in_arrays)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)             
 
-        
+    if 1:
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_indices_for_binning)
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)              
 
 
 

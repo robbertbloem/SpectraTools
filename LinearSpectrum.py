@@ -320,6 +320,9 @@ class LinearSpectrum(CT.ClassTools):
         CHANGELOG:
         2019-01-04/RB: started function
         2019-01-08/RB: return both new_x and new_y
+        2019-02-27/RB: 
+            - moved the binning part to another function. 
+            - if y is 1 dimensional, new_y is as well
         """                 
         if self.verbose > 1:
             print("LinearSpectrum.bin_data()")            
@@ -380,7 +383,7 @@ class LinearSpectrum(CT.ClassTools):
 
         self.x, y = self.bin_data_helper(new_x, self.y)
         
-        self.y = y[0]
+        self.y = y
 
 
     def interpolate_data_helper(self, new_x = None, x_resolution = None):
