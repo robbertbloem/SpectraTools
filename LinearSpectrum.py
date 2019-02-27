@@ -321,7 +321,7 @@ class LinearSpectrum(CT.ClassTools):
         2019-01-04/RB: started function
         2019-01-08/RB: return both new_x and new_y
         2019-02-27/RB: 
-            - moved the binning part to another function. 
+            - moved the mapping between x and new_x to another function. 
             - if y is 1 dimensional, new_y is as well
         """                 
         if self.verbose > 1:
@@ -344,7 +344,7 @@ class LinearSpectrum(CT.ClassTools):
         new_y = numpy.zeros((n_y, len(new_x)))     
         empty_bin_count = 0
         for b in range(len(new_x)):
-            temp = y[:, digitized == b+1]
+            temp = y[:, digitized == b]
             if numpy.shape(temp)[1] == 0:
                 new_y[:,b] = numpy.nan
                 empty_bin_count += 1                    
