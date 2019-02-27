@@ -38,7 +38,7 @@ def indices_for_binning(x, new_x):
 
 
 
-def find_overlap_in_arrays(x1, x2, verbose = 0):
+def find_overlap_in_arrays(x_list = None, x1 = None, x2 = None, verbose = 0):
     """
     
     INPUT:
@@ -63,11 +63,26 @@ def find_overlap_in_arrays(x1, x2, verbose = 0):
     """    
     if verbose > 1:
         print("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays()")
+    
+    if x1 is not None and x2 is not None:
+        print("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays(): using x1 and x2 is DEPRECATED. Use x_list = [x1, x2] instead")
+        x_list = [x1, x2]
+    if x1 is not None or x2 is not None:
+        print("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays(): use x_list, or maybe x1, x2, but not only x1 or x2.")
+        return None, None
+    
+    x_min = numpy.zeros(len(x_list))
+    x_max = numpy.zeros(len(x_list))
+    for i in range(len(x_list)):
+        if type(x_list[i]) not in [range, list, numpy.ndarray]:
+            return None, None
+        x_min[i] = numpy.amin(x_list[i])
+        x_max[i] = numpy.amax(x_list[i])
+
+    if numpy.amax(x_min) > numpy.amin(x_max):   
+        print("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays(): there ")
         
-    if type(x1) not in [range, list, numpy.ndarray]:
-        return None, None
-    if type(x2) not in [range, list, numpy.ndarray]:
-        return None, None
+
         
     x1_min = numpy.nanmin(x1)
     x2_min = numpy.nanmin(x2)
