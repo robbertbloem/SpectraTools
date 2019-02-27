@@ -110,6 +110,19 @@ class Test_make_new_x(unittest.TestCase):
         new_x, new_y = P.bin_data_helper(new_x)
         self.assertTrue(numpy.allclose(new_y, [1,1,1.5,2,2]))
 
+    def test_bin_data_outside_new_x(self):
+        """
+        Basic test
+        2019-01-04/RB
+        """    
+        x = numpy.array([-1, 0,1, 2,3, 4,5, 6,7, 8,9, 10])
+        y = numpy.array([100, 1,1, 1,1, 1,2, 2,2, 2,2, 200])
+        P = LS.LinearSpectrum(verbose = self.verbose, x = x, y = y)
+        new_x = numpy.array([1,3,5,7,9])
+        
+        new_x, new_y = P.bin_data_helper(new_x)
+        self.assertTrue(numpy.allclose(new_y, [1,1,1.5,2,2]))        
+        
     def test_bin_data_bin_boundaries(self):
         """
         Check if binning works. 0 =< x < 2 should be one bin.  
