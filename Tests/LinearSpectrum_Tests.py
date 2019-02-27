@@ -108,10 +108,7 @@ class Test_make_new_x(unittest.TestCase):
         new_x = P.make_new_x(2)
         
         new_x, new_y = P.bin_data_helper(new_x)
-        
-        # print(new_y, [1,1,1.5,2,2])
-        
-        self.assertTrue(numpy.allclose(new_y[0], [1,1,1.5,2,2]))
+        self.assertTrue(numpy.allclose(new_y, [1,1,1.5,2,2]))
 
     def test_bin_data_bin_boundaries(self):
         """
@@ -124,7 +121,7 @@ class Test_make_new_x(unittest.TestCase):
         new_x = P.make_new_x(2)
 
         new_x, new_y = P.bin_data_helper(new_x)
-        self.assertTrue(numpy.allclose(new_y[0], [1,2,3]))
+        self.assertTrue(numpy.allclose(new_y, [1,2,3]))
 
     def test_bin_data_empty_bin(self):
         """
@@ -137,9 +134,9 @@ class Test_make_new_x(unittest.TestCase):
         new_x = P.make_new_x(2)
 
         new_x, new_y = P.bin_data_helper(new_x)
-        self.assertTrue(numpy.isnan(new_y[0,1]))
-        new_y = numpy.delete(new_y, 1, axis = 1)
-        self.assertTrue(numpy.allclose(new_y[0], [1,2,3]))
+        self.assertTrue(numpy.isnan(new_y[1]))
+        new_y = numpy.delete(new_y, 1)
+        self.assertTrue(numpy.allclose(new_y, [1,2,3]))
 
 
     def test_bin_data_use_other_y(self):
@@ -154,8 +151,8 @@ class Test_make_new_x(unittest.TestCase):
         new_x = P.make_new_x(2)
 
         new_x, new_y = P.bin_data_helper(new_x, y = y2)
-        self.assertTrue(numpy.isnan(new_y[0,1]))
-        new_y = numpy.delete(new_y, 1, axis = 1)
+        self.assertTrue(numpy.isnan(new_y[1]))
+        new_y = numpy.delete(new_y, 1) #, axis = 1)
         self.assertTrue(numpy.allclose(new_y, [1,2,3]))        
         
 class Test_conversions(unittest.TestCase):

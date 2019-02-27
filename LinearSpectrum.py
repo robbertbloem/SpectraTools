@@ -301,7 +301,27 @@ class LinearSpectrum(CT.ClassTools):
             
         return idx
                           
-            
+    def find_bins(self, new_x):
+        """
+        Find how the data should be binned.
+        
+        INPUT:
+        - new_x (ndarray): 
+
+        
+        OUTPUT:
+        
+        
+        CHANGELOG:
+        2019-02-27/RB: started function
+        """       
+        x_r = new_x[1] - new_x[0]
+        bins = numpy.concatenate((new_x - x_r/2, numpy.array([new_x[-1] + x_r])))
+        n_bins = len(bins)
+        digitized = numpy.digitize(self.x, bins, right = False)
+        return digitized
+
+    
     def bin_data_helper(self, new_x, y = None):
         """
         Take data and bin it. By default self.y is binned, unless y is given in the function parameters. 
@@ -328,37 +348,27 @@ class LinearSpectrum(CT.ClassTools):
                 warnings.warn("LinearSpectrum.bin_data(): no data to bin")
                 return None
             else:
-                y = self.y
-        
-        # if len(numpy.shape(y)) == 1:
-            # y = numpy.reshape(y, (1, len(y)))
+                y = self.y[:]
 
-        n_bins = len(new_x)
-        x_r = (new_x[1] - new_x[0]) / 2
-        new_x -= x_r
-        
+        digitized = self.find_bins(new_x)
+
+        dim = len(numpy.shape(y))
+        if dim == 1:
+            y = numpy.reshape(y, (1, len(y)))        
         n_y = numpy.shape(y)[0]
-        new_y = numpy.zeros((n_y,n_bins))
-            
-        digitized = numpy.digitize(self.x, new_x, right = False)
-        print(digitized)
-        new_y = [y[digitized == i].mean() for i in range(1, len(new_x))]
+        new_y = numpy.zeros((n_y, len(new_x)))     
+        empty_bin_count = 0
+        for b in range(len(new_x)):
+            temp = y[:, digitized == b+1]
+            if numpy.shape(temp)[1] == 0:
+                new_y[:,b] = numpy.nan
+                empty_bin_count += 1                    
+            else:
+                new_y[:, b] = temp.mean(axis = 1)         
         
-        # print(type(digitized), numpy.shape(digitized))
-        # print(type(new_y), numpy.shape(new_y))
-        empty_bin_count = len(digitized) - numpy.count_nonzero(digitized)
+        if dim == 1:    
+            new_y = new_y[0,:]
         
-
-        
-        # for b in range(n_bins):
-            # idx = numpy.where(numpy.logical_and(self.x >= new_x[b] - x_r, self.x < new_x[b] + x_r))[0]
-            
-            # if len(idx) == 0:
-                # new_y[:,b] = numpy.nan
-                # empty_bin_count += 1
-            # else:
-                # new_y[:,b] = numpy.average(y[:,idx], axis = 1) 
-                
         if self.verbose > 0:
             print("LinearSpectrum : bin_data: Number of empty bins: {:d}".format(empty_bin_count))
 
