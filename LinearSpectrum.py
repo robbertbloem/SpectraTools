@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 import PythonTools.ClassTools as CT
 import PythonTools.Mathematics as MATH
-import SpectraTools.Resources.CommonFunction as ST_CF
+import SpectraTools.Resources.CommonFunctions as ST_CF
 
 importlib.reload(CT)
 importlib.reload(MATH)

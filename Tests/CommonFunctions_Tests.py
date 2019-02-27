@@ -8,7 +8,7 @@ import numpy
 import matplotlib 
 import matplotlib.pyplot as plt
 
-import SpectraTools.Resources.CommonFunction as CF
+import SpectraTools.Resources.CommonFunctions as CF
 
 reload(CF)
 
