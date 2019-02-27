@@ -301,26 +301,7 @@ class LinearSpectrum(CT.ClassTools):
         idx = idx[temp] 
             
         return idx
-                          
-    def find_bins(self, new_x):
-        """
-        Find how the data should be binned.
-        
-        INPUT:
-        - new_x (ndarray): 
 
-        
-        OUTPUT:
-        
-        
-        CHANGELOG:
-        2019-02-27/RB: started function
-        """       
-        x_r = new_x[1] - new_x[0]
-        bins = numpy.concatenate((new_x - x_r/2, numpy.array([new_x[-1] + x_r])))
-        n_bins = len(bins)
-        digitized = numpy.digitize(self.x, bins, right = False)
-        return digitized
 
     
     def bin_data_helper(self, new_x, y = None):

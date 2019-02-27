@@ -4,7 +4,7 @@ import numpy
 
 def indices_for_binning(x, new_x):
     """
-    Returns an array with length x, containing indices how to bin the values in x to new_x. 
+    Returns an array with length x, containing indices how to map the values in x to new_x. 
     new_x is the center of the bin!
     
     INPUT:
@@ -13,7 +13,7 @@ def indices_for_binning(x, new_x):
 
     
     OUTPUT:
-    
+    - digitized (ndarray): an array with length x, containing indices how to map the values in x to new_x.
     
     CHANGELOG:
     2019-02-27/RB: started function
