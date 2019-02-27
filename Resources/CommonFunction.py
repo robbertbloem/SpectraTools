@@ -1,6 +1,32 @@
 import numpy
 
 
+
+def indices_for_binning(x, new_x):
+    """
+    Returns an array with length x, containing indices how to bin the values in x to new_x. 
+    new_x is the center of the bin!
+    
+    INPUT:
+    - x (ndarray): 
+    - new_x (ndarray): 
+
+    
+    OUTPUT:
+    
+    
+    CHANGELOG:
+    2019-02-27/RB: started function
+    """       
+    x_r = new_x[1] - new_x[0]
+    bins = numpy.concatenate((new_x - x_r/2, numpy.array([new_x[-1] + x_r])))
+    digitized = numpy.digitize(x, bins, right = False)
+    return digitized    
+
+
+
+
+
 def find_overlap_in_arrays(x1, x2, verbose = 0):
     """
     

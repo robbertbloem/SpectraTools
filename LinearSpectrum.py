@@ -15,10 +15,11 @@ import matplotlib.pyplot as plt
 
 import PythonTools.ClassTools as CT
 import PythonTools.Mathematics as MATH
+import SpectraTools.Resources.CommonFunction as ST_CF
 
 importlib.reload(CT)
 importlib.reload(MATH)
-
+importlib.reload(ST_CF)
 """
  
 INPUT:
@@ -350,7 +351,7 @@ class LinearSpectrum(CT.ClassTools):
             else:
                 y = self.y[:]
 
-        digitized = self.find_bins(new_x)
+        digitized = ST_CF.indices_for_binning(self.x, new_x)
 
         dim = len(numpy.shape(y))
         if dim == 1:
