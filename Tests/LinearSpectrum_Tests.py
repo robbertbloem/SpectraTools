@@ -108,6 +108,9 @@ class Test_make_new_x(unittest.TestCase):
         new_x = P.make_new_x(2)
         
         new_x, new_y = P.bin_data_helper(new_x)
+        
+        # print(new_y, [1,1,1.5,2,2])
+        
         self.assertTrue(numpy.allclose(new_y[0], [1,1,1.5,2,2]))
 
     def test_bin_data_bin_boundaries(self):
@@ -399,7 +402,7 @@ if __name__ == '__main__':
     + plot_spectrum    
     """
     
-    if 1:
+    if 0:
         """
         + __init__
         """
@@ -414,7 +417,7 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_make_new_x)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)    
     
-    if 1:
+    if 0:
         """
         + convert_x
         + convert_y
@@ -422,7 +425,7 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_conversions)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)      
     
-    if 1:
+    if 0:
         """
         + find_indices_for_cropping
         """
