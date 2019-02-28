@@ -1,3 +1,5 @@
+import warnings
+
 import numpy
 
 
@@ -63,11 +65,11 @@ def find_overlap_in_arrays(x_list = None, x1 = None, x2 = None, verbose = 0):
     """    
     if verbose > 1:
         print("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays()")
-    
+
     if x1 is not None and x2 is not None:
-        print("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays(): using x1 and x2 is DEPRECATED. Use x_list = [x1, x2] instead")
+        warnings.warn("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays(): using x1 and x2 is DEPRECATED. Use x_list = [x1, x2] instead", DeprecationWarning)
         x_list = [x1, x2]
-    if x1 is not None or x2 is not None:
+    elif x1 is not None or x2 is not None:
         print("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays(): use x_list, or maybe x1, x2, but not only x1 or x2.")
         return None, None
     
@@ -76,33 +78,35 @@ def find_overlap_in_arrays(x_list = None, x1 = None, x2 = None, verbose = 0):
     for i in range(len(x_list)):
         if type(x_list[i]) not in [range, list, numpy.ndarray]:
             return None, None
-        x_min[i] = numpy.amin(x_list[i])
-        x_max[i] = numpy.amax(x_list[i])
+        x_min[i] = numpy.nanmin(x_list[i])
+        x_max[i] = numpy.nanmax(x_list[i])
 
-    if numpy.amax(x_min) > numpy.amin(x_max):   
-        print("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays(): there ")
-        
-
-        
-    x1_min = numpy.nanmin(x1)
-    x2_min = numpy.nanmin(x2)
-    x1_max = numpy.nanmax(x1)
-    x2_max = numpy.nanmax(x2)
+    if numpy.nanmax(x_min) > numpy.nanmin(x_max):   
+        warnings.warn("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays(): a part is not overlapping.")
+        return None, None
     
-    if x1_min > x2_max:
-        return None, None
-    elif x2_min > x1_max:
-        return None, None
+    start = numpy.nanmax(x_min)
+    finish = numpy.nanmin(x_max)
+        
+    # x1_min = numpy.nanmin(x1)
+    # x2_min = numpy.nanmin(x2)
+    # x1_max = numpy.nanmax(x1)
+    # x2_max = numpy.nanmax(x2)
+    
+    # if x1_min > x2_max:
+        # return None, None
+    # elif x2_min > x1_max:
+        # return None, None
 
-    if x1_min > x2_min:
-        start = x1_min
-    else:
-        start = x2_min
+    # if x1_min > x2_min:
+        # start = x1_min
+    # else:
+        # start = x2_min
 
-    if x1_max < x2_max:
-        finish = x1_max
-    else:
-        finish = x2_max      
+    # if x1_max < x2_max:
+        # finish = x1_max
+    # else:
+        # finish = x2_max      
     
     if verbose:
         print(start, finish)
