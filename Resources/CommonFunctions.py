@@ -10,22 +10,33 @@ def indices_for_binning(x, new_x):
     new_x is the center of the bin!
     if x is outside of the bins, the index will be -1.
     
-    INPUT:
-    - x (ndarray): 
-    - new_x (ndarray): 
+    Arguments
+    ---------
+    x : ndarray
+        the old x-axis
+    new_x : ndarray
+        the new x-axis
 
     
-    OUTPUT:
-    - digitized (ndarray): an array with length x, containing indices how to map the values in x to new_x.
+    Returns
+    -------
+    digitized : ndarray
+        an array with length x, containing indices how to map the values in x to new_x.
     
-    CHANGELOG:
-    2019-02-27/RB: started function
-    
-    NOTES:
+    Tip
+    ---
     new_x is the center of each bin:    1, 3, 5, 7, 9
     bins are the limits of the bins:   0, 2, 4, 6, 8, 10 (it has an index extra!)
     the limits of the bins are: 0-1.99.., 2-3.99.. etc. 
-    x = 1 will be written in bins[1] = 2. digitized does not contain 0, even though this is a valid index of new_x, this is why 1 is subtracted at the end.
+    x = 1 will be written in bins[1] = 2. digitized does not contain 0, even though this is a valid index of new_x, this is why 1 is subtracted at the end.    
+    
+    Notes
+    -----
+    
+    - 2019-02-27/RB: started function
+    
+
+
 
     """       
     x_r = new_x[1] - new_x[0]
@@ -43,25 +54,38 @@ def indices_for_binning(x, new_x):
 def find_overlap_in_arrays(x_list = None, x1 = None, x2 = None, verbose = 0):
     """
     
-    INPUT:
-    - x1 and x2: ndarray. x1 and x2 can contain NaN.
 
-    OUTPUT:
-    - 
+    
+    Arguments
+    ---------
+    x_list : a list with arrays
+    x1,x2 : ndarray (deprecated)
 
-    LOGIC: 
+    Returns
+    -------
+    start,finish : numbers
+        The start and finish for an array. 
+
+    Example
+    -------
+    For x1 = 3456, and x2 is shown:
     
-    x1:    3456
-    a:  01          no overlap
-    b:    23        return x1_min, x2_max
-    c:      45      return x2_min, x2_max
-    d:        67    return x2_min, x1_max
-    e:          89  no overlap
-    f:    234567    return x1_min, x1_max
+    ::
     
-    CHANGELOG:
-    2019-01-11/RB: started function, extracted from interpolate_two_datasets
-    2019-01-11/RB: use numpy.amin and amax instead of comparing the beginning/end of the array.
+        x1:    3456
+        a:  01          no overlap
+        b:    23        return x1_min, x2_max
+        c:      45      return x2_min, x2_max
+        d:        67    return x2_min, x1_max
+        e:          89  no overlap
+        f:    234567    return x1_min, x1_max
+
+        
+    Notes
+    -----
+    
+    - 2019-01-11/RB: started function, extracted from interpolate_two_datasets
+    - 2019-01-11/RB: use numpy.amin and amax instead of comparing the beginning/end of the array.
     """    
     if verbose > 1:
         print("SpectraTools.Resources.CommonFunctions:find_overlap_in_arrays()")

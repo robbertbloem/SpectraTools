@@ -15,17 +15,7 @@ import SensorTools.PASLiquid as PASL
 reload(PAS)
 reload(PASG)
 reload(PASL)
-"""
  
-INPUT:
-- 
-
-OUTPUT:
-- 
-
-CHANGELOG:
-2019-01-09/RB: started function
-"""    
     
 
 
@@ -33,44 +23,38 @@ class MultiLinearSpectra(CT.ClassTools):
     """
     Class for working on a number of linear spectra.
     
-    Variables:
-    - mess
+    Attributes
+    ----------
+    mess : array with LinearSpectra
     
-    Methods:
-    + __init__
-    + init_data_array
-    + import_data
-    + select_single_slope
-    + get_min_max_x
-    + bin_data
-    + calculate_signal
-    + plot_spectra
-    + make_batches
     
-    CHANGELOG:
-    2019-01-10/RB: started function
+    Notes
+    -----
+    
+    - 2019-01-10/RB: started function
     """          
     
     def __init__(self, mess = None, verbose = 0, **kwargs):
         """
-         
-        INPUT:
-        - mess: list with dictionaries. 
+        
+        Requirements for mess:
+        
             - The dictionary must contain the keyword 'class', this is used to initialize the correct class.
             - The keyword 'object' is reserved for the initialized instance.
             - An index is added (if not already present). This can be used for consistent coloring in plots.
             - Other keywords will be passed as kwargs to the initialization function.
-        - verbose:
-            - 0: suppress most output
-            - >= 1: 
-            - >= 2: print function names
-            - >= 3: print kwargs
         
-        OUTPUT:
-        - 
+        Keyword Arguments
+        -----------------
+        mess : list with dictionaries. 
+        verbose : int
         
-        CHANGELOG:
-        2019-01-08/RB: started function
+
+        
+        Notes
+        -----
+    
+        - 2019-01-08/RB: started function
         """      
         if verbose > 1:
             print("SpectraTools.MultiLinearSpectra.__init__()")   
@@ -91,18 +75,21 @@ class MultiLinearSpectra(CT.ClassTools):
         """
         Initializes lines in mess.  
         
-        INPUT:
+        Arguments
+        ---------
         - mess: list with dictionaries. 
             - The dictionary must contain the keyword 'class', this is used to initialize the correct class.
             - The keyword 'object' is reserved for the initialized instance.
             - An index is added (if not already present). This can be used for consistent coloring in plots.
             - Other keywords will be passed as kwargs to the initialization function.
 
-        OUTPUT:
-        - -
+        Returns
+        -------
 
-        CHANGELOG:
-        2019-01-09/RB: started function
+        Notes
+        -----
+    
+        - 2019-01-09/RB: started function
         """  
         if self.verbose > 1:
             print("MultiLinearSpectra.init_data_array()")   
@@ -142,15 +129,12 @@ class MultiLinearSpectra(CT.ClassTools):
                 
     def import_data(self, **kwargs):        
         """
-         
-        INPUT:
-        - 
-
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-01-09/RB: started function
+        Imports data.     
+        
+        Notes
+        -----
+    
+        - 2019-01-09/RB: started function
         """  
 
         if self.verbose > 1:
@@ -172,15 +156,13 @@ class MultiLinearSpectra(CT.ClassTools):
             
     def select_single_slope(self, **kwargs):
         """
-         
-        INPUT:
-        - 
+        Select a slope, if required. 
+        
 
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-01-09/RB: started function
+        Notes
+        -----
+    
+        - 2019-01-09/RB: started function
         """  
 
         if self.verbose > 1:
@@ -217,15 +199,37 @@ class MultiLinearSpectra(CT.ClassTools):
                 
     def get_min_max_x(self, min_x = 1e9, max_x = -1e9, exclude = []):
         """
-         
-        INPUT:
-        - 
+        Search for the lowest and highest value of x. 
 
-        OUTPUT:
-        - 
+        Arguments
+        ---------
+        min_x : float
+            Default 1e9
+        max_x : float
+            Default -1e9
+        exclude : list with indices
+            Exclude objects from the search
+        
+        Returns
+        -------        
+        min_x,max_x : float
+            the lowest and highest value of the objects.
 
-        CHANGELOG:
-        2019-01-09/RB: started function
+        Example
+        -------
+        Assume two array
+        
+        ::
+        
+            >>> a = [0,1,2,3,4]
+            >>> b = [2,3,4,5,6]
+            
+        Then this function would return 0 and 6. 
+            
+        Notes
+        -----
+    
+        - 2019-01-09/RB: started function
         """  
         
         if self.verbose > 1:
@@ -243,20 +247,28 @@ class MultiLinearSpectra(CT.ClassTools):
         """
         This function will make a new x-axis. It will look at the number of data points on the old and new x-axis, if the old x-axis has bin_above (default = 2) or more times more data points, it will bin the data. Otherwise it will interpolate it. 
         
+        If min_x and/or max_x are not given, then the lowest and/or highest values in self.mess will be used (see get_min_max_x). 
         
+        Arguments
+        ---------
+        x_resolution : number
+            resolution
+        min_x : number
+            start of the range
+        max_x : number
+            end of the range
         
-        INPUT:
-        - x_resolution (number): resolution
-        - min_x (number): start of the range
-        - max_x (number): end of the range
-        
-        if min_x and/or max_x are not given, then the lowest and/or highest values in self.mess will be used. 
+        Warning
+        -------
+        Finish function
 
-        OUTPUT:
-        - 
+        Returns
+        -------
 
-        CHANGELOG:
-        2019-02-26/RB: started function
+        Notes
+        -----
+    
+        - 2019-02-26/RB: started function
         """
         
         if min_x is None or max_x is None:
@@ -279,14 +291,22 @@ class MultiLinearSpectra(CT.ClassTools):
     def bin_data(self, x_resolution, min_x = None, max_x = None, exclude = [], **kwargs):
         """
          
-        INPUT:
-        - 
+        Arguments
+        ---------:
+        x_resolution : number
+            The new resolution
+        min_x : number, optional
+            The lower end of scale. If not given, get_min_max_x will be used. 
+        max_x : number, optional
+            The upper end of scale. If not given, get_min_max_x will be used. 
+        exclude : list with indices
+            Objects not to be binned.
+            
 
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-01-09/RB: started function
+        Notes
+        -----
+    
+        - 2019-01-09/RB: started function
         """  
 
         if self.verbose > 1:
@@ -304,15 +324,20 @@ class MultiLinearSpectra(CT.ClassTools):
                     
     def calculate_signal(self, exclude = [], **kwargs):
         """
+        Calculate the signal. Objects need to be from classes that conform to LinearSpectrum. 
+        
+        Optionally, objects can be excluded from calculating the signal. 
          
-        INPUT:
-        - 
+        Arguments
+        ---------
+        exclude : list
+            List with object for which no signal should be calculated.
+            
 
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-01-09/RB: started function
+        Notes
+        -----
+    
+        - 2019-01-09/RB: started function
         """  
 
         if self.verbose > 1:
@@ -327,14 +352,19 @@ class MultiLinearSpectra(CT.ClassTools):
     def plot_spectra(self, exclude = [], axi = None, plot_props = [], **kwargs):
         """
          
-        INPUT:
-        - 
+        Arguments
+        ---------
+        exclude : list
+            Exclude these objects from plotting
+        axi : Matplotlib axis
+            If none, a new figure will be created.
+        plot_props : list
+            List with options for Matplotlib plotting for each plot. Examples are line color, thickness etc.
 
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-01-09/RB: started function
+        Notes
+        -----
+    
+        - 2019-01-09/RB: started function
         """  
 
         if self.verbose > 1:
@@ -366,15 +396,19 @@ class MultiLinearSpectra(CT.ClassTools):
     def make_batches(self, batches = [], batch_props = None, **kwargs):
         """
          
-        INPUT:
-        - 
+        Arguments
+        ---------
+        batches : list
+            A list with lists of batches. 
+        batch_props : list 
+            A list with kwargs for each batch
+        
 
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-01-09/RB: started function
-        2019-01-17/RB: will copy x_unit, checks for empty batches array
+        Notes
+        -----
+    
+        - 2019-01-09/RB: started function
+        - 2019-01-17/RB: will copy x_unit, checks for empty batches array
         """  
     
         if self.verbose > 1:
