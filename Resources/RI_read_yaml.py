@@ -15,6 +15,11 @@ importlib.reload(CF)
 def string_to_cols(string, ncols = 1, verbose = 0):
     """
     Data is a string. Convert this to a ndarray ncols. 
+    
+    Notes
+    -----
+    
+    - 201?-??-??/RB: started function
     """
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_read_yaml.string_to_cols()")       
@@ -26,6 +31,26 @@ def string_to_cols(string, ncols = 1, verbose = 0):
   
   
 def import_refractive_index(paf, verbose = 0):
+    """
+    Import the YAML file.
+    
+    Arguments
+    ---------
+    paf : string
+        Path and filename
+        
+    Returns
+    -------
+    dict : dict
+        Dictionary with all data and meta-information.
+        
+    Notes
+    -----
+    
+    - 201?-??-??/RB: started function
+    
+    """
+    
     
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_read_yaml.import_refractive_data()")   

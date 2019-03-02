@@ -17,14 +17,24 @@ def ri(x, s , formula, verbose):
     """
     Function to calculate the refractive index.
     
-    INPUT:
-    - 
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    formula : str
+        Which formula to use.
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """     
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri()")  
@@ -58,15 +68,24 @@ def ri(x, s , formula, verbose):
         
 def ri_tabulated_n(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Return an interpolated refractive index for x. 
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        Tabulated data 
+        
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive index
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_tabulated_n()")  
@@ -78,15 +97,24 @@ def ri_tabulated_n(x, s, verbose = 0):
 
 def ri_tabulated_nk(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Return an interpolated refractive index for x. 
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        Tabulated data 
+        
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive index
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_tabulated_nk()")  
@@ -98,15 +126,24 @@ def ri_tabulated_nk(x, s, verbose = 0):
     
 def ri_formula_1(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Function to calculate the refractive index.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_1()")  
@@ -123,15 +160,24 @@ def ri_formula_1(x, s, verbose = 0):
     
 def ri_formula_2(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Function to calculate the refractive index.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_2()")  
@@ -148,15 +194,24 @@ def ri_formula_2(x, s, verbose = 0):
 
 def ri_formula_3(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Function to calculate the refractive index.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_3()")  
@@ -172,15 +227,24 @@ def ri_formula_3(x, s, verbose = 0):
     
 def ri_formula_4(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Function to calculate the refractive index.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_4()")  
@@ -202,15 +266,24 @@ def ri_formula_4(x, s, verbose = 0):
 
 def ri_formula_5(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Function to calculate the refractive index.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_5()")  
@@ -226,15 +299,24 @@ def ri_formula_5(x, s, verbose = 0):
 
 def ri_formula_6(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
-
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Function to calculate the refractive index.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
+        
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_6()")  
@@ -250,15 +332,24 @@ def ri_formula_6(x, s, verbose = 0):
 
 def ri_formula_7(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Function to calculate the refractive index.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_7()")  
@@ -275,15 +366,24 @@ def ri_formula_7(x, s, verbose = 0):
 
 def ri_formula_8(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Function to calculate the refractive index.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_8()")  
@@ -294,15 +394,24 @@ def ri_formula_8(x, s, verbose = 0):
 
 def ri_formula_9(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Function to calculate the refractive index.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_9()")  
@@ -314,16 +423,26 @@ def ri_formula_9(x, s, verbose = 0):
 
 def extinction_coefficient(x, s , formula, verbose):
     """
-    Find the extinction coefficient.
+    Return the extinction coefficient. Only possible for nk-tabulated data.
     
-    INPUT:
-    - 
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    formula : str
+        Formula to use
+    
+    Returns
+    -------
+    k : ndarray
+        Array with refractive indices
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """     
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.extinction_coefficient()")  
@@ -340,15 +459,26 @@ def extinction_coefficient(x, s , formula, verbose):
         
 def k_tabulated_nk(x, s, verbose = 0):
     """
-     
-    INPUT:
-    - 
+    Return the extinction coefficient. 
+    
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
 
-    OUTPUT:
-    - 
+    
+    Returns
+    -------
+    k : ndarray
+        Array with refractive indices
 
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """        
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.k_tabulated_nk()")  
@@ -366,14 +496,24 @@ def gvd(x, s , formula, verbose):
     """
     Function to calculate the group velocity dispersion.
     
-    INPUT:
-    - 
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    formula : str
+        Formula to use
+        
+    Returns
+    -------
+    gvd : ndarray
+        Array with group velocity dispersion
 
-    OUTPUT:
-    - 
-
-    CHANGELOG:
-    2019-02-15/RB: started function
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
     """     
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.gvd()")  
@@ -405,6 +545,18 @@ def gvd(x, s , formula, verbose):
 def gvd_formula_1(x, s, verbose = 0): 
     """
     Formula 1 and 2 are the same, except that some coefficients are squared. 
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+        
+    Returns
+    -------
+    gvd : ndarray
+        Array with group velocity dispersion    
     """
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.gvd_formula_1()")  
@@ -457,6 +609,18 @@ def gvd_formula_1(x, s, verbose = 0):
 def gvd_formula_2(x, s, verbose = 0): 
     """
     Formula 1 and 2 are the same, except that some coefficients are squared. 
+
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+        
+    Returns
+    -------
+    gvd : ndarray
+        Array with group velocity dispersion    
     """
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.gvd_formula_1()")  
@@ -473,7 +637,24 @@ def gvd_formula_2(x, s, verbose = 0):
 def gvd_formula_3(x, s, verbose = 0):
 
     """
-    http://www.wolframalpha.com/input/?i=second+derivative+of+sqrt(a+%2B+b*x%5Ec+%2B+d*x%5Ee+%2B+f*x%5Eg+%2B+h*x%5Ei+%2B+j*x%5Ek+%2B+l*x%5Em+%2B+n*x%5Eo+%2Bp*x%5Eq)+with+respect+to+x
+    Function to calculate the group velocity dispersion.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+        
+    Returns
+    -------
+    gvd : ndarray
+        Array with group velocity dispersion   
+        
+    References
+    ----------
+    
+    The equation was found using `Wolfram Alpha <http://www.wolframalpha.com/input/?i=second+derivative+of+sqrt(a+%2B+b*x%5Ec+%2B+d*x%5Ee+%2B+f*x%5Eg+%2B+h*x%5Ei+%2B+j*x%5Ek+%2B+l*x%5Em+%2B+n*x%5Eo+%2Bp*x%5Eq)+with+respect+to+x>`_.
     
     """
     if verbose > 1:
@@ -532,7 +713,25 @@ def gvd_formula_3(x, s, verbose = 0):
 
 def gvd_formula_4(x, s, verbose = 0):
     """
-    http://www.wolframalpha.com/input/?i=second+derivative+of+sqrt(a%2B+(b*x%5Ec)%2F(x%5E2-d%5Ee)+%2B+(f*x%5Eg)%2F(x%5E2-h%5Ei)+%2B+j*x%5Ek+%2B+l*x%5Em+%2B+n*x%5Eo+%2B+p*x%5Eq+)+with+respect+to+x
+    Function to calculate the group velocity dispersion.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    formula : str
+        Formula to use
+        
+    Returns
+    -------
+    gvd : ndarray
+        Array with group velocity dispersion   
+
+    References
+    ----------        
+   The equation was found using `Wolfram Alpha <http://www.wolframalpha.com/input/?i=second+derivative+of+sqrt(a%2B+(b*x%5Ec)%2F(x%5E2-d%5Ee)+%2B+(f*x%5Eg)%2F(x%5E2-h%5Ei)+%2B+j*x%5Ek+%2B+l*x%5Em+%2B+n*x%5Eo+%2B+p*x%5Eq+)+with+respect+to+x>`_.
     
     
     """
@@ -595,8 +794,25 @@ def gvd_formula_4(x, s, verbose = 0):
 def gvd_formula_5(x, s, verbose = 0):
 
     """
-    Formula 5 
-    http://www.wolframalpha.com/input/?i=second+derivative+of+a%2B+b*x%5Ec+%2B+d*x%5Ee+%2B+f*x%5Eg+%2Bh*x%5Ei+%2B+j*x%5Ek+with+respect+to+x
+    Function to calculate the group velocity dispersion.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    formula : str
+        Formula to use
+        
+    Returns
+    -------
+    gvd : ndarray
+        Array with group velocity dispersion    
+    
+    References
+    ---------- 
+    The equation was found using `Wolfram Alpha <http://www.wolframalpha.com/input/?i=second+derivative+of+a%2B+b*x%5Ec+%2B+d*x%5Ee+%2B+f*x%5Eg+%2Bh*x%5Ei+%2B+j*x%5Ek+with+respect+to+x>`_.
     """
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.gvd_formula_5()")  
@@ -619,7 +835,25 @@ def gvd_formula_5(x, s, verbose = 0):
     
 def gvd_formula_6(x, s, verbose = 0):  
     """
-    http://www.wolframalpha.com/input/?i=second+derivative+of+1%2Ba%2B+b%2F(c-x%5E-2)+%2B+d%2F(e-x%5E-2)+%2B+f%2F(g-x%5E-2)+%2B+h%2F(i-x%5E-2)+%2B+j%2F(k-x%5E-2)+with+respect+to+x
+    Function to calculate the group velocity dispersion.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    formula : str
+        Formula to use
+        
+    Returns
+    -------
+    gvd : ndarray
+        Array with group velocity dispersion    
+    
+    References
+    ----------
+    The equation was found using `Wolfram Alpha <http://www.wolframalpha.com/input/?i=second+derivative+of+1%2Ba%2B+b%2F(c-x%5E-2)+%2B+d%2F(e-x%5E-2)+%2B+f%2F(g-x%5E-2)+%2B+h%2F(i-x%5E-2)+%2B+j%2F(k-x%5E-2)+with+respect+to+x>`_.
     """
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.gvd_formula_6()")  
@@ -653,7 +887,25 @@ def gvd_formula_6(x, s, verbose = 0):
  
 def gvd_formula_7(x, s, verbose = 0):  
     """
-    http://www.wolframalpha.com/input/?i=second+derivative+of+a+%2B+b%2F(x%5E2-0.028)%2Bc*(1%2F(x%5E2-0.028))%5E2+%2B+d*x%5E2+%2Be*x%5E4+%2Bf*x%5E6+with+respect+to+x
+    Function to calculate the group velocity dispersion.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    formula : str
+        Formula to use
+        
+    Returns
+    -------
+    gvd : ndarray
+        Array with group velocity dispersion    
+
+    References
+    ----------
+    The equation was found using `Wolfram Alpha <http://www.wolframalpha.com/input/?i=second+derivative+of+a+%2B+b%2F(x%5E2-0.028)%2Bc*(1%2F(x%5E2-0.028))%5E2+%2B+d*x%5E2+%2Be*x%5E4+%2Bf*x%5E6+with+respect+to+x>`_.
     """
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_Functions.ri_formula_9()")  
