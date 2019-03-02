@@ -10,7 +10,7 @@ Welcome to RefractiveIndexTools's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   RefractiveIndexTools
+   RefractiveIndex
    RI_Functions
    RI_read_yaml
    

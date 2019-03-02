@@ -1,6 +1,4 @@
 """
-RefractiveIndex
-
 This is a class-based version of earlier RefractiveIndex based scripts. The data is taken from the website refractiveindex.info. The database should be downloaded and stored locally. 
 
 ALL WAVELENGTHS ARE IN MICRON!!!
