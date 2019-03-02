@@ -18,6 +18,7 @@ sys.path.insert(0, os.path.abspath('..\\..\\'))
 sys.path.insert(0, os.path.abspath('..\\..\\Resources'))
 sys.path.insert(0, os.path.abspath('..\\..\\Tests'))
 
+
 # -- Project information -----------------------------------------------------
 
 project = 'RefractiveIndexTools'
@@ -49,12 +50,13 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
+    'numpydoc',
 ]
 
 # Napoleon settings
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
-napoleon_include_init_with_doc = False
+napoleon_include_init_with_doc = True
 napoleon_include_private_with_doc = False
 napoleon_include_special_with_doc = True
 napoleon_use_admonition_for_examples = False
@@ -63,6 +65,7 @@ napoleon_use_admonition_for_references = False
 napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = False
+# napoleon_custom_sections = [""]
 
 numpydoc_show_class_members = True
 numpydoc_show_inherited_class_members = True
@@ -205,7 +208,11 @@ epub_exclude_files = ['search.html']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+# intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/', None),
+    # 'PythonTools': (r"C:\Python\PythonTools\docs\build", "objects.inv"),
+}
 
 # -- Options for todo extension ----------------------------------------------
 
