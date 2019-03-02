@@ -26,56 +26,51 @@ importlib.reload(CONST)
 importlib.reload(LS)
 importlib.reload(RIRY)
 importlib.reload(RIF)
-"""
  
-INPUT:
-- 
-
-OUTPUT:
-- 
-
-CHANGELOG:
-2019-02-15/RB: started function
-"""    
 
 
 class RefractiveIndex(LS.LinearSpectrum):
     """
     Class for processing refractive indices.
     
-    Variables:
-    - x
-    - x_range
-    - n
-    - k
-    - gvd
-    - formula (type)
-    - parameters
-    - path
-    - filename
+    Attributes
+    ----------
+    x : ndarray
+    x_range : tuple
+    n : ndarray
+    k : ndarray
+    gvd : ndarray
+    formula : string
+        Which to use for the refractive index calculation
+    parameters : dict
+    path : string
+    filename : string
     
-    Methods:
-    + init
-    + importdata
-    + calculate_n
-    + calculate_k
-    + calculate_gvd
-    + calculate_reflection (with air)
 
-    CHANGELOG:
-    2019-02-15/RB: started class
+    Notes
+    -----
+    - 2019-02-15/RB: started class
     """ 
     def __init__(self, verbose = 0, **kwargs):
         """
          
-        INPUT:
-        - 
+        Keyword Arguments
+        -----------------
+        x : ndarray
+        x_range : tuple
+        n : ndarray
+        k : ndarray
+        gvd : ndarray
+        formula : string
+            Which to use for the refractive index calculation
+        parameters : dict
+        path : string
+        filename : string        
 
-        OUTPUT:
-        - 
 
-        CHANGELOG:
-        2019-02-15/RB: started function
+        Notes
+        -----
+        - 2019-02-15/RB: started function
         """    
         self.verbose = verbose
         if self.verbose > 1:
@@ -178,15 +173,11 @@ class RefractiveIndex(LS.LinearSpectrum):
 
     def import_data(self):
         """
-         
-        INPUT:
-        - 
+        Function that imports data and extracts it into a usable format. 
 
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-02-15/RB: started function
+        Notes
+        -----
+        - 2019-02-15/RB: started function
         """    
         if self.verbose > 1:
             print("RefractiveIndex.import_data()")
@@ -213,15 +204,11 @@ class RefractiveIndex(LS.LinearSpectrum):
         
     def extract_data_from_db_record(self):
         """
-         
-        INPUT:
-        - 
+        Extract data from the YAML-record format to the class. 
 
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-02-15/RB: started function
+        Notes
+        -----
+        - 2019-02-15/RB: started function
         """    
         if self.verbose > 1:
             print("RefractiveIndex.extract_data_from_db_record()")        
@@ -243,15 +230,11 @@ class RefractiveIndex(LS.LinearSpectrum):
             
     def get_ri(self):
         """
-         
-        INPUT:
-        - 
+        Calls the calculation of the refractive index calculation, after some checks. 
 
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-02-15/RB: started function
+        Notes
+        -----
+        - 2019-02-15/RB: started function
         """   
         if self.verbose > 1:
             print("RefractiveIndex.get_ri()")    
@@ -269,15 +252,11 @@ class RefractiveIndex(LS.LinearSpectrum):
 
     def get_gvd(self):
         """
-         
-        INPUT:
-        - 
+        Calls the calculation of the group velocity dispersion calculation, after some checks. 
 
-        OUTPUT:
-        - 
-
-        CHANGELOG:
-        2019-02-15/RB: started function
+        Notes
+        -----
+        - 2019-02-15/RB: started function
         """   
         if self.verbose > 1:
             print("RefractiveIndex.get_gvd()")    
@@ -299,35 +278,41 @@ class RefractiveIndex(LS.LinearSpectrum):
     def get_dispersive_pulse_broadening(self, t_fs, d_mm):
         """
         Calculates the effect the group velocity dispersion has on an unchirped Gaussian pulse. 
-        
-        Source:
-        http://www.rp-photonics.com/chromatic_dispersion.html
-        numpy.log() is natural log
-        
-        DESCRIPTION:
+
         gvd has to be set (run get_gvd). t_fs and d_mm can be an integer or an array. gvd is always an array (it is the GVD for self.x). The output shape depends on the input:
-        t_fs = int, d_mm = int: [x]
-        t_fs = array, d_mm = int: [x, t_fs]
-        t_fs = int, d_mm = array: [x, d_mm]
-        t_fs = array, d_mm = array: [x, t_fs, d_mm]
         
-        INPUT:
-        t_fs: pulse durations in fs
-        d_mm: thicknesses of material in mm
+        - t_fs = int, d_mm = int: [x]
+        - t_fs = array, d_mm = int: [x, t_fs]
+        - t_fs = int, d_mm = array: [x, d_mm]
+        - t_fs = array, d_mm = array: [x, t_fs, d_mm]
+        
+        Arguments
+        ---------
+        t_fs : number
+            pulse durations in fs
+        d_mm : number
+            thicknesses of material in mm
         
         OUTPUT:
-        t_out (ndarray): 1D, 2D, or 3D array with 
+        t_out : ndarray
+            1D, 2D, or 3D array with 
         
-        Changelog:
-        20170315/RB: started function. 
-        2019-02-15/RB: moved to RefractiveIndexTools
+        Notes
+        -----
+        
+        - 20170315/RB: started function. 
+        - 2019-02-15/RB: moved to RefractiveIndexTools
+        
+        References
+        ----------
+        
+        - The method is taken from `RP Photonics <http://www.rp-photonics.com/chromatic_dispersion.html>`_.
+        - numpy.log() is natural log        
         
         """
         if self.verbose > 1:
             print("RefractiveIndex.get_dispersive_pulse_broadening()")    
-        
-        
-        
+
         if type(t_fs) == int:
             t_fs = CF.make_numpy_ndarray(t_fs)
             t_fs_l = 0
@@ -355,7 +340,17 @@ class RefractiveIndex(LS.LinearSpectrum):
             return t_out
 
     def plot_n(self, **kwargs):
-    
+        """
+        Wrapper around LinearSpectrum.plot_spectrum, to quickly plot the refractive index. 
+        
+        Kwargs will be passed.
+        
+        Notes
+        -----
+        
+        - 2019-01-??/RB: started function
+        
+        """
         if self.verbose > 1:
             print("RefractiveIndex.plot_n()")          
 
@@ -363,7 +358,17 @@ class RefractiveIndex(LS.LinearSpectrum):
 
 
     def plot_k(self, **kwargs):
-    
+        """
+        Wrapper around LinearSpectrum.plot_spectrum, to quickly plot the extinction coefficient. 
+        
+        Kwargs will be passed.
+        
+        Notes
+        -----
+        
+        - 2019-01-??/RB: started function
+        
+        """
         if self.verbose > 1:
             print("RefractiveIndex.plot_k()")          
 
@@ -371,7 +376,17 @@ class RefractiveIndex(LS.LinearSpectrum):
 
         
     def plot_gvd(self, **kwargs):
-    
+        """
+        Wrapper around LinearSpectrum.plot_spectrum, to quickly plot the group velocity dispersion. 
+        
+        Kwargs will be passed.
+        
+        Notes
+        -----
+        
+        - 2019-01-??/RB: started function
+        
+        """
         if self.verbose > 1:
             print("RefractiveIndex.plot_gvd()")          
 
