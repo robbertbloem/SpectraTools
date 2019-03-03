@@ -72,7 +72,7 @@ numpydoc_show_inherited_class_members = True
 numpydoc_class_members_toctree = True 
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ['templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
