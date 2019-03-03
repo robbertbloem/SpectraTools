@@ -14,9 +14,16 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..\\..\\'))
-sys.path.insert(0, os.path.abspath('..\\..\\Resources'))
-sys.path.insert(0, os.path.abspath('..\\..\\Tests'))
+
+import pathlib 
+
+path = pathlib.Path("../..")
+path_res = pathlib.Path("../../Resources")
+path_tests = pathlib.Path("../../Tests")
+
+sys.path.insert(0, os.path.abspath(path)) #'..\\..\\'))
+sys.path.insert(0, os.path.abspath(path_res)) #'..\\..\\Resources'))
+sys.path.insert(0, os.path.abspath(path_tests)) #'..\\..\\Tests'))
 
 
 # -- Project information -----------------------------------------------------
