@@ -1,5 +1,4 @@
 *.pyc
 *.pickle
 temp/
-Tests/Testdata/
 docs/build/
