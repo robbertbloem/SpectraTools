@@ -1,7 +1,7 @@
 RI\_Functions module
 ====================
 
-.. automodule:: RI_Functions
+.. automodule:: RefractiveIndexTools.Resources.RI_Functions
     :members:
     :undoc-members:
     :show-inheritance:
