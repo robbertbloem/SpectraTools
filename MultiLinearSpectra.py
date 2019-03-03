@@ -8,13 +8,19 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 import PythonTools.ClassTools as CT
-import SensorTools.PAS as PAS
-import SensorTools.PASGas as PASG
-import SensorTools.PASLiquid as PASL
 
-reload(PAS)
-reload(PASG)
-reload(PASL)
+flag_ST = True
+try:
+    import SensorTools.PAS as PAS
+    import SensorTools.PASGas as PASG
+    import SensorTools.PASLiquid as PASL
+except ImportError:
+    flag_ST = False
+    
+if flag_ST:
+    reload(PAS)
+    reload(PASG)
+    reload(PASL)    
  
     
 
@@ -112,10 +118,10 @@ class MultiLinearSpectra(CT.ClassTools):
             for k, v in self.mess[m].items():
                 kwargs[k] = v
                 
-            if self.mess[m]["class"] == "PASGas":
+            if self.mess[m]["class"] == "PASGas" and flag_ST:
                 self.mess[m]["object"] = PASG.PASGas(verbose = self.verbose, **kwargs)
 
-            elif self.mess[m]["class"] == "PASLiquid":
+            elif self.mess[m]["class"] == "PASLiquid" and flag_ST:
                 self.mess[m]["object"] = PASL.PASLiquid(verbose = self.verbose, **kwargs)
 
 

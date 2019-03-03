@@ -10,6 +10,12 @@ import matplotlib.pyplot as plt
 
 import SpectraTools.MultiLinearSpectra as MLS
 
+flag_ST = True
+try:
+    import SensorTools.PAS
+except ImportError:
+    flag_ST = False        
+
 reload(MLS)
 
 plt.close("all")
@@ -28,7 +34,7 @@ class Test_init(unittest.TestCase):
         """
         P = MLS.MultiLinearSpectra(verbose = self.verbose)
 
-
+    @unittest.skipIf(flag_ST == False, "Module SensorTools is not present.")
     def test_init_data(self):
         """
         Basic test
@@ -82,7 +88,7 @@ class Test_batches(unittest.TestCase):
         self.verbose = 0
 
 
-
+    @unittest.skipIf(flag_ST == False, "Module SensorTools is not present.")
     def test_init(self):
         """
         Basic test
@@ -142,6 +148,7 @@ class Test_batches(unittest.TestCase):
         
         # plt.show()
 
+    @unittest.skipIf(flag_ST == False, "Module SensorTools is not present.")
     def test_no_batches(self):
         """
         Allows batches-code in script, without actually making batches. 
@@ -190,7 +197,7 @@ class Test_batches(unittest.TestCase):
         self.P.make_batches(batches)
             
 
-        
+    @unittest.skipIf(flag_ST == False, "Module SensorTools is not present.")  
     def test_batch_units_inconsistent(self):
         """
         If batches 
@@ -230,7 +237,7 @@ class Test_batches(unittest.TestCase):
         self.assertTrue(self.P.mess[-1]["object"].x_unit == "cm-1")
         self.assertTrue(self.P.mess[-1]["object"].y_unit is None)
         
-        
+    @unittest.skipIf(flag_ST == False, "Module SensorTools is not present.")
     def test_batch_units_none(self):
         """
         Basic test
@@ -283,11 +290,11 @@ if __name__ == '__main__':
 
     verbosity = 1
     
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)      
 
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_batches)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)     
         
