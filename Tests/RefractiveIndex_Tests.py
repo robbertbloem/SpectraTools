@@ -358,21 +358,21 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)
 
-    if 1:
+    if 0:
         """
         + import_data
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_importdata_paths_and_filenames)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)             
         
-    if 1:
+    if 0:
         """
         + import_data
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_importdata)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)     
 
-    if 1:
+    if 0:
         """
         + get_dispersive_pulse_broadening
         """
