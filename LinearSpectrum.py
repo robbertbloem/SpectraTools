@@ -133,7 +133,8 @@ class LinearSpectrum(CT.ClassTools):
 
     def make_bins(self, x_resolution, min_x = None, max_x = None):
         """
-        DEPRECATED. Use make_new_x instead.
+        .. deprecated:: 0.2
+            Use `make_new_x` instead.
         
         Make bins, given the resolution for x. The values are the center of the bin. This function does not do the actual binning: use bin_data for that.
         
