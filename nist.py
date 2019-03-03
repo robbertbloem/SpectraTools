@@ -62,7 +62,9 @@ class nist(LS.LinearSpectrum):
     
     def import_data(self):
         """
+        Import the data. 
         
+        self.path and self.filename should have been set. 
         
         Notes
         -----
@@ -70,10 +72,50 @@ class nist(LS.LinearSpectrum):
         - 2019-03-03/RB: started function        
         
         """     
-        
+        if self.verbose > 1:
+            print("NistTools.nist.import_data()")   
+                    
         c = NIJ.NistImportJcamp(path = self.path, filename = self.filename)
-        self.db_record = c.import_file()           
+        self.db_record = c.import_file()        
+        self.extract_data_from_db_record()   
     
+    
+    
+    def extract_data_from_db_record(self):
+        """
+        Extract the data from the nist file into something usable for this class.
+        
+        Notes
+        -----
+    
+        - 2019-03-03/RB: started function        
+        
+        """  
+        if self.verbose > 1:
+            print("NistTools.nist.extract_data_from_db_record()")   
+        
+        if "x" in self.db_record:
+            self.x = self.db_record.pop("x")
+
+        if "y" in self.db_record:
+            self.y = self.db_record.pop("y")
+
+        
+        if "xunits" in self.db_record:
+            if self.db_record["xunits"] == "1/CM":
+                self.x_unit = "wavenumber"
+            else:   
+                print("NistTools.nist.extract_data_from_db_record(): {:} is an unknown (or not implemented) unit for x".format(self.db_record["xunits"]))  
+                
+        if "yunits" in self.db_record:
+            if self.db_record["yunits"] == "TRANSMITTANCE":
+                self.y_unit = "T1"
+            else:   
+                print("NistTools.nist.extract_data_from_db_record(): {:} is an unknown (or not implemented) unit for y".format(self.db_record["yunits"]))             
+        
+        
+                
+        
 
 
 

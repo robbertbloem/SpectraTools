@@ -46,10 +46,10 @@ class Test_import(unittest.TestCase):
         for t in tests:
             c = NIST.nist(path = t["path"], filename = t["filename"])
             d = c.import_data()
-            print(c.db_record)
+            print(c)
 
 
-
+    
 
             
 
