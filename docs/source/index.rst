@@ -13,7 +13,6 @@ Welcome to RefractiveIndexTools's documentation!
    RefractiveIndex
    RI_Functions
    RI_read_yaml
-   
 
 
 Indices and tables

@@ -43,12 +43,13 @@ release = '0.1'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
+#     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
+#     'sphinx.ext.inheritance_diagram',
     'sphinx.ext.napoleon',
     'numpydoc',
 ]
@@ -67,12 +68,17 @@ napoleon_use_param = True
 napoleon_use_rtype = False
 # napoleon_custom_sections = [""]
 
-numpydoc_show_class_members = True
+numpydoc_show_class_members = False
 numpydoc_show_inherited_class_members = True
 numpydoc_class_members_toctree = True 
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['templates']
+
+# html_sidebars = {
+#    '**': ['globaltoc.html', 'sourcelink.html', 'searchbox.html'],
+#    'using/windows': ['windowssidebar.html', 'searchbox.html'],
+# }
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -209,9 +215,14 @@ epub_exclude_files = ['search.html']
 
 # Example configuration for intersphinx: refer to the Python standard library.
 # intersphinx_mapping = {'https://docs.python.org/': None}
+# path = pathlib.Path("../../../PythonTools/docs/build")
+
 intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
-    # 'PythonTools': (r"C:\Python\PythonTools\docs\build", "objects.inv"),
+    'PythonTools': ("../../../PythonTools/docs/build/html/", "objects.inv"),
+    'PT': ("../../../PythonTools/docs/build/html/", None),
+    'SpectraTools': ("/Users/robbert/Developer/SpectraTools/docs/build/html/", "objects.inv"),
+    'sphinx': ('http://www.sphinx-doc.org/en/master/', None),
 }
 
 # -- Options for todo extension ----------------------------------------------

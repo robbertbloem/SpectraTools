@@ -47,6 +47,7 @@ class RefractiveIndex(LS.LinearSpectrum):
 
     Notes
     -----
+    
     - 2019-02-15/RB: started class
     """ 
     def __init__(self, verbose = 0, **kwargs):
@@ -68,6 +69,7 @@ class RefractiveIndex(LS.LinearSpectrum):
 
         Notes
         -----
+        
         - 2019-02-15/RB: started function
         """    
         self.verbose = verbose
@@ -175,6 +177,7 @@ class RefractiveIndex(LS.LinearSpectrum):
 
         Notes
         -----
+        
         - 2019-02-15/RB: started function
         """    
         if self.verbose > 1:
@@ -206,6 +209,7 @@ class RefractiveIndex(LS.LinearSpectrum):
 
         Notes
         -----
+        
         - 2019-02-15/RB: started function
         """    
         if self.verbose > 1:
@@ -232,6 +236,7 @@ class RefractiveIndex(LS.LinearSpectrum):
 
         Notes
         -----
+        
         - 2019-02-15/RB: started function
         """   
         if self.verbose > 1:
@@ -254,6 +259,7 @@ class RefractiveIndex(LS.LinearSpectrum):
 
         Notes
         -----
+        
         - 2019-02-15/RB: started function
         """   
         if self.verbose > 1:
