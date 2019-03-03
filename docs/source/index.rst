@@ -10,8 +10,8 @@ Welcome to NistTools's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-    nist
-    nist_import_jcamp
+   nist
+   nist_import_jcamp
 
 
 Indices and tables

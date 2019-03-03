@@ -1,4 +1,4 @@
-NistTools.nist module
+The NIST module
 ---------------------
 
 .. automodule:: nist

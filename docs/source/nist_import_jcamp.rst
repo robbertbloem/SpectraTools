@@ -1,5 +1,6 @@
-nist\_import\_jcamp module
-==========================
+NIST import JCAMP module
+========================
+
 
 .. automodule:: nist_import_jcamp
     :members:
