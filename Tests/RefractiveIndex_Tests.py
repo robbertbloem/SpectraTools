@@ -13,7 +13,8 @@ import RefractiveIndexTools.RefractiveIndex as RI
 
 importlib.reload(RI)
 
-path = pathlib.Path(r"C:\\Python\\Data\\refractiveindex\\data\\")
+# path = pathlib.Path(r"C:\\Python\\Data\\refractiveindex\\data\\")
+path = pathlib.Path("../database/data/")
 
 class Test_init(unittest.TestCase):
 
@@ -30,7 +31,7 @@ class Test_init(unittest.TestCase):
         c = RI.RefractiveIndex()
         
     def test_init_with_kwargs(self):
-        filename = pathlib.Path(r"main\\Ar\\Bideau-Mehu.yml")
+        filename = pathlib.Path("main/Ar/Bideau-Mehu.yml")
         RI.RefractiveIndex(verbose = self.verbose, path = path)
 
 class Test_importdata_paths_and_filenames(unittest.TestCase):
