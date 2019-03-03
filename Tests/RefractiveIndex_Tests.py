@@ -13,7 +13,8 @@ import RefractiveIndexTools.RefractiveIndex as RI
 
 importlib.reload(RI)
 
-path = pathlib.Path(r"C:\\Python\\Data\\refractiveindex\\data\\")
+# path = pathlib.Path(r"C:/Python/Data/refractiveindex/data/")
+path = pathlib.Path("../database/data/")
 
 class Test_init(unittest.TestCase):
 
@@ -30,7 +31,7 @@ class Test_init(unittest.TestCase):
         c = RI.RefractiveIndex()
         
     def test_init_with_kwargs(self):
-        filename = pathlib.Path(r"main\\Ar\\Bideau-Mehu.yml")
+        filename = pathlib.Path("main/Ar/Bideau-Mehu.yml")
         RI.RefractiveIndex(verbose = self.verbose, path = path)
 
 class Test_importdata_paths_and_filenames(unittest.TestCase):
@@ -39,7 +40,7 @@ class Test_importdata_paths_and_filenames(unittest.TestCase):
         self.verbose = 1
  
     def test_path_filename(self):
-        filename = pathlib.Path(r"main\\Ar\\Bideau-Mehu.yml")
+        filename = pathlib.Path(r"main/Ar/Bideau-Mehu.yml")
         c = RI.RefractiveIndex(verbose = self.verbose, path = path, filename = filename)
         res = c.import_data()     
         
@@ -68,7 +69,7 @@ class Test_importdata_paths_and_filenames(unittest.TestCase):
             self.assertTrue(res == 0)        
 
     def test_no_path_filename(self):
-        filename = pathlib.Path(r"main\\Ar\\Bideau-Mehu.yml")
+        filename = pathlib.Path(r"main/Ar/Bideau-Mehu.yml")
         c = RI.RefractiveIndex(verbose = self.verbose, filename = filename)
         with self.assertWarnsRegex(UserWarning, "path"):
             res = c.import_data()
@@ -87,14 +88,14 @@ class Test_importdata(unittest.TestCase):
         self.atol_gvd = 0.002
         
 
-        self.tab_n_paf = path.joinpath(r"main\\Al2O3\\Boidin.yml")
+        self.tab_n_paf = path.joinpath(r"main/Al2O3/Boidin.yml")
 
         self.mess = [
         # tabulated n
         # https://refractiveindex.info/database/main/Al2O3/Boidin.yml        
         {
             "type": "tabulated n", 
-            "filename": pathlib.Path(r"main\\Al2O3\\Boidin.yml"),
+            "filename": pathlib.Path(r"main/Al2O3/Boidin.yml"),
             "range": [0.3, 18.003], 
             # "coefficients": [0, 4.45813734, 0.200859853, 0.467216334, 0.391371166, 2.89566290, 47.1362108],
             "check": [
@@ -112,7 +113,7 @@ class Test_importdata(unittest.TestCase):
         # https://refractiveindex.info/?shelf=main&book=Ag&page=Babar
         {
             "type": "tabulated nk", 
-            "filename": pathlib.Path(r"main\\Ag\\Babar.yml"),
+            "filename": pathlib.Path(r"main/Ag/Babar.yml"),
             "range": [0.2066, 12.4], 
             # "coefficients": [0, 4.45813734, 0.200859853, 0.467216334, 0.391371166, 2.89566290, 47.1362108],
             "check": [
@@ -130,7 +131,7 @@ class Test_importdata(unittest.TestCase):
         # https://refractiveindex.info/?shelf=main&book=ZnSe&page=Connolly
         {
             "type": "formula 1", 
-            "filename": pathlib.Path(r"main\\ZnSe\\Connolly.yml"),
+            "filename": pathlib.Path(r"main/ZnSe/Connolly.yml"),
             "range": [0.54, 18.2], 
             "coefficients": [0, 4.45813734, 0.200859853, 0.467216334, 0.391371166, 2.89566290, 47.1362108],
             "check": [
@@ -145,7 +146,7 @@ class Test_importdata(unittest.TestCase):
         # https://refractiveindex.info/?shelf=main&book=CaF2&page=Daimon-20
        {
             "type": "formula 2", 
-            "filename": pathlib.Path(r"main\\CaF2\\Daimon-20.yml"),
+            "filename": pathlib.Path(r"main/CaF2/Daimon-20.yml"),
             "range": [0.138, 2.326], 
             "coefficients": [0, 0.443749998, 0.00178027854, 0.444930066, 0.00788536061, 0.150133991, 0.0124119491, 8.85319946, 2752.28175],
             "check": [
@@ -160,7 +161,7 @@ class Test_importdata(unittest.TestCase):
         # https://refractiveindex.info/?shelf=organic&book=benzene&page=Moutzouris
         {
             "type": "formula 3", 
-            "filename": pathlib.Path(r"organic\\C6H6 - benzene\\Moutzouris.yml"),
+            "filename": pathlib.Path(r"organic/C6H6 - benzene/Moutzouris.yml"),
             "range": [0.450, 1.551], 
             "coefficients": [2.170184597, 0.00059399, 2, 0.02303464, -2, -0.000499485, -4, 0.000178796, -6],
             "check": [
@@ -175,7 +176,7 @@ class Test_importdata(unittest.TestCase):
         # https://refractiveindex.info/?shelf=main&book=BaB2O4&page=Eimerl-o
         {
             "type": "formula 4", 
-            "filename": pathlib.Path(r"main\\BaB2O4\\Eimerl-o.yml"),
+            "filename": pathlib.Path(r"main/BaB2O4/Eimerl-o.yml"),
             "range": [0.22, 1.06], 
             "coefficients": [2.7405, 0.0184, 0, 0.0179, 1, 0, 0, 0, 1, -0.0155, 2],
             "check": [
@@ -190,7 +191,7 @@ class Test_importdata(unittest.TestCase):
         # https://refractiveindex.info/?shelf=organic&book=octane&page=Kerl-293K
         {
             "type": "formula 5", 
-            "filename": pathlib.Path(r"organic\\C8H18 - octane\\Kerl-293K.yml"),
+            "filename": pathlib.Path(r"organic/C8H18 - octane/Kerl-293K.yml"),
             "range": [0.326, 0.644], 
             "coefficients": [1.39260498, -4.48963e-3, -1, 4.79591e-3, -2],
             "check": [
@@ -205,7 +206,7 @@ class Test_importdata(unittest.TestCase):
         # https://refractiveindex.info/?shelf=main&book=H2&page=Peck
         {
             "type": "formula 6", 
-            "filename": pathlib.Path(r"main\\H2\\Peck.yml"),
+            "filename": pathlib.Path(r"main/H2/Peck.yml"),
             "range": [0.1680, 1.6945], 
             "coefficients": [0, 0.0148956, 180.7, 0.0049037, 92],
             "check": [
@@ -220,7 +221,7 @@ class Test_importdata(unittest.TestCase):
         # https://refractiveindex.info/?shelf=main&book=Ar&page=Bideau-Mehu
         {
             "type": "formula 6", 
-            "filename": pathlib.Path(r"main\\Ar\\Bideau-Mehu.yml"),
+            "filename": pathlib.Path(r"main/Ar/Bideau-Mehu.yml"),
             "range": [0.1404, 0.5677], 
             "coefficients": [0, 2.50141e-3, 91.012, 5.00283e-4, 87.892, 5.22343e-2, 214.02],
             "check": [
@@ -304,7 +305,7 @@ class Test_get_dispersive_pulse_broadening(unittest.TestCase):
         self.verbose = 1
         
         self.x = numpy.array([2,3])
-        filename = pathlib.Path(r"main\\ZnSe\\Connolly.yml")
+        filename = pathlib.Path(r"main/ZnSe/Connolly.yml")
         self.c = RI.RefractiveIndex(verbose = self.verbose, path = path, filename = filename)
         self.c.import_data() 
         
