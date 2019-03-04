@@ -3,7 +3,7 @@ This module contains equations to convert between units. I try to follow the `IU
 
 X-axis: wavelength, wavenumber, ...
 -----------------------------------
-
+This is fairly straightforward. 
 
 Absorption and transmission
 ---------------------------
@@ -51,7 +51,7 @@ transmission_pct_labels = ["T100"]
 
 def prefix_names_to_base10(prefix_name, verbose = 0):  
     """
-    Return the base :math:`n` is for :math:`10^n` for standard SI prefixes. Use `'none'` for :math:`10^0`. `None` is invalid. 
+    Return the base :math:`n` is for :math:`10^n` for standard SI prefixes. Use ``'none'`` for :math:`10^0`. ``None`` is invalid. 
     
     Arguments
     ---------
@@ -127,7 +127,7 @@ def base10_to_base10(value, old_base, new_base, power = 1, verbose = 0):
     ---------
     value : number or array-like
     old_base,new_base : number or string
-        Base :math:`n` is for :math:`10^n`. Alternatively, the standard SI-prefixes (milli, centi, etc) can be used, `'none'` is for :math:`10^0`. Note: `None` is not valid.
+        Base :math:`n` is for :math:`10^n`. Alternatively, the standard SI-prefixes (milli, centi, etc) can be used, ``'none'`` is for :math:`10^0`. Note: ``None`` is not valid.
     power : number
         For linear (1), square (2), cubic (3). Also valid: -1, -2, etc. Partial powers result in a warning, but not an error. 
       
@@ -178,15 +178,18 @@ def base10_to_base10(value, old_base, new_base, power = 1, verbose = 0):
     
     
     
-    
-
 
 
 def convert_x(x, old_unit, new_unit, verbose = 0):
     """
-    Convert between wavelength (nm or micron), wavenumber and eV. 
+    Convert between x-axis scales. Supported values for units are:
     
-    If the old and new unit are the same, or if the either unit is unsupported, then the output will be the same as the input.
+    - wavelength (nm): ``nm``
+    - wavelength (micron): ``um`` or ``micron``
+    - wavenumber: ``cm-1`` or ``wavenumber``
+    - electronvolt: ``eV`` or ``ev``
+    
+    If ``old_unit`` and ``new_unit`` are the same, ``x`` will be returned unchanged as ``new_x``. If either ``old_unit`` or ``new_unit`` are unknown, the function will return ``None, None``.
         
     Arguments
     ---------
@@ -292,7 +295,13 @@ def convert_x(x, old_unit, new_unit, verbose = 0):
          
 def convert_y(y, old_unit, new_unit):
     """
-    Convert the y axis from one unit to another. Supported options are absoption, transmission (0 to 1), and transmission (0% to 100%). 
+    Convert the y axis from one unit to another. Supported options are:
+    
+    - absorbance: ``A``
+    - transmission (0 to 1): ``T1``
+    - transmission (0% to 100%): ``T100`` 
+    
+    If ``old_unit`` and ``new_unit`` are the same, ``y`` will be returned unchanged as ``new_y``. If either ``old_unit`` or ``new_unit`` are unknown, the function will return ``None, None``.
         
     Arguments
     ---------
@@ -312,23 +321,6 @@ def convert_y(y, old_unit, new_unit):
     - 2019-01-08/RB: y as input, y and y_unit are not affected. 
     - 2019-03-04/RB: copied to UC from LinearSpectrum, adapted for use outside a class.    
     """
-#     if verbose > 1:
-#         print("LinearSpectrum.convert_y()") 
-#         
-#     if old_unit == "":
-#         if y_unit == "":
-#             warnings.warn("LinearSpectrum.convert_y(): no old unit given")
-#             return None, old_unit
-#         else:
-#             old_unit = y_unit
-#     
-#     if y is None and y is None:
-#         warnings.warn("LinearSpectrum.convert_y(): y is not given and can't be converted.")
-#         return None, old_unit
-#     elif y is None:
-#         y = y[:]
-
-
     
     if old_unit in absorption_labels:
         if new_unit in absorption_labels:
