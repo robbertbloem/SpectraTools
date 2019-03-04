@@ -13,6 +13,7 @@ Welcome to SpectraTools's documentation!
    LinearSpectrum
    MultiLinearSpectra
    CommonFunctions
+   UnitConversion
 
 Indices and tables
 ==================
