@@ -378,9 +378,94 @@ def convert_y(y, old_unit, new_unit):
     
 
 
+# def absorbance_to_molar_absorption_coefficient(A, c, l):
+#     """
+#     Arguments
+#     ---------
+#     A : number or ndarray
+#         Absorbance
+#     c : number
+#         concentration
+#     l : number
+#         path length
+#         
+#     """
+#     return A / (c * l)
 
 
+# def transmission_for_pathlength(T, new_pathlength, old_pathlength = 1, T_unit = "T1"):
+#     """
+#     
+#     Arguments
+#     ---------
+#     T : ndarray
+#         Transmission 
+#     new_pathlength : number
+#         The optical path length for the output. 
+#     old_pathlength : number (1)
+#         The optical path length used for T. 
+#     T_unit : str (T1)
+#         Transmission for 0-1 ``T1`` or 0-100% ``T100``.
+#     
+#     Returns
+#     -------
+#     
+#     
+#     """
+#     pass
+    
+    
+def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1"):
+    """
+    General function to convert the transmission for certain conditions, to transmission for other conditions. 
+    
+    
+    
+    Arguments
+    ---------
+    T : ndarray
+        Transmission
+    c : number
+        Concentration of T
+    l : number
+        Optical path length of T
+    c_new : number
+        Concentration of the output
+    l_new : number
+        Optical path length of the output.
+    T_unit : str (T1)
+        Transmission for 0-1 ``T1`` or 0-100% ``T100``.
+        
+    Returns
+    -------
+    T_new : ndarray
+        The transmission for the new conditions. 
+    
+        
+    Notes
+    -----
+    2019-03-04/RB: started function    
+        
+    
+    """
+    if T_unit != "T1":
+        T = convert_y(T, T_unit, "T1")
+    
+    idx = numpy.asarray(T == 0).nonzero()
+    
+    T[idx] = 1
+    
+    ac = -numpy.log10(T) / (c * l)
+    
+    T_new = 10**(-ac * c_new * l_new)
 
+    T_new[idx] = numpy.nan
+
+    if T_unit != "T1":
+        T_new = convert_y(T_new, "T1", T_unit)
+
+    return T_new
+    
 
 
 if __name__ == "__main__": 

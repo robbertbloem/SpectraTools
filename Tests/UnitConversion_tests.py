@@ -177,6 +177,52 @@ class Test_conversions(unittest.TestCase):
                 # print(s, new_y, t[3])
                 self.assertTrue(numpy.allclose(new_y, t[3]))
                 
+class Test_advanced_conversion(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 1
+        
+    def test_transmission_to_transmission(self):
+        tests = [
+        {
+            "T": numpy.array([0, 0.5, 1]),
+            "c": 1,
+            "l": 1, 
+            "c_new": 2,
+            "l_new": 1,
+            "T_unit": "T1",
+            "answer": numpy.array([numpy.nan, 0.5, 1]),
+        }
+        ]
+        
+        for t in tests:
+            res = UC.transmission_to_transmission(T = t["T"], c = t["c"], l = t["l"], c_new = t["c_new"], l_new = t["l_new"], T_unit = t["T_unit"])
+            print(res)
+#             answer = t["answer"]
+#             idx_res = numpy.asarray(numpy.isfinite(res)).nonzero()
+#             idx_answer = numpy.asarray(numpy.isfinite(answer)).nonzero()
+#             print(idx_res, idx_answer)
+#             self.assertTrue(numpy.all(idx_res == idx_answer))
+#             
+#             res = res[idx_res]
+#             answer = res[idx_answer]
+#             
+#             self.assertTrue(numpy.allclose(res, answer))
+            
+            
+#             idx_res = numpy.isnan(res)
+#             idx_answer = numpy.isnan(t["answer"])
+            
+            
+            
+#             if numpy.any(idx_res):
+#                 self.assertTrue(numpy.all(idx_res == idx_answer))
+#                 res = res[numpy.nonzero(1-idx_res)]
+#                 answer = res[numpy.nonzero(1-idx_answer)]
+#                 
+#             print(res)
+#             self.assertTrue(numpy.allclose(res, answer))
+                
 
 
 
@@ -194,4 +240,8 @@ if __name__ == '__main__':
         
     if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_conversions)
-        unittest.TextTestRunner(verbosity=verbosity).run(suite)        
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)  
+        
+    if 1:
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_advanced_conversion)
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)                
