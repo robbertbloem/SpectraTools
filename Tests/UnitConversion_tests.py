@@ -184,46 +184,59 @@ class Test_advanced_conversion(unittest.TestCase):
         
     def test_transmission_to_transmission(self):
         tests = [
-        {
+        {   
+            "name": "T1: 0.1 -> 1.0, no change",
+            "T": numpy.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]),
+            "c": 1,
+            "l": 1, 
+            "c_new": 1,
+            "l_new": 1,
+            "T_unit": "T1",
+            "answer": numpy.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]),
+        }, {   
+            "name": "T1: 0.1 -> 1.0, double concentration",
+            "T": numpy.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]),
+            "c": 1,
+            "l": 1, 
+            "c_new": 2,
+            "l_new": 1,
+            "T_unit": "T1",
+            "answer": numpy.array([0.01, 0.04, 0.09, 0.16, 0.25, 0.36, 0.49, 0.64, 0.81, 1]),
+        }, {   
+            "name": "T1: 0.1 -> 1.0, double path length ",
+            "T": numpy.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]),
+            "c": 1,
+            "l": 1, 
+            "c_new": 1,
+            "l_new": 2,
+            "T_unit": "T1",
+            "answer": numpy.array([0.01, 0.04, 0.09, 0.16, 0.25, 0.36, 0.49, 0.64, 0.81, 1]),
+        }, {
+            "name": "T1 includes 0",
             "T": numpy.array([0, 0.5, 1]),
             "c": 1,
             "l": 1, 
             "c_new": 2,
             "l_new": 1,
             "T_unit": "T1",
-            "answer": numpy.array([numpy.nan, 0.5, 1]),
+            "answer": numpy.array([numpy.nan, 0.25, 1]),
         }
         ]
-        
+     
         for t in tests:
-            res = UC.transmission_to_transmission(T = t["T"], c = t["c"], l = t["l"], c_new = t["c_new"], l_new = t["l_new"], T_unit = t["T_unit"])
-            print(res)
-#             answer = t["answer"]
-#             idx_res = numpy.asarray(numpy.isfinite(res)).nonzero()
-#             idx_answer = numpy.asarray(numpy.isfinite(answer)).nonzero()
-#             print(idx_res, idx_answer)
-#             self.assertTrue(numpy.all(idx_res == idx_answer))
-#             
-#             res = res[idx_res]
-#             answer = res[idx_answer]
-#             
-#             self.assertTrue(numpy.allclose(res, answer))
+            s = "{:s}".format(t["name"])
+            with self.subTest(s):           
+                res = UC.transmission_to_transmission(T = t["T"], c = t["c"], l = t["l"], c_new = t["c_new"], l_new = t["l_new"], T_unit = t["T_unit"])
+                answer = t["answer"]
+                idx_res = numpy.asarray(numpy.isfinite(res)).nonzero()[0]
+                idx_answer = numpy.asarray(numpy.isfinite(answer)).nonzero()[0]
+                self.assertTrue(numpy.all(idx_res == idx_answer))
+                res = res[idx_res]
+                answer = answer[idx_answer]
+                # print(res, answer)
+                self.assertTrue(numpy.allclose(res, answer))
             
             
-#             idx_res = numpy.isnan(res)
-#             idx_answer = numpy.isnan(t["answer"])
-            
-            
-            
-#             if numpy.any(idx_res):
-#                 self.assertTrue(numpy.all(idx_res == idx_answer))
-#                 res = res[numpy.nonzero(1-idx_res)]
-#                 answer = res[numpy.nonzero(1-idx_answer)]
-#                 
-#             print(res)
-#             self.assertTrue(numpy.allclose(res, answer))
-                
-
 
 
 if __name__ == '__main__': 
