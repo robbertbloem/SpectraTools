@@ -415,7 +415,7 @@ def convert_y(y, old_unit, new_unit):
 #     pass
     
     
-def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1"):
+def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1", T_unit_out = None):
     """
     General function to convert the transmission for certain conditions, to transmission for other conditions. 
     
@@ -435,7 +435,9 @@ def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1"):
         Optical path length of the output.
     T_unit : str (T1)
         Transmission for 0-1 ``T1`` or 0-100% ``T100``.
-        
+    T_unit_out : str (None)
+        Units of output. If None, the output will be the same as the input.
+    
     Returns
     -------
     T_new : ndarray
@@ -462,8 +464,11 @@ def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1"):
 
     T_new[idx] = numpy.nan
 
-    if T_unit != "T1":
-        T_new = convert_y(T_new, "T1", T_unit)
+    if T_unit_out is None:
+        if T_unit != "T1":
+            T_new = convert_y(T_new, "T1", T_unit)
+    else:   
+        T_new = convert_y(T_new, "T1", T_unit_out)
 
     return T_new
     
