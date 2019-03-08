@@ -451,9 +451,10 @@ def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1"):
     if T_unit != "T1":
         T = convert_y(T, T_unit, "T1")
     
-    idx = numpy.asarray(T == 0).nonzero()
-    
+    idx = numpy.asarray(numpy.logical_or(T <= 0, T > 1)).nonzero()
     T[idx] = 1
+    # idx = numpy.asarray(T > 1).nonzero()
+    # T[idx] = 1
     
     ac = -numpy.log10(T) / (c * l)
     

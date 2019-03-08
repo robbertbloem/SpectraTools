@@ -220,6 +220,15 @@ class Test_advanced_conversion(unittest.TestCase):
             "l_new": 1,
             "T_unit": "T1",
             "answer": numpy.array([numpy.nan, 0.25, 1]),
+        }, {
+            "name": "T1 includes >1",
+            "T": numpy.array([0.5, 1.5]),
+            "c": 1,
+            "l": 1, 
+            "c_new": 2,
+            "l_new": 1,
+            "T_unit": "T1",
+            "answer": numpy.array([0.25, numpy.nan]),
         }
         ]
      
