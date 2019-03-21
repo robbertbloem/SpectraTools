@@ -71,10 +71,8 @@ class hitran(LS.LinearSpectrum):
         self.min_x = min_x
         self.max_x = max_x
         
-        
         hapi.db_begin(str(self.db_path))
         
-        # hapi.tableList()
 
 
         
@@ -84,9 +82,9 @@ class hitran(LS.LinearSpectrum):
 
         Keyword Arguments
         -----------------
-
-        
-        
+        reload : bool (False)
+            If True, forces a reload of the data. 
+            
         Notes
         -----
         
@@ -119,13 +117,14 @@ class hitran(LS.LinearSpectrum):
         
         
         
-    def remove_data(self):
+    def remove_data(self, remove_without_confirmation = False):
         """
         Wrapper around hapi.dropTable. Mainly intended for testing. 
 
         Keyword Arguments
         -----------------
-
+        remove_without_confirmation : bool (False)
+            If True, no confirmation will be asked. 
         
         
         Notes
@@ -136,6 +135,13 @@ class hitran(LS.LinearSpectrum):
         if self.verbose > 0:
             print("SpectraTools.Hitran.remove_data()")           
         
+        if not remove_without_confirmation:
+            answer = input("Do you want to delete {:}? yes/no [no] ".format(self.tablename))
+            print(answer)
+            if answer != "yes":
+                print("Removal of data was canceled by the user")
+                return 0
+
         hapi.dropTable(self.tablename)
         
         filepath = self.db_path.joinpath(pathlib.Path("{:s}.data".format(self.tablename)))

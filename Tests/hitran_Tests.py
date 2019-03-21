@@ -51,6 +51,23 @@ class Test_import_data(unittest.TestCase):
         self.root = pathlib.Path(r"Testdata/hitran_data")
         
     def is_file_present(self, tablename, extension, should_be_present):
+        """
+        Check if a file is present or not
+        
+        Keyword Arguments
+        -----------------
+        tablename : str
+            Name of the table
+        extenstion : str
+            Usually 'data' or 'header'
+        should_be_present : bool
+            If True, the test will be a success if the file is present. If False, the test is successful if the file is absent. 
+        
+        Notes
+        -----
+        
+        2019-03-21/RB
+        """
     
         filename = pathlib.Path("{:s}.{:s}".format(tablename, extension))
         paf = self.root.joinpath(filename)
@@ -63,6 +80,28 @@ class Test_import_data(unittest.TestCase):
             self.assertFalse(test)
             
         return test
+
+    def test_absence_of_file_1(self):
+        """
+        
+        2019-03-21/RB
+        """
+        tablename = "fiets"
+        extension = "auto"
+        should_be_present = False
+        self.is_file_present(tablename, extension, should_be_present)
+        
+    
+    @unittest.expectedFailure
+    def test_absence_of_file_2(self):
+        """
+        
+        2019-03-21/RB
+        """
+        tablename = "fiets"
+        extension = "auto"
+        should_be_present = True
+        self.is_file_present(tablename, extension, should_be_present)
         
     def test_fetch_data_already_present(self):
         """
@@ -111,7 +150,7 @@ class Test_import_data(unittest.TestCase):
         self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
         self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)
 
-        c.remove_data()
+        c.remove_data(remove_without_confirmation = True)
 
         self.is_file_present(tablename = tablename, extension = "header", should_be_present = False)
         self.is_file_present(tablename = tablename, extension = "data", should_be_present = False)
@@ -177,7 +216,11 @@ class Test_calculate_signal(unittest.TestCase):
         self.assertTrue(numpy.isclose(c.y[0], 0.00276249))
         self.assertTrue(numpy.isclose(c.y[-1], 0.00111738))
         
-
+        self.assertTrue(c.y_unit == "A")
+        
+        
+        
+        
 
 if __name__ == '__main__': 
 
@@ -187,11 +230,11 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)      
 
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_import_data)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)             
         
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_calculate_signal)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)          
      
