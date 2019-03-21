@@ -11,6 +11,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 import SpectraTools.hitran as HR
+import NistTools.nist as NIST
 
 importlib.reload(HR)
 
@@ -190,14 +191,14 @@ class Test_calculate_signal(unittest.TestCase):
 
     def setUp(self):
         self.verbose = 1
+        self.root = pathlib.Path(r"Testdata/hitran_data")
 
-
-    def test_fetch_data(self):
+    def test_calculate_signal(self):
         """
         
         
         """
-        db_path = pathlib.Path(r"Testdata/hitran_data")
+        db_path = self.root
         
         tablename = "H2O"
         M = 1
@@ -217,15 +218,99 @@ class Test_calculate_signal(unittest.TestCase):
         self.assertTrue(numpy.isclose(c.y[-1], 0.00111738))
         
         self.assertTrue(c.y_unit == "A")
+    
+    @unittest.expectedFailure
+    def test_calculate_signal_wrong_y_unit(self):
+        """
         
         
+        """
+        db_path = self.root
+        
+        tablename = "H2O"
+        M = 1
+        I = 1
+        min_x = 1240
+        max_x = 1280
+        
+        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose, y_unit = "fiets")
+        
+        c.import_data()
+
+        c.calculate_signal()        
+        
+    @unittest.expectedFailure
+    def test_calculate_signal_wrong_line_profile(self):
+        """
+        
+        
+        """
+        db_path = self.root
+        
+        tablename = "H2O"
+        M = 1
+        I = 1
+        min_x = 1240
+        max_x = 1280
+        
+        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
+        
+        c.import_data()
+
+        c.calculate_signal(line_profile = "fiets")     
+
+
+
+class Test_data_confirmation(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 1
+        self.root = pathlib.Path(r"Testdata/hitran_data")
+
+    def test_calculate_signal(self):
+        """
+        
+        
+        """
+        db_path = self.root
+        
+        tablename = "methane"
+        M = 6
+        I = 1
+        min_x = 1160
+        max_x = 1420
+        
+        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose, y_unit = "T1")      
+        c.import_data()
+        
+        p = 150 # mm Hg
+        p *= 133.3224 # Pa
+        p /= 1e5 # 100 kPa
+
+        environment = {"l": 5, "p": p}
+        c.calculate_signal(OmegaStep = 1)
+
+        
+        nist_path = self.root
+        nist_filename = "74-82-8-IR.jdx"
+        n = NIST.nist(path = self.root, filename = nist_filename)
+        n.import_data()
+        
+        n.crop_x(min_x = min_x, max_x = max_x)
+        
+        
+        plt.plot(c.x, c.y)
+        plt.plot(n.x, n.y)
+        plt.show()
         
         
 
 if __name__ == '__main__': 
-
+    
+    plt.close("all")
+    
     verbosity = 1
-        
+    
     if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)      
@@ -234,7 +319,11 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_import_data)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)             
         
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_calculate_signal)
-        unittest.TextTestRunner(verbosity = verbosity).run(suite)          
+        unittest.TextTestRunner(verbosity = verbosity).run(suite)  
+
+    if 1:
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_data_confirmation)
+        unittest.TextTestRunner(verbosity = verbosity).run(suite)             
      

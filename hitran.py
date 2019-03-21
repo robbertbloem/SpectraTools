@@ -1,21 +1,43 @@
 
+import importlib
 import os
 import pathlib
 import numpy
 
-
 import hapi
-
-import importlib
 
 import SpectraTools.LinearSpectrum as LS
 
 importlib.reload(hapi)
 
+
+
+
 class hitran(LS.LinearSpectrum):
     """
-
+    A wrapper class around the HITRAN API (HAPI). 
         
+        
+    Attributes
+    ----------
+    db_path : pathlib.Path
+        Path where the local database is stored. 
+    tablename : str
+        Name to reference the data.
+    M : int
+        Hitran molecule number
+    I : int
+        Hitran isotopologue number
+    min_x,max_x : number
+        Minimum and maximum of the wavenumber axis.        
+    x : ndarray
+        The x-axis. Set by importing the data. 
+    y : ndarray
+        The values for x. Set by importing the data. 
+    x_unit : str
+        The unit of the x-axis. 
+    y_unit : str
+        The unit of the y-axis.   
         
         
     Notes
@@ -50,8 +72,6 @@ class hitran(LS.LinearSpectrum):
         - 2019-03-20/RB: started function        
         
         """
-    
-        # self.verbose = verbose
         
         if verbose > 1:
             print("SpectraTools.Hitran.__init__()")           
@@ -89,6 +109,7 @@ class hitran(LS.LinearSpectrum):
         -----
         
         - 2019-03-20/RB: started function
+        
         """
         if self.verbose > 1:
             print("SpectraTools.Hitran.import_data()")       
@@ -131,6 +152,7 @@ class hitran(LS.LinearSpectrum):
         -----
         
         - 2019-03-20/RB: started function
+        
         """
         if self.verbose > 0:
             print("SpectraTools.Hitran.remove_data()")           
@@ -153,21 +175,22 @@ class hitran(LS.LinearSpectrum):
             os.remove(filepath)        
         
 
-    def calculate_signal(self, environment = {}, line_profile = "default"):
+    def calculate_signal(self, environment = {}, line_profile = "default", **kwargs):
         """
-        Wrapper around hapi.absorptionCoefficient_HT and hapi. Mainly intended for testing. 
+        Wrapper around hapi.absorptionCoefficient_HT and hapi.  
 
         Keyword Arguments
         -----------------
         environment : dict
-            Environment variables: ``T'' for temperature in Kelvin (default: 296), ``p'' for pressure in atmosphere (default: 1) and ``l'' for pathlength in centimeters (default is 1). 
+            Environment variables: `T` for temperature in Kelvin (default: 296), `p` for pressure in atmosphere (default: 1) and `l` for pathlength in centimeters (default is 1). 
         line_profile : str {'default', 'HT', 'Voigt', 'Lorentz', 'Doppler'}
-            Default is ``HT''.
+            Default is 'HT'.
         
         Notes
         -----
         
         - 2019-03-20/RB: started function
+        
         """    
         
         if "T" not in environment:
@@ -179,32 +202,32 @@ class hitran(LS.LinearSpectrum):
         
         
         if line_profile in ['Voigt']:
-            w, c = hapi.absorptionCoefficient_Voigt(SourceTables = self.tablename, HITRAN_units = False, Environment = environment)
+            w, c = hapi.absorptionCoefficient_Voigt(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **kwargs)
         elif line_profile in ['Lorentz']:
-            w, c = hapi.absorptionCoefficient_Lorentz(SourceTables = self.tablename, HITRAN_units = False, Environment = environment)
+            w, c = hapi.absorptionCoefficient_Lorentz(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **kwargs)
         elif line_profile in ['Doppler']:
-            w, c = hapi.absorptionCoefficient_Doppler(SourceTables = self.tablename, HITRAN_units = False, Environment = environment)
+            w, c = hapi.absorptionCoefficient_Doppler(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **kwargs)
         elif line_profile in ['default', 'HT']:
-            w, c = hapi.absorptionCoefficient_HT(SourceTables = self.tablename, HITRAN_units = False, Environment = environment)            
+            w, c = hapi.absorptionCoefficient_HT(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **kwargs)            
         else:
-            print("invalid lineprofile")
-            return None
+            raise ValueError("'{:}' is not a valid line_profile".format(line_profile))
+            
         
         if self.y_unit == "":
-            self.x, self.y = hapi.absorptionSpectrum(w, c)   
+            self.x, self.y = hapi.absorptionSpectrum(w, c, Environment = environment)   
             self.y_unit = self.absorption_labels[0]
         if self.y_unit in self.transmission_1_labels:
-            self.x, self.y = hapi.transmittanceSpectrum(w, c)
+            self.x, self.y = hapi.transmittanceSpectrum(w, c, Environment = environment)
         elif self.y_unit in self.transmission_pct_labels:
-            self.x, self.y = 100 * hapi.transmittanceSpectrum(w, c)            
+            self.x, self.y = 100 * hapi.transmittanceSpectrum(w, c, Environment = environment)            
         elif self.y_unit in self.absorption_labels:
-            self.x, self.y = hapi.absorptionSpectrum(w, c)       
+            self.x, self.y = hapi.absorptionSpectrum(w, c, Environment = environment)       
         else:
-            print("Invalid y_unit label.")
+            raise ValueError("'{:}' is not a valid value for y_unit".format(self.y_unit))
 
             
             
-        return 0
+
         
         
         
