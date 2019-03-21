@@ -1,4 +1,4 @@
-from importlib import reload
+import importlib
 import inspect
 import os
 import warnings
@@ -12,13 +12,13 @@ import matplotlib.pyplot as plt
 
 import SpectraTools.hitran as HR
 
-reload(HR)
+importlib.reload(HR)
 
 class Test_init(unittest.TestCase):
 
     def setUp(self):
         self.verbose = 2
-
+        self.root = pathlib.Path(r"Testdata/hitran_data")
 
 
     def test_init(self):
@@ -33,7 +33,7 @@ class Test_init(unittest.TestCase):
         """
         2019-03-20/RB
         """
-        db_path = pathlib.Path(r"Testdata/hitran_data")
+        db_path = self.root
         
                 
         tablename = "H2O"
@@ -43,44 +43,108 @@ class Test_init(unittest.TestCase):
         max_x = 1300
         
         c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
+
+class Test_import_data(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 2
+        self.root = pathlib.Path(r"Testdata/hitran_data")
         
-    def test_fetch_data(self):
+    def is_file_present(self, tablename, extension, should_be_present):
+    
+        filename = pathlib.Path("{:s}.{:s}".format(tablename, extension))
+        paf = self.root.joinpath(filename)
+        
+        test = paf.is_file()
+        
+        if should_be_present:
+            self.assertTrue(test)
+        else:
+            self.assertFalse(test)
+            
+        return test
+        
+    def test_fetch_data_already_present(self):
         """
         
-        
+        2019-03-21/RB
         """
-        db_path = pathlib.Path(r"Testdata/hitran_data")
+        db_path = self.root
         
-        tablename = "H2O"
+        tablename = "H2O - test_fetch_data_already_present"
         M = 1
         I = 1
-        min_x = 1200
-        max_x = 1300
+        min_x = 1240
+        max_x = 1280
         
         c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
         
-        c.import_data()
+        test1 = self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
+        test2 = self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)        
+        
+        if not test1 or not test2:
+            print("hitran_Tests.Test_import_data.test_fetch_data_already_present(): files should have been present before importing, but they aren't. Please run the test again.  ")
+        
+        c.import_data(reload = False)
+        
+        self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
+        self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)        
         
 
-    def test_fetch_data_2(self):
+    def test_fetch_data_new_data(self):
         """
         
-        
+        2019-03-20/RB
         """
-        db_path = pathlib.Path(r"Testdata/hitran_data")
+        db_path = self.root
         
-        tablename = "a"
+        tablename = "H2O - test_fetch_data_new_data"
         M = 1
         I = 1
-        min_x = 1200
-        max_x = 1300
+        min_x = 1240
+        max_x = 1280
         
         c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
         
         c.import_data()
-        
+
+        self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
+        self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)
+
         c.remove_data()
+
+        self.is_file_present(tablename = tablename, extension = "header", should_be_present = False)
+        self.is_file_present(tablename = tablename, extension = "data", should_be_present = False)
+
+
+      
         
+    def test_fetch_data_reload(self):
+        """
+        
+        2019-03-20/RB
+        """
+        db_path = pathlib.Path(self.root)
+        
+        tablename = "H2O - test_fetch_data_reload"
+        M = 1
+        I = 1
+        min_x = 1240
+        max_x = 1280
+        
+        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
+        
+        test1 = self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
+        test2 = self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)        
+        
+        if not test1 or not test2:
+            print("hitran_Tests.Test_import_data.test_fetch_data_reload(): files should have been present before importing, but they aren't. Please run the test again.  ")
+        
+        c.import_data(reload = True)
+        
+        self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
+        self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)   
+
 
         
 class Test_calculate_signal(unittest.TestCase):
@@ -99,8 +163,8 @@ class Test_calculate_signal(unittest.TestCase):
         tablename = "H2O"
         M = 1
         I = 1
-        min_x = 1200
-        max_x = 1300
+        min_x = 1240
+        max_x = 1280
         
         c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
         
@@ -108,20 +172,26 @@ class Test_calculate_signal(unittest.TestCase):
 
         c.calculate_signal()
         
-        print(c.x)
-        print(c.y)
+        self.assertTrue(numpy.isclose(c.x[0], 1240.362354))
+        self.assertTrue(numpy.isclose(c.x[-1], 1279.932354))
+        self.assertTrue(numpy.isclose(c.y[0], 0.00276249))
+        self.assertTrue(numpy.isclose(c.y[-1], 0.00111738))
         
-        
+
 
 if __name__ == '__main__': 
 
     verbosity = 1
         
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)      
 
     if 1:
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_import_data)
+        unittest.TextTestRunner(verbosity = verbosity).run(suite)             
+        
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_calculate_signal)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)          
      

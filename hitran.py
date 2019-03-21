@@ -6,8 +6,11 @@ import numpy
 
 import hapi
 
+import importlib
+
 import SpectraTools.LinearSpectrum as LS
 
+importlib.reload(hapi)
 
 class hitran(LS.LinearSpectrum):
     """
@@ -72,9 +75,10 @@ class hitran(LS.LinearSpectrum):
         hapi.db_begin(str(self.db_path))
         
         # hapi.tableList()
+
+
         
-        
-    def import_data(self):
+    def import_data(self, reload = False):
         """
         Wrapper around hapi.fetch. 
 
@@ -90,24 +94,28 @@ class hitran(LS.LinearSpectrum):
         """
         if self.verbose > 1:
             print("SpectraTools.Hitran.import_data()")       
-            
-            
-        try:
-            nu = hapi.getColumn(self.tablename, 'nu')
-            if self.verbose > 1:
-                print(numpy.amin(nu), numpy.amax(nu))
-            if numpy.amin(nu) <= self.min_x or numpy.amax(nu) >= self.max_x:    
-                if self.verbose > 1:
-                    print("try -- import")
-                hapi.fetch(TableName = self.tablename, M = self.M, I = self.I, numin = self.min_x, numax = self.max_x)
-            else:
-                if self.verbose > 1:
-                    print("try -- no import needed")                
-                    
-        except KeyError:
-            if self.verbose > 1:
-                print("except -- import")
+        
+        if reload:
+            if self.verbose > 0:
+                print("SpectraTools.Hitran.import_data(): downloading data (reload == True)")        
             hapi.fetch(TableName = self.tablename, M = self.M, I = self.I, numin = self.min_x, numax = self.max_x)
+        else:
+            try:
+                nu = hapi.getColumn(self.tablename, 'nu')
+                if self.verbose > 1:
+                    print(numpy.amin(nu), numpy.amax(nu))
+                if numpy.amin(nu) <= self.min_x or numpy.amax(nu) >= self.max_x:    
+                    if self.verbose > 0:
+                        print("SpectraTools.Hitran.import_data(): downloading data (new range)")
+                    hapi.fetch(TableName = self.tablename, M = self.M, I = self.I, numin = self.min_x, numax = self.max_x)
+                else:
+                    if self.verbose > 0:
+                        print("SpectraTools.Hitran.import_data(): no need to download data")               
+                        
+            except KeyError:
+                if self.verbose > 0:
+                    print("SpectraTools.Hitran.import_data(): downloading data (new data)")
+                hapi.fetch(TableName = self.tablename, M = self.M, I = self.I, numin = self.min_x, numax = self.max_x)
         
         
         
@@ -125,7 +133,7 @@ class hitran(LS.LinearSpectrum):
         
         - 2019-03-20/RB: started function
         """
-        if self.verbose > 1:
+        if self.verbose > 0:
             print("SpectraTools.Hitran.remove_data()")           
         
         hapi.dropTable(self.tablename)
