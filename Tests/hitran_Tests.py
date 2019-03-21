@@ -225,6 +225,7 @@ class Test_calculate_signal(unittest.TestCase):
         self.verbose = 1
         self.root = pathlib.Path(r"Testdata/hitran_data")
 
+
     def test_calculate_signal(self):
         """
         
@@ -238,12 +239,15 @@ class Test_calculate_signal(unittest.TestCase):
         min_x = 1240
         max_x = 1280
         
-        c = HR.hitran(db_path, tablename, [(M,I)], min_x, max_x, verbose = self.verbose)
+        c = HR.hitran(db_path, tablename, [(M,I)], min_x, max_x, y_unit = "A", verbose = self.verbose)
         
         c.import_data()
 
         c.calculate_signal()
 
+        # print(c.x)
+        # print(c.y)
+        
         self.assertTrue(numpy.isclose(c.x[0], 1240.362354))
         self.assertTrue(numpy.isclose(c.x[-1], 1279.932354))
         self.assertTrue(numpy.isclose(c.y[0], 2.7663e-05))
@@ -291,8 +295,72 @@ class Test_calculate_signal(unittest.TestCase):
 
         c.calculate_signal(line_profile = "fiets")     
 
+   
+    def test_signal_multiple_data(self):
+        """
+        
+        2019-03-20/RB
+        """
+        db_path = pathlib.Path(self.root)
+        
+        tablename = "test_signal_multiple_data"
+        components = [(1,1), (6,1)]
+        min_x = 1240
+        max_x = 1280
+        
+        c = HR.hitran(db_path, tablename, components, min_x, max_x, verbose = self.verbose)
+        
+        c.import_data()
+        
+        c.calculate_signal()
 
+        # print(c.x)
+        # print(c.y)  
 
+        self.assertTrue(numpy.isclose(c.x[0], 1240.018764))
+        self.assertTrue(numpy.isclose(c.x[-1], 1279.978764))
+        self.assertTrue(numpy.isclose(c.y[0], 0.97829301))
+        self.assertTrue(numpy.isclose(c.y[-1], 0.98364074))
+        
+        self.assertTrue(c.y_unit == "T1")
+        
+        
+        
+        
+
+    def test_signal_multiple_data_separate(self):
+        """
+        
+        2019-03-20/RB
+        """
+        db_path = pathlib.Path(self.root)
+
+        min_x = 1240
+        max_x = 1280
+        
+        tablename = "test_signal_multiple_data_separate_A"
+        components_A = [(1,1)]
+        a = HR.hitran(db_path, tablename, components_A, min_x, max_x, verbose = self.verbose)
+        a.import_data()
+        a.calculate_signal()
+        
+        tablename = "test_signal_multiple_data_separate_B"
+        components_B = [(6,1)]
+        b = HR.hitran(db_path, tablename, components_B, min_x, max_x, verbose = self.verbose)
+        b.import_data()
+        b.calculate_signal()
+        
+        tablename = "test_signal_multiple_data_separate_AB"
+        components_AB = [(1,1), (6,1)]
+        ab = HR.hitran(db_path, tablename, components_AB, min_x, max_x, verbose = self.verbose)        
+        ab.import_data()
+        ab.calculate_signal()
+
+         
+        
+        
+        
+        
 class Test_data_confirmation(unittest.TestCase):
 
     def setUp(self):

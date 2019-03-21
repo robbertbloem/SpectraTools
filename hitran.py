@@ -99,6 +99,9 @@ class hitran(LS.LinearSpectrum):
             print("kwargs:")  
             for k, v in kwargs.items():
                 print("  {:} : {:}".format(k, v))
+
+        self.x_unit = kwargs.get("x_unit", "cm-1")
+        self.y_unit = kwargs.get("y_unit", "T1")
                 
         self.db_path = db_path
         
@@ -243,7 +246,6 @@ class hitran(LS.LinearSpectrum):
             
             if k == "File_spectrum":
                 abs_trans_kwargs["File"] = v
-
                 
         if line_profile in ['Voigt']:
             w, c = hapi.absorptionCoefficient_Voigt(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
@@ -252,11 +254,10 @@ class hitran(LS.LinearSpectrum):
         elif line_profile in ['Doppler']:
             w, c = hapi.absorptionCoefficient_Doppler(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
         elif line_profile in ['default', 'HT']:
-            w, c = hapi.absorptionCoefficient_HT(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)            
+            w, c = hapi.absorptionCoefficient_HT(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)            
         else:
             raise ValueError("'{:}' is not a valid line_profile".format(line_profile))
-            
-        
+
         if self.y_unit == "":
             self.x, self.y = hapi.absorptionSpectrum(w, c, Environment = environment)   
             self.y_unit = self.absorption_labels[0]
