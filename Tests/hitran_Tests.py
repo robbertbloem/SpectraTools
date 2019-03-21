@@ -288,7 +288,7 @@ class Test_data_confirmation(unittest.TestCase):
         p /= 1e5 # 100 kPa
 
         environment = {"l": 5, "p": p}
-        c.calculate_signal(OmegaStep = 1)
+        c.calculate_signal(OmegaStep = 2)
 
         
         nist_path = self.root
@@ -299,8 +299,9 @@ class Test_data_confirmation(unittest.TestCase):
         n.crop_x(min_x = min_x, max_x = max_x)
         
         
-        plt.plot(c.x, c.y)
-        plt.plot(n.x, n.y)
+        plt.plot(c.x, c.y, label = "HITRAN")
+        plt.plot(n.x, n.y, label = "NIST")
+        plt.legend()
         plt.show()
         
         

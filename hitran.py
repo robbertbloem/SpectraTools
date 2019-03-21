@@ -16,7 +16,8 @@ importlib.reload(hapi)
 class hitran(LS.LinearSpectrum):
     """
     A wrapper class around the HITRAN API (HAPI). 
-        
+    
+    M and I can be found here: https://hitran.org/lbl/
         
     Attributes
     ----------
@@ -51,6 +52,10 @@ class hitran(LS.LinearSpectrum):
     
     def __init__(self, db_path, tablename, M, I, min_x, max_x, verbose = 0, **kwargs):
         """
+        Initialize the Hitran class. 
+        
+        M and I can be found here: https://hitran.org/lbl/
+        
         
         Keyword Arguments
         -----------------
