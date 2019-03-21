@@ -5,7 +5,16 @@ The API of HITRAN is rather convoluted. This class is a wrapper around the API. 
 
 The API works by downloading data from the server to a local database. In `init` this database is created, or connected to, if it already exists. In `import_data` it is first checked if the data is already locally present, to minimize downloading data over and over again. In `calculate_signal` (named to conform to `LinearSpectrum`) the absorption or transmission is calculated. 
 
+Molecules are identified by number. Each isotopologue has three numbers: the molecule number M, the local isotope number I and the global isotopologue number, see the table below. This webpage shows the numbers: https://hitran.org/docs/iso-meta/ HAPI uses M and I for a single component and G for importing multiple components. I ALWAYS use M and I. A component is described by a tuple `(M, I, abundance)`, `abundance` is optional. If it is not given, the natural abundance is given. 
 
+=== === === ===========
+M   I   G   Molecule
+=== === === ===========
+1   1   1   :math:`H_2^{16}O`
+1   2   2   :math:`H_2^{18}O`
+1   7   129 :math:`D_2^{16}O`
+2   1   7   :math:`^{12}C^{16}O_2` 
+=== === === ===========
 
 
 """
@@ -117,16 +126,7 @@ class hitran(LS.LinearSpectrum):
         """
         Does the actual importing ('fetching') of data. 
         
-        Each isotopologue has three numbers: the molecule number M, the local isotope number I and the global isotopologue number. 
-        
-        === === === ===========
-        M   I   G   Molecule
-        === === === ===========
-        1   1   1   :math:`H_2^{16}O`
-        1   2   2   :math:`H_2^{18}O`
-        1   7   129 :math:`D_2^{16}O`
-        2   1   7   :math:`^{12}C^{16}O_2` 
-        === === === ===========
+
         
         Notes
         -----
