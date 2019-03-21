@@ -14,6 +14,7 @@ Welcome to SpectraTools's documentation!
    MultiLinearSpectra
    CommonFunctions
    UnitConversion
+   Hitran
 
 Indices and tables
 ==================
