@@ -1,3 +1,17 @@
+"""
+HITRAN (HIgh-resolution TRANsmission molecular absorption database) is an online compilation of transmission data for 50-or-so gasses. 
+
+The API of HITRAN is rather convoluted. This class is a wrapper around the API. The goal is to simplify the use (by only including the parts we need), to set some defaults that are useful for us (like units), and to bring it in line with the class `LinearSpectrum`.
+
+The API works by downloading data from the server to a local database. In `init` this database is created, or connected to, if it already exists. In `import_data` it is first checked if the data is already locally present, to minimize downloading data over and over again. In `calculate_signal` (named to conform to `LinearSpectrum`) the absorption or transmission is calculated. 
+
+
+
+
+"""
+
+
+
 
 import importlib
 import os
@@ -182,7 +196,7 @@ class hitran(LS.LinearSpectrum):
 
     def calculate_signal(self, environment = {}, line_profile = "default", **kwargs):
         """
-        Wrapper around hapi.absorptionCoefficient_HT and hapi.  
+        Calculate the spectra.  
 
         Keyword Arguments
         -----------------
@@ -190,6 +204,9 @@ class hitran(LS.LinearSpectrum):
             Environment variables: `T` for temperature in Kelvin (default: 296), `p` for pressure in atmosphere (default: 1) and `l` for pathlength in centimeters (default is 1). 
         line_profile : str {'default', 'HT', 'Voigt', 'Lorentz', 'Doppler'}
             Default is 'HT'.
+        
+        For kwargs, see HITRAN API. Not included are: 'SourceTables', 'HITRAN_units', and 'Environment' (for the absorption coefficient calculation) and 'Omegas', 'AbsorptionCoefficient', and 'Environment' (for the spectrum). Instead of 'File', use File_coeff to save the absorption coefficients, and 'File_spectrum' to save the spectrum. 
+        
         
         Notes
         -----
@@ -204,16 +221,32 @@ class hitran(LS.LinearSpectrum):
             environment["p"] = 1
         if "l" not in environment:
             environment["l"] = 1
+            
+        coeff_kwargs = {}
+        abs_trans_kwargs = {}
         
+        for k, v in kwargs.items():
+            if k in ["Components", "SourceTables", "partitionFunction", "OmegaRange", "OmegaStep", "OmegaWing", "IntensityThreshold", "OmegaWingHW", "GammaL", "LineShift", "Format", "OmegaGrid", "WavenumberRange", "WavenumberStep", "WavenumberWing", "WavenumberWingHW", "WavenumberGrid", "Diluent", "EnvDependences"]:
+                coeff_kwargs[k] = v
+            
+            if k == "File_coeff":
+                coeff_kwargs["File"] = v
         
+            if k in ["Format", "Wavenumber"]:
+                abs_trans_kwargs[k] = v
+            
+            if k == "File_spectrum":
+                abs_trans_kwargs["File"] = v
+
+                
         if line_profile in ['Voigt']:
-            w, c = hapi.absorptionCoefficient_Voigt(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **kwargs)
+            w, c = hapi.absorptionCoefficient_Voigt(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
         elif line_profile in ['Lorentz']:
-            w, c = hapi.absorptionCoefficient_Lorentz(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **kwargs)
+            w, c = hapi.absorptionCoefficient_Lorentz(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
         elif line_profile in ['Doppler']:
-            w, c = hapi.absorptionCoefficient_Doppler(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **kwargs)
+            w, c = hapi.absorptionCoefficient_Doppler(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
         elif line_profile in ['default', 'HT']:
-            w, c = hapi.absorptionCoefficient_HT(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **kwargs)            
+            w, c = hapi.absorptionCoefficient_HT(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)            
         else:
             raise ValueError("'{:}' is not a valid line_profile".format(line_profile))
             
