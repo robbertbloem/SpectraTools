@@ -64,7 +64,7 @@ class hitran(LS.LinearSpectrum):
 
 
     
-    def __init__(self, db_path, tablename, M, I, min_x, max_x, verbose = 0, **kwargs):
+    def __init__(self, db_path, tablename, components, min_x, max_x, verbose = 0, **kwargs):
         """
         Initialize the Hitran class. 
         
@@ -77,10 +77,8 @@ class hitran(LS.LinearSpectrum):
             Path where the local database is stored. 
         tablename : str
             Name to reference the data.
-        M : int
-            Hitran molecule number
-        I : int
-            Hitran isotopologue number
+        components : tuple 
+            Hitran molecule number and isotopologue number
         min_x,max_x : number
             Minimum and maximum of the wavenumber axis.             
             
@@ -105,14 +103,17 @@ class hitran(LS.LinearSpectrum):
         self.db_path = db_path
         
         self.tablename = tablename
-        self.M = M
-        self.I = I
+        self.components = components
+        
         self.min_x = min_x
         self.max_x = max_x
         
         hapi.db_begin(str(self.db_path))
         
-
+    def import_data_helper(self):
+    
+        for c in self.components:
+            hapi.fetch(TableName = self.tablename, M = c[0], I = c[1], numin = self.min_x, numax = self.max_x)
 
         
     def import_data(self, reload = False):
@@ -135,8 +136,8 @@ class hitran(LS.LinearSpectrum):
         
         if reload:
             if self.verbose > 0:
-                print("SpectraTools.Hitran.import_data(): downloading data (reload == True)")        
-            hapi.fetch(TableName = self.tablename, M = self.M, I = self.I, numin = self.min_x, numax = self.max_x)
+                print("SpectraTools.Hitran.import_data(): downloading data (reload == True)")    
+            self.import_data_helper()
         else:
             try:
                 nu = hapi.getColumn(self.tablename, 'nu')
@@ -145,7 +146,7 @@ class hitran(LS.LinearSpectrum):
                 if numpy.amin(nu) <= self.min_x or numpy.amax(nu) >= self.max_x:    
                     if self.verbose > 0:
                         print("SpectraTools.Hitran.import_data(): downloading data (new range)")
-                    hapi.fetch(TableName = self.tablename, M = self.M, I = self.I, numin = self.min_x, numax = self.max_x)
+                    self.import_data_helper()
                 else:
                     if self.verbose > 0:
                         print("SpectraTools.Hitran.import_data(): no need to download data")               
@@ -153,7 +154,7 @@ class hitran(LS.LinearSpectrum):
             except KeyError:
                 if self.verbose > 0:
                     print("SpectraTools.Hitran.import_data(): downloading data (new data)")
-                hapi.fetch(TableName = self.tablename, M = self.M, I = self.I, numin = self.min_x, numax = self.max_x)
+                self.import_data_helper()
         
         
         
@@ -194,12 +195,14 @@ class hitran(LS.LinearSpectrum):
             os.remove(filepath)        
         
 
-    def calculate_signal(self, environment = {}, line_profile = "default", **kwargs):
+    def calculate_signal(self, components = None, environment = {}, line_profile = "default", **kwargs):
         """
         Calculate the spectra.  
 
         Keyword Arguments
         -----------------
+        components : tuple
+            List with tupples for which components should be included in the calculation. 
         environment : dict
             Environment variables: `T` for temperature in Kelvin (default: 296), `p` for pressure in atmosphere (default: 1) and `l` for pathlength in centimeters (default is 1). 
         line_profile : str {'default', 'HT', 'Voigt', 'Lorentz', 'Doppler'}
@@ -215,6 +218,9 @@ class hitran(LS.LinearSpectrum):
         
         """    
         
+        if components is None:
+            components = self.components
+        
         if "T" not in environment:
             environment["T"] = 296
         if "p" not in environment:
@@ -226,7 +232,7 @@ class hitran(LS.LinearSpectrum):
         abs_trans_kwargs = {}
         
         for k, v in kwargs.items():
-            if k in ["Components", "SourceTables", "partitionFunction", "OmegaRange", "OmegaStep", "OmegaWing", "IntensityThreshold", "OmegaWingHW", "GammaL", "LineShift", "Format", "OmegaGrid", "WavenumberRange", "WavenumberStep", "WavenumberWing", "WavenumberWingHW", "WavenumberGrid", "Diluent", "EnvDependences"]:
+            if k in ["SourceTables", "partitionFunction", "OmegaRange", "OmegaStep", "OmegaWing", "IntensityThreshold", "OmegaWingHW", "GammaL", "LineShift", "Format", "OmegaGrid", "WavenumberRange", "WavenumberStep", "WavenumberWing", "WavenumberWingHW", "WavenumberGrid", "Diluent", "EnvDependences"]:
                 coeff_kwargs[k] = v
             
             if k == "File_coeff":
@@ -240,13 +246,13 @@ class hitran(LS.LinearSpectrum):
 
                 
         if line_profile in ['Voigt']:
-            w, c = hapi.absorptionCoefficient_Voigt(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
+            w, c = hapi.absorptionCoefficient_Voigt(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
         elif line_profile in ['Lorentz']:
-            w, c = hapi.absorptionCoefficient_Lorentz(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
+            w, c = hapi.absorptionCoefficient_Lorentz(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
         elif line_profile in ['Doppler']:
-            w, c = hapi.absorptionCoefficient_Doppler(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
+            w, c = hapi.absorptionCoefficient_Doppler(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
         elif line_profile in ['default', 'HT']:
-            w, c = hapi.absorptionCoefficient_HT(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)            
+            w, c = hapi.absorptionCoefficient_HT(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)            
         else:
             raise ValueError("'{:}' is not a valid line_profile".format(line_profile))
             

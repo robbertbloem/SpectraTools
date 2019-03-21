@@ -43,7 +43,7 @@ class Test_init(unittest.TestCase):
         min_x = 1200
         max_x = 1300
         
-        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
+        c = HR.hitran(db_path, tablename, [(M,I)], min_x, max_x, verbose = self.verbose)
 
 class Test_import_data(unittest.TestCase):
 
@@ -117,7 +117,7 @@ class Test_import_data(unittest.TestCase):
         min_x = 1240
         max_x = 1280
         
-        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
+        c = HR.hitran(db_path, tablename, [(M,I)], min_x, max_x, verbose = self.verbose)
         
         test1 = self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
         test2 = self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)        
@@ -129,6 +129,8 @@ class Test_import_data(unittest.TestCase):
         
         self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
         self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)        
+        
+        # c.remove_data(remove_without_confirmation = True)
         
 
     def test_fetch_data_new_data(self):
@@ -144,7 +146,7 @@ class Test_import_data(unittest.TestCase):
         min_x = 1240
         max_x = 1280
         
-        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
+        c = HR.hitran(db_path, tablename, [(M,I)], min_x, max_x, verbose = self.verbose)
         
         c.import_data()
 
@@ -172,7 +174,7 @@ class Test_import_data(unittest.TestCase):
         min_x = 1240
         max_x = 1280
         
-        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
+        c = HR.hitran(db_path, tablename, [(M,I)], min_x, max_x, verbose = self.verbose)
         
         test1 = self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
         test2 = self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)        
@@ -185,7 +187,37 @@ class Test_import_data(unittest.TestCase):
         self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
         self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)   
 
+        # c.remove_data(remove_without_confirmation = True)
 
+        
+    def test_fetch_multiple_data(self):
+        """
+        
+        2019-03-20/RB
+        """
+        db_path = pathlib.Path(self.root)
+        
+        tablename = "test_fetch_multiple_data"
+        components = [(1,1), (6,1)]
+        min_x = 1240
+        max_x = 1280
+        
+        c = HR.hitran(db_path, tablename, components, min_x, max_x, verbose = self.verbose)
+        
+        test1 = self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
+        test2 = self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)        
+        
+        if not test1 or not test2:
+            print("hitran_Tests.Test_import_data.test_fetch_data_reload(): files should have been present before importing, but they aren't. Please run the test again.  ")
+        
+        c.import_data()
+        
+        self.is_file_present(tablename = tablename, extension = "header", should_be_present = True)
+        self.is_file_present(tablename = tablename, extension = "data", should_be_present = True)   
+
+        # c.remove_data(remove_without_confirmation = True)        
+        
+        
         
 class Test_calculate_signal(unittest.TestCase):
 
@@ -206,16 +238,16 @@ class Test_calculate_signal(unittest.TestCase):
         min_x = 1240
         max_x = 1280
         
-        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
+        c = HR.hitran(db_path, tablename, [(M,I)], min_x, max_x, verbose = self.verbose)
         
         c.import_data()
 
         c.calculate_signal()
-        
+
         self.assertTrue(numpy.isclose(c.x[0], 1240.362354))
         self.assertTrue(numpy.isclose(c.x[-1], 1279.932354))
-        self.assertTrue(numpy.isclose(c.y[0], 0.00276249))
-        self.assertTrue(numpy.isclose(c.y[-1], 0.00111738))
+        self.assertTrue(numpy.isclose(c.y[0], 2.7663e-05))
+        self.assertTrue(numpy.isclose(c.y[-1], 1.1180e-05))
         
         self.assertTrue(c.y_unit == "A")
     
@@ -233,7 +265,7 @@ class Test_calculate_signal(unittest.TestCase):
         min_x = 1240
         max_x = 1280
         
-        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose, y_unit = "fiets")
+        c = HR.hitran(db_path, tablename, [(M, I)], min_x, max_x, verbose = self.verbose, y_unit = "fiets")
         
         c.import_data()
 
@@ -253,7 +285,7 @@ class Test_calculate_signal(unittest.TestCase):
         min_x = 1240
         max_x = 1280
         
-        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose)
+        c = HR.hitran(db_path, tablename, [(M, I)], min_x, max_x, verbose = self.verbose)
         
         c.import_data()
 
@@ -280,7 +312,7 @@ class Test_data_confirmation(unittest.TestCase):
         min_x = 1160
         max_x = 1420
         
-        c = HR.hitran(db_path, tablename, M, I, min_x, max_x, verbose = self.verbose, y_unit = "T1")      
+        c = HR.hitran(db_path, tablename, [(M, I)], min_x, max_x, verbose = self.verbose, y_unit = "T1")      
         c.import_data()
         
         p = 150 # mm Hg
@@ -320,11 +352,11 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_import_data)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)             
         
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_calculate_signal)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)  
 
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_data_confirmation)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)             
      
