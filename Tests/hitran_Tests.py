@@ -416,11 +416,11 @@ if __name__ == '__main__':
     
     verbosity = 1
     
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)      
 
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_import_data)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)             
         
@@ -428,7 +428,7 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_calculate_signal)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)  
 
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_data_confirmation)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)             
      

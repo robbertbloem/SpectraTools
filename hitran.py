@@ -135,7 +135,7 @@ class hitran(LS.LinearSpectrum):
         
         """    
         if len(self.components) == 1:
-            hapi.fetch(TableName = self.tablename, M = c[0], I = c[1], numin = self.min_x, numax = self.max_x)
+            hapi.fetch(TableName = self.tablename, M = self.components[0][0], I = self.components[0][1], numin = self.min_x, numax = self.max_x)
         else:   
             global_id = []
             for c in self.components:
