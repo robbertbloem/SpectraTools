@@ -114,14 +114,38 @@ class hitran(LS.LinearSpectrum):
         hapi.db_begin(str(self.db_path))
         
     def import_data_helper(self):
-    
-        for c in self.components:
+        """
+        Does the actual importing ('fetching') of data. 
+        
+        Each isotopologue has three numbers: the molecule number M, the local isotope number I and the global isotopologue number. 
+        
+        === === === ===========
+        M   I   G   Molecule
+        === === === ===========
+        1   1   1   H$_2^{16}$O
+        1   2   2   H$_2^{18}$O
+        1   7   129 D$_2^{16}$O
+        2   1   7   $^{12}$C$^{16}O$_2$ 
+        === === === ===========
+        
+        Notes
+        -----
+        
+        - 2019-03-21/RB: started function
+        
+        """    
+        if len(self.components) == 1:
             hapi.fetch(TableName = self.tablename, M = c[0], I = c[1], numin = self.min_x, numax = self.max_x)
+        else:   
+            global_id = []
+            for c in self.components:
+                global_id.append(hapi.ISO[c][0])
+            hapi.fetch_by_ids(TableName = self.tablename, iso_id_list = global_id, numin = self.min_x, numax = self.max_x)
 
         
     def import_data(self, reload = False):
         """
-        Wrapper around hapi.fetch. 
+        Check if the data is locally available (and in the required range), if not, download the data. 
 
         Keyword Arguments
         -----------------

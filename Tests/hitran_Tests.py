@@ -351,13 +351,17 @@ class Test_calculate_signal(unittest.TestCase):
         b.calculate_signal()
         
         tablename = "test_signal_multiple_data_separate_AB"
-        components_AB = [(1,1), (6,1)]
+        components_AB = [(6,1),(1,1)]
         ab = HR.hitran(db_path, tablename, components_AB, min_x, max_x, verbose = self.verbose)        
-        ab.import_data()
+        ab.import_data(reload = True)
         ab.calculate_signal()
 
          
-        
+        plt.plot(a.x, a.y, label = "A")
+        plt.plot(b.x, b.y, label = "B")
+        plt.plot(ab.x, ab.y, label = "AB")
+        plt.legend()
+        plt.show()        
         
         
         
