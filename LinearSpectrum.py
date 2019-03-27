@@ -58,7 +58,7 @@ class LinearSpectrum(CT.ClassTools):
             The unit of the y-axis
         
         """      
-        - 2019-01-04/RB: started function
+#         - 2019-01-04/RB: started function
         
         self.verbose = verbose
         if self.verbose > 1:
@@ -407,14 +407,10 @@ class LinearSpectrum(CT.ClassTools):
     def interpolate_data(self, new_x = None, x_resolution = None):
         """
         Placeholder function.
-        
-
-        
-        Notes
-        -----
-    
-        - 2019-02-26/RB: started function
+       
         """     
+#          - 2019-02-26/RB: started function
+        
         if self.verbose > 1:
             print("LinearSpectra.interpolate_data()")         
 
