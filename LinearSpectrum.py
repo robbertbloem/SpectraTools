@@ -901,12 +901,88 @@ class LinearSpectrum(CT.ClassTools):
         # if self.y_unit in self.transmission_1_units:
             
             
+    def save_data(self, path, filename = None, **kwargs):
+        """
+        Save x and y. 
+        
+        Arguments
+        ---------
+        path : pathlib.Path
+            Path to where the file should be saved. If filename is given, it will be appended. 
+        filename : str or pathlib.Path (opt)
+            Name of the file. If given, it will be appended to the path. 
+        header : str    
+            Will be used at the top of the file.             
+        x,y : ndarray (opt)
+            If given, this will be used instead of `self.x`/`self.y`. This can be mixed, for example `self.x` and another `y` can be saved, in this case the data has to have the same length. 
+        x_unit,y_unit : str (opt)
+            If given, this will be used instead of `self.x_unit`/`self.y_unit`.         
+        data : ndarray (opt)
+            If data is given, this will be used instead of `self.x`, `x`, `self.y`, and `y`. 
+        columnnames : array-like with str
+            Names for the columns of `data`. Will only be used if `data` is given. `x_unit` and `y_unit` will not be used.
+        delimiter : str (,)
+            Delimiter to be used.
+
+        
+        Notes
+        -----
+        The order is `data` > `x` and/or `y` > `self.x` and/or `self.y`. If none are given, an error will be raised
+        
+        - 2019-03-27/RB: started function   
+        
+
+        """
+        if self.verbose > 1:
+            print("LinearSpectrum.save_data()")         
+        if self.verbose > 2:
+            print("kwargs:")  
+            for k, v in kwargs.items():
+                print("  {:} : {:}".format(k, v))
+                
+        delimiter = kwargs.get("delimiter", ",")
+        header = kwargs.get("header", None)
+                
+        data = kwargs.get("data", None)
+        if data is None:
+            x = kwargs.get("x", self.x)
+            y = kwargs.get("y",  self.y)
             
+            x_unit = kwargs.get("x_unit", self.x_unit)
+            y_unit = kwargs.get("y_unit", self.y_unit)
 
+            columnnames = "{:s}{:s}{:s}".format(self.labels_x(x_unit), delimiter, self.labels_y(y_unit))
+            
+            # numpy.stack raises an error if the sizes are not the same, so we don't need to.
+            data = numpy.stack((x, y), axis = 1)
+            
+        else:   
+            temp = kwargs.get("columnnames", None)
+            columnnames = ""
+            for i in range(len(temp)):
+                if i > 0:   
+                    columnnames += delimiter
+                columnnames += temp[i]
 
+        if header is None:
+            header = columnnames
+        else:
+            header = header + "\n" + columnnames
+        
+        
+        
+        
+        # numpy.savetxt()
+        
 
-
-
+                
+    
+    
+    
+                
+                
+                
+                
 
 
 

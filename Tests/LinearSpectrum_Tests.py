@@ -1,4 +1,5 @@
 import importlib 
+import pathlib
 import inspect
 import os
 import warnings
@@ -387,14 +388,76 @@ class Test_find_indices_for_cropping(unittest.TestCase):
 
 
 
+class Test_save_data(unittest.TestCase):
 
+    def setUp(self):
+        self.verbose = 1
+        self.path = pathlib.Path("Testdata\save_data")
+        
+    def test_simple(self):
+        
+        filename = "test_simple.csv"
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        P.x = numpy.arange(10)
+        P.y = numpy.arange(10) * 2
+        
+        P.save_data(path = self.path, filename = filename)
+    
+   
+    def test_unequal_x_y(self):
+        
+        filename = "test_unequal_x_y.csv"
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        P.x = numpy.arange(10)
+        P.y = numpy.arange(11) * 2
+        
+        with self.assertRaises(ValueError) as cm:
+            P.save_data(path = self.path, filename = filename)
 
+    def test_x_y_input(self):
+        
+        filename = "test_simple.csv"
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        x = numpy.arange(10)
+        y = numpy.arange(10) * 2
+        
+        P.save_data(path = self.path, filename = filename, x = x, y = y)
 
-
-
+    def test_units(self):
+        
+        filename = "test_simple.csv"
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        x = numpy.arange(10)
+        y = numpy.arange(10) * 2
+        x_unit = "cm-1"
+        y_unit = "A"
+        
+        P.save_data(path = self.path, filename = filename, x = x, y = y, x_unit = x_unit, y_unit = y_unit)        
+        
+        
+        
+    def test_columnnames(self):
+        
+        filename = "test_simple.csv"
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        data = numpy.zeros((10,3))
+        
+        columnnames = ["A", "B", "C"]
+        
+        P.save_data(path = self.path, filename = filename, data = data, columnnames = columnnames)             
         
 if __name__ == '__main__': 
-    verbosity = 1
+    verbosity = 2
     
     """
     Methods:
@@ -419,7 +482,7 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)
 
-    if 1:
+    if 0:
         """
         + bin_data_helper
         + bin_data
@@ -440,7 +503,15 @@ if __name__ == '__main__':
         + find_indices_for_cropping
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_indices_for_cropping)
-        unittest.TextTestRunner(verbosity=verbosity).run(suite)       
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)    
+
+    if 1:
+        """
+        + save_data
+        """
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_save_data)
+        unittest.TextTestRunner(verbosity=verbosity).run(suite) 
+        
         
     # if 1:
         # """
