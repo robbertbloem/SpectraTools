@@ -38,11 +38,9 @@ class LinearSpectrum(CT.ClassTools):
     y_unit : str
         The unit of the y-axis
     
-    Notes
-    -----
     
-    - 2019-01-03/RB: started function
     """      
+#     - 2019-01-03/RB: started class
     
     def __init__(self, verbose = 0, **kwargs):
 
@@ -58,12 +56,10 @@ class LinearSpectrum(CT.ClassTools):
             The unit of the x-axis
         y_unit : str
             The unit of the y-axis
-
-        Notes
-        -----
-    
-        - 2019-01-04/RB: started function
+        
         """      
+        - 2019-01-04/RB: started function
+        
         self.verbose = verbose
         if self.verbose > 1:
             print("SpectraTools.LinearSpectrum.__init__()")           
@@ -150,12 +146,9 @@ class LinearSpectrum(CT.ClassTools):
         new_x : ndarray
             the bins for x. 
         
-        Notes
-        -----
-    
-        - 2019-01-04/RB: started function
-        - 2019-02-26/RB: moved functionality to make_new_x. 
         """    
+#         - 2019-01-04/RB: started function
+#         - 2019-02-26/RB: moved functionality to make_new_x. 
         
         print("LinearSpectrum:make_bins(): DEPRECATED")        
         self.make_bins(x_resolution = x_resolution, min_x = min_x, max_x = max_x)
@@ -175,14 +168,12 @@ class LinearSpectrum(CT.ClassTools):
         Returns
         -------
         new_x : ndarray
-            the bins for x. 
-        
-        Notes
-        -----
-    
-        - 2019-01-04/RB: started function
-        - 2019-02-26/RB: renamed function make_new_x to make it more applicable for interpolation.
+            the bins for x.  
+
         """               
+#         - 2019-01-04/RB: started function
+#         - 2019-02-26/RB: renamed function make_new_x to make it more applicable for interpolation.
+
         if self.verbose > 1:
             print("LinearSpectrum:make_bins()")
         
@@ -218,12 +209,11 @@ class LinearSpectrum(CT.ClassTools):
         -------
         min_x,max_x : float
         
-        Notes
-        -----
-    
-        - 2018-12-12/RB: started function
-        - 2019-01-08/RB: moved function to LinearSpectrum
+
         """
+#         - 2018-12-12/RB: started function
+#         - 2019-01-08/RB: moved function to LinearSpectrum
+
         if self.verbose > 1:
             print("LinearSpectrum.get_min_max_x()")    
             
@@ -257,11 +247,10 @@ class LinearSpectrum(CT.ClassTools):
         idx : ndarray 
             Indices to be used
         
-        Notes
-        -----
-    
-        - 2019-01-08/RB: started function
-        """   
+        
+        """
+#         - 2019-01-08/RB: started function
+           
         if self.verbose > 1:
             print("LinearSpectrum:find_indices_for_cropping()")        
             
@@ -331,15 +320,15 @@ class LinearSpectrum(CT.ClassTools):
         new_x : ndarray
         new_y : ndarray
         
-        Notes
-        -----
-    
-        - 2019-01-04/RB: started function
-        - 2019-01-08/RB: return both new_x and new_y
-        - 2019-02-27/RB: 
-            - moved the mapping between x and new_x to another function. 
-            - if y is 1 dimensional, new_y is as well
-        """                 
+
+        """      
+#         - 2019-01-04/RB: started function
+#         - 2019-01-08/RB: return both new_x and new_y
+#         - 2019-02-27/RB: 
+#             - moved the mapping between x and new_x to another function. 
+#             - if y is 1 dimensional, new_y is as well
+        
+                   
         if self.verbose > 1:
             print("LinearSpectrum.bin_data()")            
         
@@ -379,13 +368,9 @@ class LinearSpectrum(CT.ClassTools):
         """
         This function provides the most basic binning functionality: self.y. In most cases this has to be sub-classed.  
         
-
-        
-        Notes
-        -----
-    
-        - 2019-01-09/RB: started function
-        """    
+        """
+#         - 2019-01-09/RB: started function
+           
         if self.verbose > 1:
             print("LinearSpectra.bin_data()")         
         
@@ -405,11 +390,9 @@ class LinearSpectrum(CT.ClassTools):
          
 
         
-        Notes
-        -----
-    
-        - 2019-02-26/RB: started function
         """    
+#         - 2019-02-26/RB: started function
+
         if self.verbose > 1:
             print("LinearSpectra.interpolate_data_helper()") 
 
@@ -441,12 +424,9 @@ class LinearSpectrum(CT.ClassTools):
         """
         Wrapper around LinearSpectra.find_indices_for_cropping().
         
-        
-        Notes
-        -----
-    
-        - 2019-01-07/RB: started function
         """           
+#         - 2019-01-07/RB: started function
+        
         if self.verbose > 1:
             print("LinearSpectra.crop_x()")         
         if self.verbose > 2:
@@ -471,11 +451,9 @@ class LinearSpectrum(CT.ClassTools):
         """
         Placeholder function. Should be implemented in subclasses, if needed.  
 
-        Notes
-        -----
-    
-        - 2019-01-09/RB: started function
-        """     
+        """
+#         - 2019-01-09/RB: started function
+             
         if self.verbose > 1:
             print("LinearSpectrum.calculate_signal() -- placeholder")         
         pass
@@ -484,11 +462,9 @@ class LinearSpectrum(CT.ClassTools):
         """
         Placeholder function. Should be implemented in subclasses, if needed.  
 
-        Notes
-        -----
-    
-        - 2019-01-09/RB: started function
         """     
+#         - 2019-01-09/RB: started function
+        
         if self.verbose > 1:
             print("LinearSpectrum.import_data() -- placeholder")         
         pass        
@@ -512,13 +488,11 @@ class LinearSpectrum(CT.ClassTools):
         -------
         new_x : ndarray
         x_unit : string
-        
-        Notes
-        -----
-    
-        - 2019-01-04/RB: started function
-        - 2019-01-08/RB: x as input, self.x and self.x_unit are not affected. 
+
         """   
+#         - 2019-01-04/RB: started function
+#         - 2019-01-08/RB: x as input, self.x and self.x_unit are not affected. 
+
         if self.verbose > 1:
             print("LinearSpectrum.convert_x()") 
             
@@ -637,13 +611,12 @@ class LinearSpectrum(CT.ClassTools):
         -------
         new_y : ndarray
         y_unit : string
-        
-        Notes
-        -----
     
-        - 2019-01-04/RB: started function
-        - 2019-01-08/RB: y as input, self.y and self.y_unit are not affected. 
         """
+#         - 2019-01-04/RB: started function
+#         - 2019-01-08/RB: y as input, self.y and self.y_unit are not affected. 
+
+
         if self.verbose > 1:
             print("LinearSpectrum.convert_y()") 
             
@@ -728,11 +701,10 @@ class LinearSpectrum(CT.ClassTools):
         y_unit_label : string
             A nicely formatted label for the y-axis
         
-        Notes
-        -----
-    
-        - 2019-01-07/RB: started function
+       
         """           
+#          - 2019-01-07/RB: started function
+        
         if self.verbose > 1:
             print("LinearSpectrum.labels_y()") 
 
@@ -765,11 +737,9 @@ class LinearSpectrum(CT.ClassTools):
         x_unit_label : string
             A nicely formatted label for the x-axis.
         
-        Notes
-        -----
-    
-        - 2019-01-07/RB: started function
         """           
+#         - 2019-01-07/RB: started function
+        
         if self.verbose > 1:
             print("LinearSpectrum.labels_x()") 
         if self.verbose > 2:
@@ -824,12 +794,9 @@ class LinearSpectrum(CT.ClassTools):
             - etc.
         
 
-        
-        Notes
-        -----
-    
-        - 2019-01-07/RB: started function
         """      
+#         - 2019-01-07/RB: started function
+        
         if self.verbose > 1:
             print("LinearSpectrum.plot_spectrum()")         
         if self.verbose > 2:
@@ -929,10 +896,10 @@ class LinearSpectrum(CT.ClassTools):
         -----
         The order is `data` > `x` and/or `y` > `self.x` and/or `self.y`. If none are given, an error will be raised
         
-        - 2019-03-27/RB: started function   
-        
 
         """
+#         - 2019-03-27/RB: started function 
+
         if self.verbose > 1:
             print("LinearSpectrum.save_data()")         
         if self.verbose > 2:
