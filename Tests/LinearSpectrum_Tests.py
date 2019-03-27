@@ -420,7 +420,7 @@ class Test_save_data(unittest.TestCase):
 
     def test_x_y_input(self):
         
-        filename = "test_simple.csv"
+        filename = "test_x_y_input.csv"
         
         P = LS.LinearSpectrum(verbose = self.verbose)
         
@@ -431,7 +431,7 @@ class Test_save_data(unittest.TestCase):
 
     def test_units(self):
         
-        filename = "test_simple.csv"
+        filename = "test_units.csv"
         
         P = LS.LinearSpectrum(verbose = self.verbose)
         
@@ -446,7 +446,7 @@ class Test_save_data(unittest.TestCase):
         
     def test_columnnames(self):
         
-        filename = "test_simple.csv"
+        filename = "test_columnnames.csv"
         
         P = LS.LinearSpectrum(verbose = self.verbose)
         
@@ -454,7 +454,13 @@ class Test_save_data(unittest.TestCase):
         
         columnnames = ["A", "B", "C"]
         
-        P.save_data(path = self.path, filename = filename, data = data, columnnames = columnnames)             
+        P.save_data(path = self.path, filename = filename, data = data, columnnames = columnnames)        
+
+
+    def test_paths(self):
+        
+
+        
         
 if __name__ == '__main__': 
     verbosity = 2

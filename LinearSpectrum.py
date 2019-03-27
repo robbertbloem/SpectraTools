@@ -969,9 +969,19 @@ class LinearSpectrum(CT.ClassTools):
         else:
             header = header + "\n" + columnnames
         
-        
-        
-        
+        if filename is None:
+            paf = path
+        else:
+            if type(path) is not str and type(filename) is not str:
+                paf = path.joinpath(filename)
+            elif type(path) is not str:
+                paf = path.joinpath(pathlib.Path(filename))
+            
+            elif type(filename) is not str:
+                paf = pathlib.Path(path).joinpath(filename)
+            else:
+                paf = pathlib.Path(path).joinpath(pathlib.Path(filename))
+                
         # numpy.savetxt()
         
 
