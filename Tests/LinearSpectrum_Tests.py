@@ -457,8 +457,8 @@ class Test_save_data(unittest.TestCase):
         P.save_data(path = self.path, filename = filename, data = data, columnnames = columnnames)        
 
 
-    def test_paths(self):
-        
+    # def test_paths(self):
+        # pass
 
         
         
