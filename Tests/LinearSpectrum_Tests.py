@@ -429,6 +429,18 @@ class Test_save_data(unittest.TestCase):
         
         P.save_data(path = self.path, filename = filename, x = x, y = y)
 
+    def test_y_none(self):
+        
+        filename = "test_x_none.csv"
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        x = numpy.arange(10)
+
+        with self.assertRaises(ValueError) as cm:
+            P.save_data(path = self.path, filename = filename, x = x)        
+        
+        
     def test_units(self):
         
         filename = "test_units.csv"
@@ -457,9 +469,20 @@ class Test_save_data(unittest.TestCase):
         P.save_data(path = self.path, filename = filename, data = data, columnnames = columnnames)        
 
 
-    # def test_paths(self):
-        # pass
-
+    def test_header(self):
+        
+        filename = "test_header.csv"
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        P.x = numpy.arange(10)
+        P.y = numpy.arange(10) * 2
+        P.x_unit = "cm-1"
+        P.y_unit = "A"
+        
+        header = "fiets"
+        
+        P.save_data(path = self.path, filename = filename, header = header)
         
         
 if __name__ == '__main__': 

@@ -14,10 +14,12 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 import PythonTools.ClassTools as CT
+import PythonTools.CommonFunctions as CF
 import PythonTools.Mathematics as MATH
 import SpectraTools.Resources.CommonFunctions as ST_CF
 
 importlib.reload(CT)
+importlib.reload(CF)
 importlib.reload(MATH)
 importlib.reload(ST_CF)
 
@@ -683,7 +685,7 @@ class LinearSpectrum(CT.ClassTools):
                 
         return new_y, y_unit
     
-    def labels_y(self, y_unit = None):
+    def labels_y(self, y_unit = None, latex = True):
         """
         Return the label for the y-axis of a plot.
         
@@ -691,7 +693,8 @@ class LinearSpectrum(CT.ClassTools):
         ---------
         y_unit : string, optional 
             If not given, use self.y_unit
-        
+        latex : bool (True)
+            If True, use LaTex notation.
         Returns
         -------
         y_unit_label : string
@@ -711,15 +714,18 @@ class LinearSpectrum(CT.ClassTools):
             y_unit = self.y_unit
         
         if y_unit in self.absorption_labels:
-            return r"Absorption (OD)"
+            return "Absorption (OD)"
         elif y_unit in self.transmission_1_labels:
-            return r"Transmission"
+            return "Transmission"
         elif y_unit in self.transmission_pct_labels:
-            return r"Transmission (\%)"
+            if latex:
+                return r"Transmission (\%)"
+            else:
+                return "Transmission (%)"
         else:
             return y_unit
             
-    def labels_x(self, x_unit = None):
+    def labels_x(self, x_unit = None, latex = True):
         """
         Return the label for the x-axis of a plot.
         
@@ -727,6 +733,8 @@ class LinearSpectrum(CT.ClassTools):
         ---------
         x_unit : string, optional
             If not given, use self.x_unit
+        latex : bool (True)
+            If True, use LaTex notation.
         
         Returns
         -------
@@ -756,13 +764,19 @@ class LinearSpectrum(CT.ClassTools):
             x_unit = self.x_unit
         
         if x_unit in self.nm_labels:
-            return r"Wavelength (nm)"
+            return "Wavelength (nm)"
         elif x_unit in self.um_labels:
-            return r"Wavelength ($\mu$m)"
+            if latex:
+                return r"Wavelength ($\mu$m)"
+            else:
+                return "Wavelength (micron)"
         elif x_unit in self.cm_labels:
-            return r"Energy (cm$^{-1}$)"
+            if latex:
+                return r"Energy (cm$^{-1}$)"
+            else:
+                return "Energy (cm-1)"
         elif x_unit in self.ev_labels:
-            return r"Energy (eV)"  
+            return "Energy (eV)"  
         else:
             return x_unit            
 
@@ -874,6 +888,9 @@ class LinearSpectrum(CT.ClassTools):
             Path to where the file should be saved. If filename is given, it will be appended. 
         filename : str or pathlib.Path (opt)
             Name of the file. If given, it will be appended to the path. 
+            
+        Keyword Arguments
+        -----------------
         header : str    
             Will be used at the top of the file.             
         x,y : ndarray (opt)
@@ -884,13 +901,15 @@ class LinearSpectrum(CT.ClassTools):
             If data is given, this will be used instead of `self.x`, `x`, `self.y`, and `y`. 
         columnnames : array-like with str
             Names for the columns of `data`. Will only be used if `data` is given. `x_unit` and `y_unit` will not be used.
-        delimiter : str (,)
-            Delimiter to be used.
 
+        
         
         Notes
         -----
+        For other kwargs, see the documentation of `numpy.savetxt'.
+        
         The order is `data` > `x` and/or `y` > `self.x` and/or `self.y`. If none are given, an error will be raised
+
         
 
         """
@@ -904,7 +923,9 @@ class LinearSpectrum(CT.ClassTools):
                 print("  {:} : {:}".format(k, v))
                 
         delimiter = kwargs.get("delimiter", ",")
-        header = kwargs.get("header", None)
+        header = kwargs.get("header", "")
+        extension = kwargs.get("extension", None)
+        comments = kwargs.get("comments", "#")
                 
         data = kwargs.get("data", None)
         if data is None:
@@ -914,8 +935,15 @@ class LinearSpectrum(CT.ClassTools):
             x_unit = kwargs.get("x_unit", self.x_unit)
             y_unit = kwargs.get("y_unit", self.y_unit)
 
-            columnnames = "{:s}{:s}{:s}".format(self.labels_x(x_unit), delimiter, self.labels_y(y_unit))
-            
+            if x_unit != "" and y_unit != "":
+                columnnames = "{:s}{:s}{:s}".format(self.labels_x(x_unit, latex = False), delimiter, self.labels_y(y_unit, latex = False))
+            elif x_unit != "":
+                columnnames = "{:s}{:s}".format(self.labels_x(x_unit, latex = False), delimiter)
+            elif y_unit != "":
+                columnnames = "{:s}{:s}".format(delimiter, self.labels_y(y_unit, latex = False))
+            else:
+                columnnames = ""
+                
             # numpy.stack raises an error if the sizes are not the same, so we don't need to.
             data = numpy.stack((x, y), axis = 1)
             
@@ -926,26 +954,22 @@ class LinearSpectrum(CT.ClassTools):
                 if i > 0:   
                     columnnames += delimiter
                 columnnames += temp[i]
-
-        if header is None:
+    
+        n_h = len(header)
+        n_c = len(columnnames)
+                
+        if n_h == 0 and n_c == 0:
+            header = ""
+        elif n_h == 0:
             header = columnnames
+        elif n_c == 0:
+            pass
         else:
             header = header + "\n" + columnnames
-        
-        if filename is None:
-            paf = path
-        else:
-            if type(path) is not str and type(filename) is not str:
-                paf = path.joinpath(filename)
-            elif type(path) is not str:
-                paf = path.joinpath(pathlib.Path(filename))
             
-            elif type(filename) is not str:
-                paf = pathlib.Path(path).joinpath(filename)
-            else:
-                paf = pathlib.Path(path).joinpath(pathlib.Path(filename))
-                
-        # numpy.savetxt()
+        paf = CF.make_path_and_filename(path = path, filename = filename, extension = extension, string_out = False, verbose = self.verbose)
+            
+        numpy.savetxt(paf, data, delimiter = delimiter, comments = comments, header = header)
         
 
                 
