@@ -878,7 +878,11 @@ class LinearSpectrum(CT.ClassTools):
         # if self.y_unit in self.transmission_1_units:
     
     def save_data_make_header(self, header, col_names, delimiter):
+        """
         
+        
+        """
+        # 2019-03-28/RB: extracted functionality from save_data
         if header is None:
             header = ""
             

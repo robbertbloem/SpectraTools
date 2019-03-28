@@ -511,20 +511,20 @@ class Test_save_data(unittest.TestCase):
         
         P.save_data(path = self.path, filename = filename, data = data, columnnames = columnnames)     
         
-    # def test_header_none(self):
+    def test_header_none(self):
         
-        # filename = "test_header.csv"
+        filename = "test_header.csv"
         
-        # P = LS.LinearSpectrum(verbose = self.verbose)
+        P = LS.LinearSpectrum(verbose = self.verbose)
         
-        # P.x = numpy.arange(10)
-        # P.y = numpy.arange(10) * 2
-        # P.x_unit = "cm-1"
-        # P.y_unit = "A"
+        P.x = numpy.arange(10)
+        P.y = numpy.arange(10) * 2
+        P.x_unit = "cm-1"
+        P.y_unit = "A"
         
-        # header = None
+        header = None
         
-        # P.save_data(path = self.path, filename = filename, header = header)
+        P.save_data(path = self.path, filename = filename, header = header)
 
     def test_columnnames_header(self):
 
