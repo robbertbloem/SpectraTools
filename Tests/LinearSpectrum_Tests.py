@@ -483,7 +483,67 @@ class Test_save_data(unittest.TestCase):
         header = "fiets"
         
         P.save_data(path = self.path, filename = filename, header = header)
+
+    def test_label_with_none(self):
         
+        filename = "test_label_with_none.csv"
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        P.x = numpy.arange(10)
+        P.y = numpy.arange(10) * 2
+        P.x_unit = None
+        P.y_unit = "A"
+        
+        header = "fiets"
+        
+        P.save_data(path = self.path, filename = filename, header = header)
+
+    def test_columnnames_with_none(self):
+        
+        filename = "test_columnnames_with_none.csv"
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        data = numpy.zeros((10,3))
+        
+        columnnames = [None, "B", "C"]
+        
+        P.save_data(path = self.path, filename = filename, data = data, columnnames = columnnames)     
+        
+    # def test_header_none(self):
+        
+        # filename = "test_header.csv"
+        
+        # P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        # P.x = numpy.arange(10)
+        # P.y = numpy.arange(10) * 2
+        # P.x_unit = "cm-1"
+        # P.y_unit = "A"
+        
+        # header = None
+        
+        # P.save_data(path = self.path, filename = filename, header = header)
+
+    def test_columnnames_header(self):
+
+        tests = [
+            {"head": "fiets", "col": ["x", "y"], "delim": ",", "res": "fiets\nx,y"},
+            {"head": "", "col": ["x", "y"], "delim": ",", "res": "x,y"},
+            {"head": "fiets", "col": [], "delim": ",", "res": "fiets"}, 
+            {"head": None, "col": [], "delim": ",", "res": ""},
+            {"head": "fiets", "col": None, "delim": ",", "res": "fiets"},
+            {"head": "", "col": [], "delim": ",", "res": ""},
+        ]
+        
+        P = LS.LinearSpectrum(verbose = self.verbose)
+        
+        for t in tests:
+            out = P.save_data_make_header(header = t["head"], col_names = t["col"], delimiter = t["delim"])
+            self.assertTrue(out == t["res"])
+
+
         
 if __name__ == '__main__': 
     verbosity = 2

@@ -876,7 +876,35 @@ class LinearSpectrum(CT.ClassTools):
                 # print("  {:} : {:}".format(k, v))
 
         # if self.y_unit in self.transmission_1_units:
+    
+    def save_data_make_header(self, header, col_names, delimiter):
+        
+        if header is None:
+            header = ""
             
+        if col_names is None:
+            col_names = []
+        
+        columnnames = ""
+        for i in range(len(col_names)):
+            if i > 0:   
+                columnnames += delimiter
+            if col_names[i] is not None:
+                columnnames += col_names[i]
+
+        n_h = len(header)
+        n_c = len(columnnames)
+        
+        if n_h == 0 and n_c == 0:
+            header = ""
+        elif n_h == 0:
+            header = columnnames
+        elif n_c == 0:
+            pass
+        else:
+            header = header + "\n" + columnnames    
+            
+        return header
             
     def save_data(self, path, filename = None, **kwargs):
         """
@@ -906,7 +934,7 @@ class LinearSpectrum(CT.ClassTools):
         
         Notes
         -----
-        For other kwargs, see the documentation of `numpy.savetxt'.
+        For other kwargs, see the documentation of `numpy.savetxt': https://docs.scipy.org/doc/numpy/reference/generated/numpy.savetxt.html
         
         The order is `data` > `x` and/or `y` > `self.x` and/or `self.y`. If none are given, an error will be raised
 
@@ -932,40 +960,34 @@ class LinearSpectrum(CT.ClassTools):
             x = kwargs.get("x", self.x)
             y = kwargs.get("y",  self.y)
             
+            # numpy.stack raises an error if the sizes are not the same, so we don't need to.
+            data = numpy.stack((x, y), axis = 1)            
+            
             x_unit = kwargs.get("x_unit", self.x_unit)
             y_unit = kwargs.get("y_unit", self.y_unit)
-
-            if x_unit != "" and y_unit != "":
-                columnnames = "{:s}{:s}{:s}".format(self.labels_x(x_unit, latex = False), delimiter, self.labels_y(y_unit, latex = False))
-            elif x_unit != "":
-                columnnames = "{:s}{:s}".format(self.labels_x(x_unit, latex = False), delimiter)
-            elif y_unit != "":
-                columnnames = "{:s}{:s}".format(delimiter, self.labels_y(y_unit, latex = False))
-            else:
-                columnnames = ""
+            
+            _col_names = [x_unit, y_unit]
+            
+            # if x_unit is None:
+                # x_unit = ""
+            # if y_unit is None:
+                # y_unit = ""
+            
+            # if x_unit != "" and y_unit != "":
+                # columnnames = "{:s}{:s}{:s}".format(self.labels_x(x_unit, latex = False), delimiter, self.labels_y(y_unit, latex = False))
+            # elif x_unit != "":
+                # columnnames = "{:s}{:s}".format(self.labels_x(x_unit, latex = False), delimiter)
+            # elif y_unit != "":
+                # columnnames = "{:s}{:s}".format(delimiter, self.labels_y(y_unit, latex = False))
+            # else:
+                # columnnames = ""
                 
-            # numpy.stack raises an error if the sizes are not the same, so we don't need to.
-            data = numpy.stack((x, y), axis = 1)
+
             
         else:   
-            temp = kwargs.get("columnnames", None)
-            columnnames = ""
-            for i in range(len(temp)):
-                if i > 0:   
-                    columnnames += delimiter
-                columnnames += temp[i]
-    
-        n_h = len(header)
-        n_c = len(columnnames)
-                
-        if n_h == 0 and n_c == 0:
-            header = ""
-        elif n_h == 0:
-            header = columnnames
-        elif n_c == 0:
-            pass
-        else:
-            header = header + "\n" + columnnames
+            _col_names = kwargs.get("columnnames", [])
+
+        header = self.save_data_make_header(header, _col_names, delimiter)
             
         paf = CF.make_path_and_filename(path = path, filename = filename, extension = extension, string_out = False, verbose = self.verbose)
             
