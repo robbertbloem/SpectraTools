@@ -1,5 +1,8 @@
 *.pyc
 *.pickle
 temp/
+<<<<<<< HEAD
 Tests/Testdata/
+=======
+>>>>>>> NistTools/master
 docs/build/
