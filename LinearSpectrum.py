@@ -877,8 +877,24 @@ class LinearSpectrum(CT.ClassTools):
 
         # if self.y_unit in self.transmission_1_units:
     
-    def save_data_make_header(self, header, col_names, delimiter):
+    def __make_header(self, header, col_names, delimiter):
         """
+        Private function to generate the header for save_data.
+        
+        Arguments
+        ---------
+        header : str
+            Will be printed at the top of the file
+        col_names : str
+            Will be printed just below the header
+        delimiter : str
+            The sign between columns
+        Notes
+        -----
+        To call this function externally:
+        
+        >>> P = LinearSpectrum()
+        >>> P._LinearSpectrum__make_header()
         
         
         """
@@ -972,26 +988,10 @@ class LinearSpectrum(CT.ClassTools):
             
             _col_names = [x_unit, y_unit]
             
-            # if x_unit is None:
-                # x_unit = ""
-            # if y_unit is None:
-                # y_unit = ""
-            
-            # if x_unit != "" and y_unit != "":
-                # columnnames = "{:s}{:s}{:s}".format(self.labels_x(x_unit, latex = False), delimiter, self.labels_y(y_unit, latex = False))
-            # elif x_unit != "":
-                # columnnames = "{:s}{:s}".format(self.labels_x(x_unit, latex = False), delimiter)
-            # elif y_unit != "":
-                # columnnames = "{:s}{:s}".format(delimiter, self.labels_y(y_unit, latex = False))
-            # else:
-                # columnnames = ""
-                
-
-            
         else:   
             _col_names = kwargs.get("columnnames", [])
 
-        header = self.save_data_make_header(header, _col_names, delimiter)
+        header = self.__make_header(header, _col_names, delimiter)
             
         paf = CF.make_path_and_filename(path = path, filename = filename, extension = extension, string_out = False, verbose = self.verbose)
             

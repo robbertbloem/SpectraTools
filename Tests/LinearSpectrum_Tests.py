@@ -540,7 +540,7 @@ class Test_save_data(unittest.TestCase):
         P = LS.LinearSpectrum(verbose = self.verbose)
         
         for t in tests:
-            out = P.save_data_make_header(header = t["head"], col_names = t["col"], delimiter = t["delim"])
+            out = P._LinearSpectrum__make_header(header = t["head"], col_names = t["col"], delimiter = t["delim"])
             self.assertTrue(out == t["res"])
 
 
