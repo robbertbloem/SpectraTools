@@ -9,8 +9,8 @@ import numpy
 import matplotlib 
 import matplotlib.pyplot as plt
 
-import NistTools
-import NistTools.Resources.nist_import_jcamp as NIJ
+import SpectraTools
+import SpectraTools.Resources.nist_import_jcamp as NIJ
 
 importlib.reload(NIJ)
 

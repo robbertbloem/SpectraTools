@@ -10,7 +10,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 # import NistTools
-import NistTools.nist as NIST
+import SpectraTools.nist as NIST
 
 importlib.reload(NIST)
 
