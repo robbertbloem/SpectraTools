@@ -1,7 +1,8 @@
 The NIST module
----------------------
+---------------
 
-.. automodule:: nist
+.. automodule:: SpectraTools.nist
     :members:
     :undoc-members:
     :show-inheritance:
+    

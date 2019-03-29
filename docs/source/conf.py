@@ -28,11 +28,8 @@ sys.path.insert(0, os.path.abspath(path_tests)) #'..\\..\\Tests'))
 
 # -- Project information -----------------------------------------------------
 
-<<<<<<< HEAD
+
 project = 'SpectraTools'
-=======
-project = 'NistTools'
->>>>>>> NistTools/master
 copyright = '2019, Robbert Bloem'
 author = 'Robbert Bloem'
 

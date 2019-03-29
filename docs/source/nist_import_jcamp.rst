@@ -1,5 +1,5 @@
-NIST import JCAMP module
-========================
+Import JCAMP for NIST
+=====================
 
 
 .. automodule:: nist_import_jcamp

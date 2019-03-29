@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import SpectraTools as ST
 import SpectraTools.LinearSpectrum as LS
 
-import NistTools.Resources.nist_import_jcamp as NIJ
+import SpectraTools.Resources.nist_import_jcamp as NIJ
 
 importlib.reload(NIJ)
 
