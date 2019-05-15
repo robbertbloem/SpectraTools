@@ -451,8 +451,8 @@ def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1", T_unit_ou
     
     """
     if T_unit != "T1":
-        T = convert_y(T, T_unit, "T1")
-    
+        T, dump = convert_y(T, T_unit, "T1")
+
     idx = numpy.asarray(numpy.logical_or(T <= 0, T > 1)).nonzero()
     T[idx] = 1
     # idx = numpy.asarray(T > 1).nonzero()
@@ -466,9 +466,9 @@ def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1", T_unit_ou
 
     if T_unit_out is None:
         if T_unit != "T1":
-            T_new = convert_y(T_new, "T1", T_unit)
+            T_new, dump = convert_y(T_new, "T1", T_unit)
     else:   
-        T_new = convert_y(T_new, "T1", T_unit_out)
+        T_new, dump = convert_y(T_new, "T1", T_unit_out)
 
     return T_new
     
