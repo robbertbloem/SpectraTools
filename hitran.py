@@ -268,15 +268,21 @@ class hitran(LS.LinearSpectrum):
             
             if k == "File_spectrum":
                 abs_trans_kwargs["File"] = v
-                
+        
+        if self.y_unit == "cm2/molecule":
+            HITRAN_units = True
+        else:
+            HITRAN_units = False
+        
+        
         if line_profile in ['Voigt']:
-            w, c = hapi.absorptionCoefficient_Voigt(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
+            w, c = hapi.absorptionCoefficient_Voigt(Components = components, SourceTables = self.tablename, HITRAN_units = HITRAN_units, Environment = environment, **coeff_kwargs)
         elif line_profile in ['Lorentz']:
-            w, c = hapi.absorptionCoefficient_Lorentz(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
+            w, c = hapi.absorptionCoefficient_Lorentz(Components = components, SourceTables = self.tablename, HITRAN_units = HITRAN_units, Environment = environment, **coeff_kwargs)
         elif line_profile in ['Doppler']:
-            w, c = hapi.absorptionCoefficient_Doppler(Components = components, SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)
+            w, c = hapi.absorptionCoefficient_Doppler(Components = components, SourceTables = self.tablename, HITRAN_units = HITRAN_units, Environment = environment, **coeff_kwargs)
         elif line_profile in ['default', 'HT']:
-            w, c = hapi.absorptionCoefficient_HT(SourceTables = self.tablename, HITRAN_units = False, Environment = environment, **coeff_kwargs)            
+            w, c = hapi.absorptionCoefficient_HT(SourceTables = self.tablename, HITRAN_units = HITRAN_units, Environment = environment, **coeff_kwargs)            
         else:
             raise ValueError("'{:}' is not a valid line_profile".format(line_profile))
 
@@ -288,7 +294,10 @@ class hitran(LS.LinearSpectrum):
         elif self.y_unit in self.transmission_pct_labels:
             self.x, self.y = 100 * hapi.transmittanceSpectrum(w, c, Environment = environment)            
         elif self.y_unit in self.absorption_labels:
-            self.x, self.y = hapi.absorptionSpectrum(w, c, Environment = environment)       
+            self.x, self.y = hapi.absorptionSpectrum(w, c, Environment = environment)     
+        elif self.y_unit in ["cm-1", "cm2/molecule"]:
+            self.x = w
+            self.y = c
         else:
             raise ValueError("'{:}' is not a valid value for y_unit".format(self.y_unit))
 
