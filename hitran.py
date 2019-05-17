@@ -221,7 +221,7 @@ class hitran(LS.LinearSpectrum):
             os.remove(filepath)        
         
 
-    def calculate_signal(self, components = None, environment = {}, line_profile = "default", **kwargs):
+    def calculate_signal(self, components = None, environment = {}, line_profile = "default", convolution = None, **kwargs):
         """
         Calculate the spectra.  
 
@@ -302,6 +302,30 @@ class hitran(LS.LinearSpectrum):
             raise ValueError("'{:}' is not a valid value for y_unit".format(self.y_unit))
 
             
+        if convolution is not None:
+            convolution_profiles = ["RECTANGULAR", "TRIANGULAR", "GAUSSIAN", "DIFFRACTION", "MICHELSON", "DISPERSION"]
+            convolution_functions = {
+                "RECTANGULAR": hapi.SLIT_RECTANGULAR, 
+                "TRIANGULAR": hapi.SLIT_TRIANGULAR, 
+                "GAUSSIAN": hapi.SLIT_GAUSSIAN, 
+                "DIFFRACTION": hapi.SLIT_DIFFRACTION, 
+                "MICHELSON": hapi.SLIT_MICHELSON, 
+                "DISPERSION": hapi.SLIT_DISPERSION, 
+            }
+            
+            if self.y_unit in ["cm-1", "cm2/molecule"]:
+                print("SpectraTools.Hitran.calculate_signal(): no convolution is calculated for absorption coefficients")
+            
+            elif convolution not in convolution_profiles:
+                raise ValueError("'{:}' is not a valid value for the convolution".format(convolution))
+            
+            else:
+                conv_kwargs = {"SlitFunction": convolution_functions[convolution]}
+                for k, v in kwargs.items():
+                    if k in ["Resolution", "AF_wing"]:
+                        conv_kwargs[k] = v
+
+                self.x, self.y, _i1, _i2, __slit = hapi.convolveSpectrum(Omega = self.x, CrossSection = self.y, **conv_kwargs)
             
 
         
