@@ -255,6 +255,29 @@ class RefractiveIndex(LS.LinearSpectrum):
         return self.n
 
 
+    def get_k(self):
+        """
+        Extracts the extinction coefficient, after some checks. 
+
+        Notes
+        -----
+        
+        - 2019-02-15/RB: started function
+        """   
+        if self.verbose > 1:
+            print("RefractiveIndex.get_k()")    
+            
+        if numpy.amin(self.x) < self.x_range[0]:
+            raise ValueError("RefractiveIndex.get_k(): lowest wavelength is below range.")
+
+        if numpy.amax(self.x) > self.x_range[1]:
+            raise ValueError("RefractiveIndex.get_k(): highest wavelength is above range.")
+            
+        self.n = RIF.extinction(x = self.x, s = self.coefficients, formula = self.formula, verbose = self.verbose)
+
+        return self.n        
+        
+        
     def get_gvd(self):
         """
         Calls the calculation of the group velocity dispersion calculation, after some checks. 

@@ -13,6 +13,67 @@ importlib.reload(MATH)
 
 # REFRACTIVE INDEX
 
+def extinction(x, s, formula, verbose): 
+    """
+    Function to extract the extinction coefficient.
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        coefficients 
+    formula : str
+        Which formula to use.
+    
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive indices
+
+    Notes
+    -----
+    
+    - 2019-05-27/RB: started function
+    """     
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.extinction()")  
+        
+    if formula == "tabulated nk":
+        return extinction_tabulated_nk(x, s, verbose = verbose)
+    else:
+        raise NotImplementedError("RefractiveIndex.Resources.RI_Functions.extinction(): Type of formula ({:}) is not recognized.".format(formula))
+
+def extinction_tabulated_nk(x, s, verbose = 0):
+    """
+    Return an interpolated refractive index for x. 
+    
+    Arguments
+    ---------
+    x : ndarray
+        x-axis
+    s : list
+        Tabulated data 
+        
+    Returns
+    -------
+    ri : ndarray
+        Array with refractive index
+
+    Notes
+    -----
+    
+    - 2019-02-15/RB: started function
+    """        
+    if verbose > 1:
+        print("RefractiveIndex.Resources.RI_Functions.extinction_tabulated_nk()")  
+            
+    ec = MATH.interpolate_data(s[:,0], s[:,2], x) 
+
+    return ec         
+        
+        
+
 def ri(x, s , formula, verbose):
     """
     Function to calculate the refractive index.
