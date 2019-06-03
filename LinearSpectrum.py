@@ -404,7 +404,9 @@ class LinearSpectrum(CT.ClassTools):
             else:
                 new_x = self.make_bins(x_resolution)            
             
-        MATH.interpolate_data(self.x, self.y, new_x, interpolate_kind = "default", verbose = self.verbose)
+        y = MATH.interpolate_data(self.x, self.y, new_x, interpolate_kind = "default", verbose = self.verbose)
+        
+        return y
         
     def interpolate_data(self, new_x = None, x_resolution = None):
         """
@@ -416,8 +418,11 @@ class LinearSpectrum(CT.ClassTools):
         if self.verbose > 1:
             print("LinearSpectra.interpolate_data()")         
 
-        self.interpolate_data_helper(new_x = new_x, x_resolution = x_resolution)            
-
+        y = self.interpolate_data_helper(new_x = new_x, x_resolution = x_resolution)            
+        
+        return y
+        
+        
     def crop_x(self, min_x = None, max_x = None, **kwargs):
         """
         Wrapper around LinearSpectra.find_indices_for_cropping().
