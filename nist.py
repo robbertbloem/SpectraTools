@@ -14,6 +14,7 @@ import SpectraTools.LinearSpectrum as LS
 
 import SpectraTools.Resources.nist_import_jcamp as NIJ
 
+importlib.reload(LS)
 importlib.reload(NIJ)
 
 class nist(LS.LinearSpectrum):
