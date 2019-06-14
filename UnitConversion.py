@@ -155,6 +155,9 @@ def base10_to_base10(value, old_base, new_base, power = 1, verbose = 0):
     - 2019-03-04/RB: started function    
     
     """
+    if verbose > 1:
+        print("UnitConversion.base10_to_base10()")           
+    
     if old_base is None:
         warnings.warn("UnitConversion.base10_to_base10(): argument old_base is None.")
         return None
@@ -293,7 +296,7 @@ def convert_x(x, old_unit, new_unit, verbose = 0):
 
 
          
-def convert_y(y, old_unit, new_unit):
+def convert_y(y, old_unit, new_unit, verbose = 0):
     """
     Convert the y axis from one unit to another. Supported options are:
     
@@ -321,7 +324,9 @@ def convert_y(y, old_unit, new_unit):
     - 2019-01-08/RB: y as input, y and y_unit are not affected. 
     - 2019-03-04/RB: copied to UC from LinearSpectrum, adapted for use outside a class.    
     """
-    
+    if verbose > 1:
+        print("UnitConversion.convert_y()")       
+        
     if old_unit in absorption_labels:
         if new_unit in absorption_labels:
             y_unit = absorption_labels[0]
@@ -415,7 +420,7 @@ def convert_y(y, old_unit, new_unit):
 #     pass
     
     
-def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1", T_unit_out = None):
+def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1", T_unit_out = None, verbose = 0):
     """
     General function to convert the transmission for certain conditions, to transmission for other conditions. 
     
@@ -450,8 +455,11 @@ def transmission_to_transmission(T, c, l, c_new, l_new, T_unit = "T1", T_unit_ou
         
     
     """
+    if verbose > 1:
+        print("UnitConversion.transmission_to_transmission()")         
+    
     if T_unit != "T1":
-        T, dump = convert_y(T, T_unit, "T1")
+        T, dump = convert_y(T, T_unit, "T1", verbose = verbose)
 
     idx = numpy.asarray(numpy.logical_or(T <= 0, T > 1)).nonzero()
     T[idx] = 1
