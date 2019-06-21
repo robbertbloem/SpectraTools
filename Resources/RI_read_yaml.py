@@ -51,50 +51,49 @@ def import_refractive_index(paf, verbose = 0):
     
     """
     
-    
     if verbose > 1:
         print("RefractiveIndex.Resources.RI_read_yaml.import_refractive_data()")   
-    
+
     stream = open(paf, "r")
-    docs = yaml.load_all(stream)
+    doc = yaml.load(stream, Loader=yaml.SafeLoader )
 
     output = {}
-
-    for doc in docs:
         
-        if verbose > 2:
-            for k,v in doc.items():
-                print(k, "->", v)
+    if verbose > 2:
+        for k,v in doc.items():
+            print(k, "->", v)
 
-        if "coefficients" in doc["DATA"][0]:
-            output["coefficients"] = string_to_cols( doc["DATA"][0]["coefficients"], ncols = 1, verbose = verbose)
-        
-        if "type" in doc["DATA"][0]:
-            output["type"] = doc["DATA"][0]["type"]
-        
-        if "data" in doc["DATA"][0]:       
-            if output["type"] == "tabulated nk":
-                output["data"] = string_to_cols(doc["DATA"][0]["data"], ncols = 3, verbose = verbose)
-            elif output["type"] == "tabulated n":            
-                output["data"] = string_to_cols(doc["DATA"][0]["data"], ncols = 2, verbose = verbose)
-            else:
-                print("Unknown data type")
-                
-        if "range" in doc["DATA"][0]: 
-            output["range"] = string_to_cols( doc["DATA"][0]["range"], ncols = 1, verbose = verbose)
-
-        elif "wavelength_range" in doc["DATA"][0]: 
-            output["range"] = string_to_cols( doc["DATA"][0]["wavelength_range"], ncols = 1, verbose = verbose)
+    if "coefficients" in doc["DATA"][0]:
+        output["coefficients"] = string_to_cols( doc["DATA"][0]["coefficients"], ncols = 1, verbose = verbose)
+    
+    if "type" in doc["DATA"][0]:
+        output["type"] = doc["DATA"][0]["type"]
+    
+    if "data" in doc["DATA"][0]:       
+        if output["type"] == "tabulated nk":
+            output["data"] = string_to_cols(doc["DATA"][0]["data"], ncols = 3, verbose = verbose)
+        elif output["type"] == "tabulated n":            
+            output["data"] = string_to_cols(doc["DATA"][0]["data"], ncols = 2, verbose = verbose)
+        else:
+            print("Unknown data type")
             
-        if "REFERENCES" in doc:
-            output["references"] = doc["REFERENCES"]
+    if "range" in doc["DATA"][0]: 
+        output["range"] = string_to_cols( doc["DATA"][0]["range"], ncols = 1, verbose = verbose)
 
-        if "COMMENTS" in doc:
-            output["comments"] = doc["COMMENTS"]
-            
-        if "INFO" in doc:
-            output["info"] = doc["INFO"]
+    elif "wavelength_range" in doc["DATA"][0]: 
+        output["range"] = string_to_cols( doc["DATA"][0]["wavelength_range"], ncols = 1, verbose = verbose)
+        
+    if "REFERENCES" in doc:
+        output["references"] = doc["REFERENCES"]
 
+    if "COMMENTS" in doc:
+        output["comments"] = doc["COMMENTS"]
+        
+    if "INFO" in doc:
+        output["info"] = doc["INFO"]
+
+    stream.close()
+    
     return output
     
 
