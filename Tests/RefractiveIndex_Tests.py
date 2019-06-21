@@ -14,7 +14,7 @@ import RefractiveIndexTools.RefractiveIndex as RI
 importlib.reload(RI)
 
 # path = pathlib.Path(r"C:/Python/Data/refractiveindex/data/")
-path = pathlib.Path("../database/data/")
+path = pathlib.Path(r"C:\Python\Data\RefractiveIndexInfo\database\data")
 
 class Test_init(unittest.TestCase):
 
