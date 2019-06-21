@@ -9,7 +9,7 @@ import numpy
 import matplotlib 
 import matplotlib.pyplot as plt
 
-import RefractiveIndexTools.RefractiveIndex as RI
+import SpectraTools.RefractiveIndex as RI
 
 importlib.reload(RI)
 

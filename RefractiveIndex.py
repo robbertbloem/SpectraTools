@@ -19,14 +19,13 @@ import matplotlib.pyplot as plt
 import PythonTools.Constants as CONST
 import PythonTools.CommonFunctions as CF
 import SpectraTools.LinearSpectrum as LS
-import RefractiveIndexTools.Resources.RI_read_yaml as RIRY
-import RefractiveIndexTools.Resources.RI_Functions as RIF
+import SpectraTools.Resources.RI_read_yaml as RIRY
+import SpectraTools.Resources.RI_Functions as RIF
 
 importlib.reload(CONST)
 importlib.reload(LS)
 importlib.reload(RIRY)
 importlib.reload(RIF)
- 
 
 
 class RefractiveIndex(LS.LinearSpectrum):
