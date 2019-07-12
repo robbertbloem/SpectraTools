@@ -89,6 +89,10 @@ class LinearSpectrum(CT.ClassTools):
 
         
     def test_x_y_units(self, new, label):
+
+        if self.verbose > 1:
+            print("LinearSpectrum.test_x_y_units()")    
+    
         if self.x_unit != new.x_unit:
             warnings.warn("LinearSpectrum.{:}(): x_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(label, self.x_unit, new.x_unit))
         elif self.x_unit == "":
@@ -101,9 +105,22 @@ class LinearSpectrum(CT.ClassTools):
         
     def __add__(self, new):
         """
-        Add two objects A and B. Only works if A.x and B.x are exactly the same.
+        Make a new object C, with A.y and B.y added. Only works if A.x and B.x are **exactly** the same.
         The function checks if the x_unit and y_unit are the same for A and B and throws a warning if they are not. 
+        
+        Arguments
+        ---------
+        self : object
+        new : object
+        
+        Returns
+        -------
+        object
+        
         """
+        if self.verbose > 1:
+            print("LinearSpectrum.__add__()")
+        
         self.test_x_y_units(new, label = "__add__")
         
         if self.y is None or new.y is None:
@@ -118,7 +135,23 @@ class LinearSpectrum(CT.ClassTools):
         return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)
 
     def __sub__(self, new):
-
+        """
+        Make a new object C, with B.y subtracted from B.y. Only works if A.x and B.x are **exactly** the same.
+        The function checks if the x_unit and y_unit are the same for A and B and throws a warning if they are not. 
+        
+        Arguments
+        ---------
+        self : object
+        new : object
+        
+        Returns
+        -------
+        object
+        
+        """   
+    
+        if self.verbose > 1:
+            print("LinearSpectrum.__sub__()")
         self.test_x_y_units(new, label = "__sub__")
 
             
@@ -135,7 +168,24 @@ class LinearSpectrum(CT.ClassTools):
 
         
     def __truediv__(self, new):
+        """
+        Make a new object C, with A.y divided by B.y. Only works if A.x and B.x are **exactly** the same.
+        The function checks if the x_unit and y_unit are the same for A and B and throws a warning if they are not. 
         
+        Arguments
+        ---------
+        self : object
+        new : object
+        
+        Returns
+        -------
+        object
+        
+        """
+    
+        if self.verbose > 1:
+            print("LinearSpectrum.__truediv__()")    
+            
         self.test_x_y_units(new, label = "__truediv__")
 
         if self.y is None or new.y is None:
@@ -152,9 +202,12 @@ class LinearSpectrum(CT.ClassTools):
         
     def concatenate(self, new):
         """
-        Concatenate data in objects A and B. 
-        To add two objects with **exactly** the same x-axis, use A + B. 
+        Make a new object C, with the data from objects A and B concatenated.
+        
         """
+        if self.verbose > 1:
+            print("LinearSpectrum.concatenate()")    
+            
         self.test_x_y_units(new, label = "concatenate")
 
         if self.y is None or new.y is None:
