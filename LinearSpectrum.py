@@ -88,7 +88,7 @@ class LinearSpectrum(CT.ClassTools):
         self.transmission_pct_labels = UC. transmission_pct_labels # ["T100"]            
 
         
-    def test_x_y_units(self, new, label):
+    def object_comparison_tests(self, new, label):
 
         if self.verbose > 1:
             print("LinearSpectrum.test_x_y_units()")    
@@ -121,7 +121,7 @@ class LinearSpectrum(CT.ClassTools):
         if self.verbose > 1:
             print("LinearSpectrum.__add__()")
         
-        self.test_x_y_units(new, label = "__add__")
+        self.object_comparison_tests(new, label = "__add__")
         
         if self.y is None or new.y is None:
             raise ValueError("LinearSpectrum.__add__(): A.y and/or B.y are None.")
@@ -152,7 +152,7 @@ class LinearSpectrum(CT.ClassTools):
     
         if self.verbose > 1:
             print("LinearSpectrum.__sub__()")
-        self.test_x_y_units(new, label = "__sub__")
+        self.object_comparison_tests(new, label = "__sub__")
 
             
         if self.y is None or new.y is None:
@@ -186,7 +186,7 @@ class LinearSpectrum(CT.ClassTools):
         if self.verbose > 1:
             print("LinearSpectrum.__truediv__()")    
             
-        self.test_x_y_units(new, label = "__truediv__")
+        self.object_comparison_tests(new, label = "__truediv__")
 
         if self.y is None or new.y is None:
             raise ValueError("LinearSpectrum.__truediv__(): A.y and/or B.y are None.")
@@ -208,7 +208,7 @@ class LinearSpectrum(CT.ClassTools):
         if self.verbose > 1:
             print("LinearSpectrum.concatenate()")    
             
-        self.test_x_y_units(new, label = "concatenate")
+        self.object_comparison_tests(new, label = "concatenate")
 
         if self.y is None or new.y is None:
             raise ValueError("LinearSpectrum.concatenate(): A.y and/or B.y are None.")            
