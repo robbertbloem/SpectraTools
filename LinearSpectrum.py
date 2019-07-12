@@ -88,17 +88,27 @@ class LinearSpectrum(CT.ClassTools):
         self.transmission_pct_labels = UC. transmission_pct_labels # ["T100"]            
 
         
-    def object_comparison_tests(self, new, label):
-
+    def object_comparison_tests(self, other_class, label):
+        """
+        Compare this class with another class and warning for inconsistencies for merging. 
+        
+        Arguments
+        ---------
+        other_class : object
+            Another class
+        label : str
+            Function name, will be printed in warnings. 
+        
+        """
         if self.verbose > 1:
-            print("LinearSpectrum.test_x_y_units()")    
+            print("LinearSpectrum.object_comparison_tests()")    
     
-        if self.x_unit != new.x_unit:
-            warnings.warn("LinearSpectrum.{:}(): x_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(label, self.x_unit, new.x_unit))
+        if self.x_unit != other_class.x_unit:
+            warnings.warn("LinearSpectrum.{:}(): x_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(label, self.x_unit, other_class.x_unit))
         elif self.x_unit == "":
             warnings.warn("LinearSpectrum.{:}(): x_unit is not given.".format(label))
-        elif self.y_unit != new.y_unit:
-            warnings.warn("LinearSpectrum.{:}(): y_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(label, self.y_unit, new.y_unit))
+        elif self.y_unit != other_class.y_unit:
+            warnings.warn("LinearSpectrum.{:}(): y_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(label, self.y_unit, other_class.y_unit))
         elif self.y_unit == "":
             warnings.warn("LinearSpectrum.{:}(): y_unit is not given.".format(label))
         
