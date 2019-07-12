@@ -104,7 +104,7 @@ class LinearSpectrum(CT.ClassTools):
             print("LinearSpectrum.object_comparison_tests()")    
     
         if self.__class__.__name__ != other_class.__class__.__name__:
-            raise ValueError("LinearSpectrum.{:}: the two classes are not the same ({:} and {:}).".format(label, self.__class__.__name__, other_class.__class__.__name__))
+            warnings.warn("LinearSpectrum.{:}: the two classes are not the same ({:} and {:}).".format(label, self.__class__.__name__, other_class.__class__.__name__))
 
         if self.y is None or other_class.y is None:
             raise ValueError("PAS.{:}(): A.y and/or B.y are None.".format(label))
