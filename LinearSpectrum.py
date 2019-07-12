@@ -16,11 +16,13 @@ import matplotlib.pyplot as plt
 import PythonTools.ClassTools as CT
 import PythonTools.CommonFunctions as CF
 import PythonTools.Mathematics as MATH
+import SpectraTools.UnitConversion as UC
 import SpectraTools.Resources.CommonFunctions as ST_CF
 
 importlib.reload(CT)
 importlib.reload(CF)
 importlib.reload(MATH)
+importlib.reload(UC)
 importlib.reload(ST_CF)
 
 
@@ -475,86 +477,86 @@ class LinearSpectrum(CT.ClassTools):
         elif x is None:
             x = self.x[:]
       
-
+        return UC.convert_x(x = x, old_unit = old_unit, new_unit = new_unit, verbose = self.verbose)
         
-        if old_unit in self.nm_labels:
-            if new_unit in self.nm_labels:
-                x_unit = self.nm_labels[0]
-                new_x = x
-            elif new_unit in self.um_labels:
-                x_unit = self.um_labels[0]
-                new_x = x / 1000
-            elif new_unit in self.cm_labels:
-                x_unit = self.cm_labels[0]
-                new_x = 1e7 / x    
-            elif new_unit in self.ev_labels:
-                x_unit = self.ev_labels[0]
-                new_x = 1239.84 / x
-            else:
-                warnings.warn("LinearSpectrum.convert_x(): new unit ({:s}) is not supported".format(new_unit))
-                x_unit = old_unit
-                new_x = x
+        # if old_unit in self.nm_labels:
+            # if new_unit in self.nm_labels:
+                # x_unit = self.nm_labels[0]
+                # new_x = x
+            # elif new_unit in self.um_labels:
+                # x_unit = self.um_labels[0]
+                # new_x = x / 1000
+            # elif new_unit in self.cm_labels:
+                # x_unit = self.cm_labels[0]
+                # new_x = 1e7 / x    
+            # elif new_unit in self.ev_labels:
+                # x_unit = self.ev_labels[0]
+                # new_x = 1239.84 / x
+            # else:
+                # warnings.warn("LinearSpectrum.convert_x(): new unit ({:s}) is not supported".format(new_unit))
+                # x_unit = old_unit
+                # new_x = x
                 
-        elif old_unit in self.um_labels:
-            if new_unit in self.nm_labels:
-                x_unit = self.nm_labels[0]
-                new_x = x * 1000
-            elif new_unit in self.um_labels:
-                x_unit = self.um_labels[0]
-                new_x = x 
-            elif new_unit in self.cm_labels:
-                x_unit = self.cm_labels[0]
-                new_x = 1e4 / x    
-            elif new_unit in self.ev_labels:
-                x_unit = self.ev_labels[0]
-                new_x = 1.23984 / x
-            else:
-                warnings.warn("LinearSpectrum.convert_x(): new unit ({:s}) is not supported".format(new_unit))
-                x_unit = old_unit
-                new_x = x
+        # elif old_unit in self.um_labels:
+            # if new_unit in self.nm_labels:
+                # x_unit = self.nm_labels[0]
+                # new_x = x * 1000
+            # elif new_unit in self.um_labels:
+                # x_unit = self.um_labels[0]
+                # new_x = x 
+            # elif new_unit in self.cm_labels:
+                # x_unit = self.cm_labels[0]
+                # new_x = 1e4 / x    
+            # elif new_unit in self.ev_labels:
+                # x_unit = self.ev_labels[0]
+                # new_x = 1.23984 / x
+            # else:
+                # warnings.warn("LinearSpectrum.convert_x(): new unit ({:s}) is not supported".format(new_unit))
+                # x_unit = old_unit
+                # new_x = x
                 
-        elif old_unit in self.cm_labels:
-            if new_unit in self.nm_labels:
-                x_unit = self.nm_labels[0]
-                new_x = 1e7 / x
-            elif new_unit in self.um_labels:
-                x_unit = self.um_labels[0]
-                new_x = 1e4 / x 
-            elif new_unit in self.cm_labels:
-                x_unit = self.cm_labels[0]
-                new_x = x    
-            elif new_unit in self.ev_labels:
-                x_unit = self.ev_labels[0]
-                new_x = 1239.84 * x / 1e7
-            else:
-                warnings.warn("LinearSpectrum.convert_x(): new unit ({:s}) is not supported".format(new_unit))
-                x_unit = old_unit
-                new_x = x                
+        # elif old_unit in self.cm_labels:
+            # if new_unit in self.nm_labels:
+                # x_unit = self.nm_labels[0]
+                # new_x = 1e7 / x
+            # elif new_unit in self.um_labels:
+                # x_unit = self.um_labels[0]
+                # new_x = 1e4 / x 
+            # elif new_unit in self.cm_labels:
+                # x_unit = self.cm_labels[0]
+                # new_x = x    
+            # elif new_unit in self.ev_labels:
+                # x_unit = self.ev_labels[0]
+                # new_x = 1239.84 * x / 1e7
+            # else:
+                # warnings.warn("LinearSpectrum.convert_x(): new unit ({:s}) is not supported".format(new_unit))
+                # x_unit = old_unit
+                # new_x = x                
         
-        elif old_unit in self.ev_labels:
-            if new_unit in self.nm_labels:
-                x_unit = self.nm_labels[0]
-                new_x = 1239.84 / x
-            elif new_unit in self.um_labels:
-                x_unit = self.um_labels[0]
-                new_x = 1.23984 / x
-            elif new_unit in self.cm_labels:
-                x_unit = self.cm_labels[0]
-                new_x = 1e7 * x / 1239.84     
-            elif new_unit in self.ev_labels:
-                x_unit = self.ev_labels[0]
-                new_x = x
-            else:
-                warnings.warn("LinearSpectrum.convert_x(): new unit ({:s}) is not supported".format(new_unit))
-                x_unit = old_unit
-                new_x = x
+        # elif old_unit in self.ev_labels:
+            # if new_unit in self.nm_labels:
+                # x_unit = self.nm_labels[0]
+                # new_x = 1239.84 / x
+            # elif new_unit in self.um_labels:
+                # x_unit = self.um_labels[0]
+                # new_x = 1.23984 / x
+            # elif new_unit in self.cm_labels:
+                # x_unit = self.cm_labels[0]
+                # new_x = 1e7 * x / 1239.84     
+            # elif new_unit in self.ev_labels:
+                # x_unit = self.ev_labels[0]
+                # new_x = x
+            # else:
+                # warnings.warn("LinearSpectrum.convert_x(): new unit ({:s}) is not supported".format(new_unit))
+                # x_unit = old_unit
+                # new_x = x
                 
-        else:
-            warnings.warn("LinearSpectrum.convert_x(): old unit ({:s}) is not supported".format(old_unit))
-            x_unit = old_unit
-            new_x = x
+        # else:
+            # warnings.warn("LinearSpectrum.convert_x(): old unit ({:s}) is not supported".format(old_unit))
+            # x_unit = old_unit
+            # new_x = x
                 
-        return new_x, x_unit
+        # return new_x, x_unit
 
 
             
