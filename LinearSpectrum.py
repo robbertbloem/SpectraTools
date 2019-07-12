@@ -282,25 +282,18 @@ class LinearSpectrum(CT.ClassTools):
         new_x : ndarray
             the bins for x.  
 
+        Example
+        -------
+        
+        ::
+            make_new_x(x_resolution = 10, min_x = 10, max_x = 40)
+            >>> [15, 25, 35]            
+            
         """               
         if self.verbose > 1:
-            print("LinearSpectrum:make_bins()")
+            print("LinearSpectrum.make_new_x()")
         
-        if min_x is None and max_x is None:
-            if self.x is None:
-                return None
-                
-        if min_x is not None:
-            start = min_x + x_resolution / 2
-        else:
-            start = numpy.amin(self.x) + x_resolution / 2
-
-        if max_x is not None:
-            end = max_x + x_resolution / 10
-        else:
-            end = numpy.amax(self.x) + x_resolution / 10
-            
-        return numpy.arange(start, end, x_resolution)
+        return ST_CF.make_new_x(x_resolution = x_resolution, x = self.x, min_x = min_x, max_x = max_x, verbose = self.verbose)
 
         
     def get_min_max_x(self, min_x = 1e9, max_x = -1e9):
@@ -361,9 +354,7 @@ class LinearSpectrum(CT.ClassTools):
             else:
                 x = self.x
 
-        idx = ST_CF.find_indices_for_cropping(x = x, min_x = min_x, max_x = max_x, pad = pad, crop_index = crop_index, verbose = self.verbose)
-
-        return idx
+        return ST_CF.find_indices_for_cropping(x = x, min_x = min_x, max_x = max_x, pad = pad, crop_index = crop_index, verbose = self.verbose)
 
         
     def bin_data_helper(self, new_x, y = None):

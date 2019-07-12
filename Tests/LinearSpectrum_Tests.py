@@ -95,8 +95,9 @@ class Test_make_new_x(unittest.TestCase):
         """    
         P = LS.LinearSpectrum(verbose = self.verbose)
         x_resolution = 0.1
-        new_x = P.make_new_x(x_resolution)
-        self.assertTrue(new_x == None) 
+        with self.assertRaises(ValueError) as cm:
+            new_x = P.make_new_x(x_resolution)
+        # self.assertTrue(new_x == None) 
         
     def test_bin_data_basic(self):
         """

@@ -283,7 +283,54 @@ def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index
     
     
     
+def make_new_x(x_resolution, x = None, min_x = None, max_x = None, verbose = 0):
+    """
+    Make a new x axis, for binning or interpolation. The output is the middle of the bin. 
     
+    Arguments
+    ---------
+    x_resolution : float
+        required resolution
+    x : array-like (opt)
+        Use min and max for new x, unless min_x and/or max_x are given.
+    min_x : number (opt)
+        Use as minimum for new x. If min_x is not given, min(x) will be used.
+    max_x : number (opt)
+        Use as maximum for new x. If max_x is not given, max(x) will be used.
+    
+    Returns
+    -------
+    new_x : ndarray
+        the bins for x.  
+
+    Example
+    -------
+    
+    ::
+        make_new_x(x_resolution = 10, min_x = 10, max_x = 40)
+        >>> [15, 25, 35]
+    
+        
+        
+    """               
+    if verbose > 1:
+        print("SpectraTools.Resources.CommonFunctions.make_new_x()")
+
+    if min_x is not None:
+        start = min_x + x_resolution / 2
+    elif x is not None:
+        start = numpy.amin(x) + x_resolution / 2
+    else:
+        raise ValueError("SpectraTools.Resources.CommonFunctions.make_new_x(): no x or min_x given, can not determine where to start array.")
+        
+    if max_x is not None:
+        end = max_x + x_resolution / 10
+    elif x is not None:
+        end = numpy.amax(x) + x_resolution / 10
+    else:
+        raise ValueError("SpectraTools.Resources.CommonFunctions.make_new_x(): no x or max_x given, can not determine where to end array.")
+        
+    return numpy.arange(start, end, x_resolution)    
     
     
     
