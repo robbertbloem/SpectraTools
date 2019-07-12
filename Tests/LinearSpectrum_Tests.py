@@ -553,6 +553,153 @@ class Test_save_data(unittest.TestCase):
             self.assertTrue(out == t["res"])
 
 
+            
+            
+class Test_add_sub_div_concat(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 1
+        self.A = LS.LinearSpectrum()
+        self.B = LS.LinearSpectrum()    
+        self.A.x = numpy.arange(10)
+        self.B.x = numpy.arange(10)
+        self.A.y = numpy.arange(10) + 1.0
+        self.B.y = numpy.arange(10) + 1.0
+        self.A.x_unit = "x"
+        self.B.x_unit = "x"
+        self.A.y_unit = "y"
+        self.B.y_unit = "y"
+            
+    def test_standard(self):
+
+        C = self.A + self.B
+        self.assertTrue(len(C.x) == 10)
+        self.assertTrue(len(C.y) == 10)
+        self.assertTrue(C.y[-1] == 20)
+        
+        C = self.A - self.B
+        self.assertTrue(len(C.x) == 10)
+        self.assertTrue(len(C.y) == 10)   
+        self.assertTrue(C.y[-1] == 0)        
+
+        C = self.A / self.B
+        self.assertTrue(len(C.x) == 10)
+        self.assertTrue(len(C.y) == 10)    
+        self.assertTrue(C.y[-1] == 1)        
+
+        C = self.A.concatenate(self.B)
+        self.assertTrue(len(C.x) == 20)
+        self.assertTrue(len(C.y) == 20)   
+        self.assertTrue(C.y[-1] == 10)
+
+
+    def test_y_has_nan(self):
+        
+        self.A.y[3] = numpy.nan
+    
+        C = self.A + self.B
+        self.assertTrue(len(C.x) == 10)
+        self.assertTrue(len(C.y) == 10)
+        self.assertTrue(C.y[-1] == 20)
+        self.assertTrue(numpy.isnan(C.y[3]))
+        
+        C = self.A - self.B
+        self.assertTrue(len(C.x) == 10)
+        self.assertTrue(len(C.y) == 10)   
+        self.assertTrue(C.y[-1] == 0)    
+        self.assertTrue(numpy.isnan(C.y[3]))        
+
+        C = self.A / self.B
+        self.assertTrue(len(C.x) == 10)
+        self.assertTrue(len(C.y) == 10)    
+        self.assertTrue(C.y[-1] == 1)        
+        self.assertTrue(numpy.isnan(C.y[3]))
+        
+        C = self.A.concatenate(self.B)
+        self.assertTrue(len(C.x) == 20)
+        self.assertTrue(len(C.y) == 20)   
+        self.assertTrue(C.y[-1] == 10)
+        self.assertTrue(numpy.isnan(C.y[3]))
+        
+    def test_different_x(self):
+        
+        self.A.x += 1
+        
+        with self.assertRaises(ValueError) as cm:
+            C = self.A + self.B
+        with self.assertRaises(ValueError) as cm:
+            C = self.A - self.B
+        with self.assertRaises(ValueError) as cm:
+            C = self.A / self.B
+
+        C = self.A.concatenate(self.B)         
+        self.assertTrue(len(C.x) == 20)
+        self.assertTrue(len(C.y) == 20)           
+
+    def test_different_length_x(self):
+        
+        self.A.x = numpy.arange(11)
+        self.A.y = numpy.arange(11) + 1
+        
+        with self.assertRaises(ValueError) as cm:
+            C = self.A + self.B
+        with self.assertRaises(ValueError) as cm:
+            C = self.A - self.B
+        with self.assertRaises(ValueError) as cm:
+            C = self.A / self.B
+
+        C = self.A.concatenate(self.B)         
+        self.assertTrue(len(C.x) == 21)
+        self.assertTrue(len(C.y) == 21)    
+
+
+    def test_labels_x(self):
+        self.A.x_unit = "bla"
+
+        with self.assertWarns(Warning) as cm:
+            C = self.A + self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A - self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A / self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A.concatenate(self.B) 
+
+    def test_labels_y(self):
+        self.A.y_unit = "bla"
+
+        with self.assertWarns(Warning) as cm:
+            C = self.A + self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A - self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A / self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A.concatenate(self.B)             
+
+    def test_no_labels_x(self):
+        self.A.x_unit = ""
+        self.B.x_unit = ""
+        with self.assertWarns(Warning) as cm:
+            C = self.A + self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A - self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A / self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A.concatenate(self.B)     
+
+    def test_no_labels_y(self):
+        self.A.y_unit = ""
+        self.B.y_unit = ""
+        with self.assertWarns(Warning) as cm:
+            C = self.A + self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A - self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A / self.B        
+        with self.assertWarns(Warning) as cm:
+            C = self.A.concatenate(self.B)     
         
 if __name__ == '__main__': 
     verbosity = 1
@@ -588,7 +735,7 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_make_new_x)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)    
     
-    if 1:
+    if 0:
         """
         + convert_x
         + convert_y
@@ -608,6 +755,16 @@ if __name__ == '__main__':
         + save_data
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_save_data)
+        unittest.TextTestRunner(verbosity=verbosity).run(suite) 
+
+    if 1:
+        """
+        + __add__
+        + __sub__
+        + __truediv__
+        + concatenate
+        """
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_add_sub_div_concat)
         unittest.TextTestRunner(verbosity=verbosity).run(suite) 
         
         
