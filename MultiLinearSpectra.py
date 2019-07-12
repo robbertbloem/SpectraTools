@@ -148,8 +148,8 @@ class MultiLinearSpectra(CT.ClassTools):
             print("MultiLinearSpectra.import_data()")       
     
         for m in range(len(self.mess)):
-                        
-            if self.mess[m]["class"] in ["PASGas", "PASLiquid"]:
+            
+            if hasattr(self.mess[m]["object"], "import_data"):
                 _kwargs = {}
                 if "reload" in kwargs:
                     _kwargs["reload"] = kwargs["reload"]
@@ -182,7 +182,7 @@ class MultiLinearSpectra(CT.ClassTools):
     
         for m in range(len(self.mess)):
 
-            if self.mess[m]["class"] in ["PASGas", "PASLiquid"]:
+            if hasattr(self.mess[m]["object"], "select_single_slope"):
                 
                 _kwargs = {}
                 
@@ -245,7 +245,6 @@ class MultiLinearSpectra(CT.ClassTools):
         for m in range(len(self.mess)):
             if m not in exclude and self.mess[m]["class"] not in exclude:
                 min_x, max_x = self.mess[m]["object"].get_min_max_x(min_x, max_x)
-                # print(self.mess[m]["class"], min_x, max_x)
                 
         return min_x, max_x
     
@@ -323,7 +322,7 @@ class MultiLinearSpectra(CT.ClassTools):
     
         for m in range(len(self.mess)):
             if m not in exclude and self.mess[m]["class"] not in exclude:
-                if self.mess[m]["class"] in ["PASGas", "PASLiquid", "batch"]:
+                if hasattr(self.mess[m]["object"], "bin_data"):
                     self.mess[m]["object"].bin_data(bins)
 
 
@@ -352,7 +351,7 @@ class MultiLinearSpectra(CT.ClassTools):
     
         for m in range(len(self.mess)):
             if m not in exclude and self.mess[m]["class"] not in exclude:
-                if self.mess[m]["class"] in ["PASGas"]:
+                if hasattr(self.mess[m]["object"], "calculate_signal"):
                     self.mess[m]["object"].calculate_signal()        
          
          
