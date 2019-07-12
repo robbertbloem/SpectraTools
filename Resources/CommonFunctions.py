@@ -15,7 +15,7 @@ def indices_for_binning(x, new_x):
     x : ndarray
         the old x-axis
     new_x : ndarray
-        the new x-axis
+        the new x-axis, the center of the bins
 
     
     Returns
@@ -23,22 +23,28 @@ def indices_for_binning(x, new_x):
     digitized : ndarray
         an array with length x, containing indices how to map the values in x to new_x.
     
-    Tip
-    ---
-    new_x is the center of each bin:    1, 3, 5, 7, 9
-    bins are the limits of the bins:   0, 2, 4, 6, 8, 10 (it has an index extra!)
-    the limits of the bins are: 0-1.99.., 2-3.99.. etc. 
-    x = 1 will be written in bins[1] = 2. digitized does not contain 0, even though this is a valid index of new_x, this is why 1 is subtracted at the end.    
-    
     Notes
     -----
+    ::
     
-    - 2019-02-27/RB: started function
+        x = numpy.array([2,3,4,1,6,8])
+        new_x = numpy.array([1, 3, 5, 7, 9])
+        indices_for_binning(x, new_x)
+        >>> [1,1,2,0,3,4]
+    
+    Tip
+    ---
+    new_x is the center of each bin, so for `new_x = [1, 3, 5, 7, 9]`, the limits are 0-1.99.., 2-3.99.. etc. x = 1 will be written in bins[1] = 2. digitized does not contain 0, even though this is a valid index of new_x, this is why 1 is subtracted at the end.    
     
 
 
+    """   
 
-    """       
+        # Notes
+    # -----
+    
+    # - 2019-02-27/RB: started function
+    
     x_r = new_x[1] - new_x[0]
     bins = numpy.concatenate((new_x - x_r/2, numpy.array([new_x[-1] + x_r/2])))
     digitized = numpy.digitize(x, bins, right = False) 
@@ -204,11 +210,31 @@ def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index
     -----
     ::
     
-        x = [0,1,2,3]
-        find_indices_for_cropping(x, min_x = -5, max_x = 5)
+        x = numpy.arange(10)
         
-        
+        find_indices_for_cropping(x, min_x = 3.5, max_x = 6.5, pad = 1)
+        >>> [3,4,5,6,7]
 
+        find_indices_for_cropping(x, min_x = 3, max_x = 6, pad = 1)
+        >>> [2,3,4,5,6,7]   
+        
+        find_indices_for_cropping(x, min_x = -1, max_x = 6.5, pad = 1)
+        >>> [0,1,2,3,4,5,6,7]
+
+        find_indices_for_cropping(x, min_x = 3.5, max_x = 11, pad = 1)
+        >>> [3,4,5,6,7,8,9]      
+        
+        find_indices_for_cropping(x, min_x = -1, max_x = 11, pad = 1)
+        >>> [0,1,2,3,4,5,6,7,8,9]    
+
+        find_indices_for_cropping(x, min_x = None, max_x = 6.5, pad = 1)
+        >>> [0,1,2,3,4,5,6,7]          
+        
+        x = numpy.arange(10)[::-1] # i.e. [9,8,7,...0,]        
+        find_indices_for_cropping(x, min_x = 3.5, max_x = 6.5, pad = 1)
+        >>> [2,3,4,5,6]        
+
+            
     """
     if verbose > 1:
         print("SpectraTools.Resources.CommonFunctions.find_indices_for_cropping()")        
