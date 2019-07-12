@@ -704,8 +704,9 @@ class Test_add_sub_div_concat(unittest.TestCase):
     def test_different_classes(self):
         
         D = ExampleClass()
-        with self.assertRaises(ValueError) as cm:
-            C = self.A + D
+        with self.assertRaises(AttributeError) as cm:
+            with self.assertWarns(Warning) as cm2:
+                C = self.A + D
 
 class ExampleClass():
     def __init__(self):
@@ -732,14 +733,14 @@ if __name__ == '__main__':
     + plot_spectrum    
     """
     
-    if 0:
+    if 1:
         """
         + __init__
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)
 
-    if 0:
+    if 1:
         """
         + bin_data_helper
         + bin_data
@@ -747,22 +748,22 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_make_new_x)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)    
     
-    if 0:
-        """
-        + convert_x
-        + convert_y
-        """
-        suite = unittest.TestLoader().loadTestsFromTestCase(Test_conversions)
-        unittest.TextTestRunner(verbosity=verbosity).run(suite)      
+    # if 1:
+        # """
+        # + convert_x
+        # + convert_y
+        # """
+        # suite = unittest.TestLoader().loadTestsFromTestCase(Test_conversions)
+        # unittest.TextTestRunner(verbosity=verbosity).run(suite)      
     
-    if 0:
+    if 1:
         """
         + find_indices_for_cropping
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_indices_for_cropping)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)    
 
-    if 0:
+    if 1:
         """
         + save_data
         """
