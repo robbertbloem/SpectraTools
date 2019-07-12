@@ -65,22 +65,22 @@ def labels_x(x_unit, latex = True, verbose = 0):
     
     """           
     
-    if self.verbose > 1:
+    if verbose > 1:
         print("SpectraTools.Resources.UnitConversion.labels_x()") 
     
-    if x_unit in self.nm_labels:
+    if x_unit in nm_labels:
         return "Wavelength (nm)"
-    elif x_unit in self.um_labels:
+    elif x_unit in um_labels:
         if latex:
             return r"Wavelength ($\mu$m)"
         else:
             return "Wavelength (micron)"
-    elif x_unit in self.cm_labels:
+    elif x_unit in cm_labels:
         if latex:
             return r"Energy (cm$^{-1}$)"
         else:
             return "Energy (cm-1)"
-    elif x_unit in self.ev_labels:
+    elif x_unit in ev_labels:
         return "Energy (eV)"  
     else:
         return x_unit     
@@ -104,7 +104,7 @@ def labels_y(y_unit, latex = True, verbose = 0):
    
     """           
 
-    if self.verbose > 1:
+    if verbose > 1:
         print("SpectraTools.Resources.UnitConversion.labels_y()") 
     
     if y_unit in absorption_labels:
