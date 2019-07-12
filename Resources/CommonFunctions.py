@@ -146,7 +146,7 @@ def get_min_max_x(x, min_x = 1e9, max_x = -1e9, verbose = 0):
     
     Arguments
     ---------
-    x : array
+    x : array-like
         Data for which the minimum and maximum should be determined.
     min_x : float
         Default: 1e9
@@ -165,16 +165,37 @@ def get_min_max_x(x, min_x = 1e9, max_x = -1e9, verbose = 0):
     - 2019-07-12/RB: moved function to CommonFunctions
     """
 
-
     if verbose > 1:
         print("SpectraTools.CommonFunctions.get_min_max_x()")    
-        
+
     if numpy.amin(x) < min_x:
         min_x = numpy.amin(x)
     if numpy.amax(x) > max_x:
         max_x = numpy.amax(x)   
         
     return min_x, max_x   
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

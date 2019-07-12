@@ -330,7 +330,54 @@ class Test_indices_for_binning(unittest.TestCase):
                 print("res", res)
                 self.assertTrue(numpy.allclose(res, t["test"]))
 
-       
+class Test_get_min_max_x(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 0
+        
+        
+    def test_1(self):
+        
+        x = numpy.arange(10)
+        min_x, max_x = CF.get_min_max_x(x = x)
+        self.assertTrue(min_x == 0)
+        self.assertTrue(max_x == 9)
+        
+    def test_min_x_given(self):
+        
+        x = numpy.arange(10)
+        min_x, max_x = CF.get_min_max_x(x = x, min_x = -3)
+        self.assertTrue(min_x == -3)
+        self.assertTrue(max_x == 9)        
+
+    def test_max_x_given(self):
+        
+        x = numpy.arange(10)
+        min_x, max_x = CF.get_min_max_x(x = x, max_x = 12)
+        self.assertTrue(min_x == 0)
+        self.assertTrue(max_x == 12)          
+        
+    def test_x_list(self):
+        
+        x = range(10)
+        min_x, max_x = CF.get_min_max_x(x = x)
+        self.assertTrue(min_x == 0)
+        self.assertTrue(max_x == 9)      
+
+    def test_x_int(self):
+        
+        x = 10
+        min_x, max_x = CF.get_min_max_x(x = x)
+        self.assertTrue(min_x == 10)
+        self.assertTrue(max_x == 10)   
+
+    @unittest.expectedFailure
+    def test_x_str(self):
+        
+        x = "a"
+        min_x, max_x = CF.get_min_max_x(x = x)
+
+        
 
 if __name__ == '__main__': 
 
@@ -340,7 +387,7 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)      
     
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_overlap_in_arrays)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)             
 
@@ -348,6 +395,8 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_indices_for_binning)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)              
 
-
+    if 1:
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_get_min_max_x)
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)     
 
      
