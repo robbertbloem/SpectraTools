@@ -309,9 +309,7 @@ def make_new_x(x_resolution, x = None, min_x = None, max_x = None, verbose = 0):
     ::
         make_new_x(x_resolution = 10, min_x = 10, max_x = 40)
         >>> [15, 25, 35]
-    
-        
-        
+  
     """               
     if verbose > 1:
         print("SpectraTools.Resources.CommonFunctions.make_new_x()")
@@ -381,7 +379,32 @@ def bin_data(x, new_x, y, verbose = 0):
 
     return new_x, new_y
     
+
+
+def moving_average(a, n = 3) :
+    """
+    Calculates the moving average of a, for n samples. 
     
+    Arguments
+    ---------
+    a : ndarray
+        Array to be moving-averaged.
+    n : int
+        Number of samples to average
+    
+    Returns
+    -------
+    b : ndarray
+        Array with the results. 
+    
+    References
+    ----------
+    https://stackoverflow.com/questions/14313510/how-to-calculate-moving-average-using-numpy
+    
+    """
+    ret = numpy.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return ret[n - 1:] / n    
     
     
     
