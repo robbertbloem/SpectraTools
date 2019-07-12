@@ -3,7 +3,6 @@ This is the main class for linear spectra.
 
 """
 
-
 import importlib 
 import inspect
 import os
@@ -25,8 +24,6 @@ importlib.reload(MATH)
 importlib.reload(UC)
 importlib.reload(ST_CF)
 
-
-
 class LinearSpectrum(CT.ClassTools):
     """
     Class for linear spectra. Contains basic methods. Is usually subclassed. 
@@ -41,13 +38,10 @@ class LinearSpectrum(CT.ClassTools):
         The unit of the x-axis
     y_unit : str
         The unit of the y-axis
-    
-    
+       
     """      
-#     - 2019-01-03/RB: started class
-    
-    def __init__(self, verbose = 0, **kwargs):
 
+    def __init__(self, verbose = 0, **kwargs):
         """
          
         Keyword Arguments
@@ -62,8 +56,6 @@ class LinearSpectrum(CT.ClassTools):
             The unit of the y-axis
         
         """      
-#         - 2019-01-04/RB: started function
-        
         self.verbose = verbose
         if self.verbose > 1:
             print("SpectraTools.LinearSpectrum.__init__()")           
@@ -77,15 +69,15 @@ class LinearSpectrum(CT.ClassTools):
         self.y = kwargs.get("y", None)
         self.y_unit = kwargs.get("y_unit", "")
 
-        self.nm_labels = UC.nm_labels #["nm"]
-        self.um_labels = UC.um_labels # ["um", "micron"]
-        self.cm_labels = UC.cm_labels # ["cm-1", "wavenumber"]
-        self.ev_labels = UC.ev_labels # ["ev", "eV"]
+        self.nm_labels = UC.nm_labels 
+        self.um_labels = UC.um_labels 
+        self.cm_labels = UC.cm_labels 
+        self.ev_labels = UC.ev_labels 
             
-        self.absorption_labels = UC.absorption_labels # ["A"]
+        self.absorption_labels = UC.absorption_labels 
         self.milli_absorption_labels = UC.absorption_labels
-        self.transmission_1_labels = UC.transmission_1_labels # ["T1"]
-        self.transmission_pct_labels = UC. transmission_pct_labels # ["T100"]            
+        self.transmission_1_labels = UC.transmission_1_labels 
+        self.transmission_pct_labels = UC. transmission_pct_labels            
 
         
     def object_comparison_tests(self, other_class, label):
@@ -163,7 +155,6 @@ class LinearSpectrum(CT.ClassTools):
         object
         
         """   
-    
         if self.verbose > 1:
             print("LinearSpectrum.__sub__()")
         self.object_comparison_tests(new, label = "__sub__")
@@ -189,7 +180,6 @@ class LinearSpectrum(CT.ClassTools):
         object
         
         """
-    
         if self.verbose > 1:
             print("LinearSpectrum.__truediv__()")    
             
@@ -260,10 +250,7 @@ class LinearSpectrum(CT.ClassTools):
         new_x : ndarray
             the bins for x. 
         
-        """    
-#         - 2019-01-04/RB: started function
-#         - 2019-02-26/RB: moved functionality to make_new_x. 
-        
+        """          
         print("LinearSpectrum:make_bins(): DEPRECATED")        
         self.make_bins(x_resolution = x_resolution, min_x = min_x, max_x = max_x)
         
@@ -285,9 +272,6 @@ class LinearSpectrum(CT.ClassTools):
             the bins for x.  
 
         """               
-#         - 2019-01-04/RB: started function
-#         - 2019-02-26/RB: renamed function make_new_x to make it more applicable for interpolation.
-
         if self.verbose > 1:
             print("LinearSpectrum:make_bins()")
         
@@ -325,18 +309,12 @@ class LinearSpectrum(CT.ClassTools):
         -------
         min_x,max_x : float
         
-        Notes    
-        -----
-        - 2018-12-12/RB: started function
-        - 2019-01-08/RB: moved function to LinearSpectrum
-        - 2019-07-12/RB: moved function to CommonFunctions
         """
         if self.verbose > 1:
             print("SpectraTools.LinearSpectrum.get_min_max_x()")    
         
         return ST_CF.get_min_max_x(x = self.x, min_x = min_x, max_x = max_x, verbose = self.verbose)
       
-
 
     def find_indices_for_cropping(self, min_x = None, max_x = None, x = None, pad = 5, crop_index = False):
         """
@@ -360,11 +338,8 @@ class LinearSpectrum(CT.ClassTools):
         -------
         idx : ndarray 
             Indices to be used
-        
-        
+
         """
-#         - 2019-01-08/RB: started function
-           
         if self.verbose > 1:
             print("LinearSpectrum:find_indices_for_cropping()")        
             
@@ -379,8 +354,7 @@ class LinearSpectrum(CT.ClassTools):
 
         return idx
 
-
-    
+        
     def bin_data_helper(self, new_x, y = None):
         """
         Take data and bin it. By default self.y is binned, unless y is given in the function parameters. 
@@ -396,16 +370,8 @@ class LinearSpectrum(CT.ClassTools):
         -------
         new_x : ndarray
         new_y : ndarray
-        
 
-        """      
-#         - 2019-01-04/RB: started function
-#         - 2019-01-08/RB: return both new_x and new_y
-#         - 2019-02-27/RB: 
-#             - moved the mapping between x and new_x to another function. 
-#             - if y is 1 dimensional, new_y is as well
-        
-                   
+        """       
         if self.verbose > 1:
             print("LinearSpectrum.bin_data()")            
         
@@ -446,8 +412,6 @@ class LinearSpectrum(CT.ClassTools):
         This function provides the most basic binning functionality: self.y. In most cases this has to be sub-classed.  
         
         """
-#         - 2019-01-09/RB: started function
-           
         if self.verbose > 1:
             print("LinearSpectra.bin_data()")         
         
@@ -468,8 +432,6 @@ class LinearSpectrum(CT.ClassTools):
 
         
         """    
-#         - 2019-02-26/RB: started function
-
         if self.verbose > 1:
             print("LinearSpectra.interpolate_data_helper()") 
 
@@ -488,8 +450,6 @@ class LinearSpectrum(CT.ClassTools):
         Placeholder function.
        
         """     
-#          - 2019-02-26/RB: started function
-        
         if self.verbose > 1:
             print("LinearSpectra.interpolate_data()")         
 
@@ -503,8 +463,6 @@ class LinearSpectrum(CT.ClassTools):
         Wrapper around LinearSpectra.find_indices_for_cropping().
         
         """           
-#         - 2019-01-07/RB: started function
-        
         if self.verbose > 1:
             print("LinearSpectra.crop_x()")         
         if self.verbose > 2:
@@ -523,15 +481,12 @@ class LinearSpectrum(CT.ClassTools):
         if self.y is not None:
             self.y = self.y[idx]            
    
-        
-        
+
     def calculate_signal(self):
         """
         Placeholder function. Should be implemented in subclasses, if needed.  
 
-        """
-#         - 2019-01-09/RB: started function
-             
+        """ 
         if self.verbose > 1:
             print("LinearSpectrum.calculate_signal() -- placeholder")         
         pass
@@ -541,8 +496,6 @@ class LinearSpectrum(CT.ClassTools):
         Placeholder function. Should be implemented in subclasses, if needed.  
 
         """     
-#         - 2019-01-09/RB: started function
-        
         if self.verbose > 1:
             print("LinearSpectrum.import_data() -- placeholder")         
         pass        
@@ -568,10 +521,6 @@ class LinearSpectrum(CT.ClassTools):
         x_unit : string
 
         """   
-#         - 2019-01-04/RB: started function
-#         - 2019-01-08/RB: x as input, self.x and self.x_unit are not affected. 
-
-        # if self.verbose > 1:
         print("LinearSpectrum.convert_x(): DEPRECATED") 
             
         if old_unit == "":
@@ -589,10 +538,7 @@ class LinearSpectrum(CT.ClassTools):
       
         return UC.convert_x(x = x, old_unit = old_unit, new_unit = new_unit, verbose = self.verbose)
         
- 
-
-
-            
+     
     def convert_y(self, new_unit, y = None, old_unit = ""):
         """
         Convert the y axis from one unit to another. Supported options are absoption, transmission (0 to 1), and transmission (0% to 100%). If the old and new unit are the same, or if the new unit is unsupported, then the output will be the same as the input.
@@ -614,11 +560,6 @@ class LinearSpectrum(CT.ClassTools):
         y_unit : string
     
         """
-#         - 2019-01-04/RB: started function
-#         - 2019-01-08/RB: y as input, self.y and self.y_unit are not affected. 
-
-
-        # if self.verbose > 1:
         print("LinearSpectrum.convert_y(): DEPRECATED") 
             
         if old_unit == "":
@@ -652,9 +593,7 @@ class LinearSpectrum(CT.ClassTools):
         y_unit_label : string
             A nicely formatted label for the y-axis
                
-        """           
-
-        # if self.verbose > 1:
+        """   
         print("LinearSpectrum.labels_y(): DEPRECATED") 
 
         if self.y_unit is None and y_unit is None:
@@ -664,20 +603,6 @@ class LinearSpectrum(CT.ClassTools):
         
         return UC.labels_y(y_unit = y_unit, latex = latex, verbose = self.verbose)
         
-        
-        # if y_unit in self.absorption_labels:
-            # return "Absorption (OD)"
-        # elif y_unit in self.milli_absorption_labels:
-            # return "Absorption (mOD)"            
-        # elif y_unit in self.transmission_1_labels:
-            # return "Transmission"
-        # elif y_unit in self.transmission_pct_labels:
-            # if latex:
-                # return r"Transmission (\%)"
-            # else:
-                # return "Transmission (%)"
-        # else:
-            # return y_unit
             
     def labels_x(self, x_unit = None, latex = True):
         """
@@ -696,8 +621,6 @@ class LinearSpectrum(CT.ClassTools):
             A nicely formatted label for the x-axis.
         
         """           
-        
-        # if self.verbose > 1:
         print("LinearSpectrum.labels_x(): DEPRECATED") 
         if self.verbose > 2:
             if x_unit is None:
@@ -739,10 +662,7 @@ class LinearSpectrum(CT.ClassTools):
             - marker
             - etc.
         
-
         """      
-#         - 2019-01-07/RB: started function
-        
         if self.verbose > 1:
             print("LinearSpectrum.plot_spectrum()")         
         if self.verbose > 2:
@@ -832,9 +752,7 @@ class LinearSpectrum(CT.ClassTools):
         >>> P = LinearSpectrum()
         >>> P._LinearSpectrum__make_header()
         
-        
         """
-        # 2019-03-28/RB: extracted functionality from save_data
         if header is None:
             header = ""
             
@@ -861,7 +779,8 @@ class LinearSpectrum(CT.ClassTools):
             header = header + "\n" + columnnames    
             
         return header
-            
+    
+    
     def save_data(self, path, filename = None, **kwargs):
         """
         Save x and y. 
@@ -894,11 +813,7 @@ class LinearSpectrum(CT.ClassTools):
         
         The order is `data` > `x` and/or `y` > `self.x` and/or `self.y`. If none are given, an error will be raised
 
-        
-
         """
-#         - 2019-03-27/RB: started function 
-
         if self.verbose > 1:
             print("LinearSpectrum.save_data()")         
         if self.verbose > 2:
@@ -932,21 +847,7 @@ class LinearSpectrum(CT.ClassTools):
         paf = CF.make_path_and_filename(path = path, filename = filename, extension = extension, string_out = False, verbose = self.verbose)
             
         numpy.savetxt(paf, data, delimiter = delimiter, comments = comments, header = header)
-        
-
-                
-    
-    
-    
-                
-                
-                
-                
-
-
-
-                
-            
+      
             
 if __name__ == '__main__': 
     pass            
