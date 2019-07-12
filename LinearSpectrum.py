@@ -87,6 +87,55 @@ class LinearSpectrum(CT.ClassTools):
         self.transmission_1_labels = UC.transmission_1_labels # ["T1"]
         self.transmission_pct_labels = UC. transmission_pct_labels # ["T100"]            
 
+    def __add__(self, new):
+        """
+        Add two objects A and B. Only works if A.x and B.x are exactly the same.
+        The function checks if the x_unit and y_unit are the same for A and B and throws a warning if they are not. 
+        """
+        if self.x_unit != new.x_unit:
+            warnings.warn("LinearSpectrum.__add__(): x_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(self.x_unit, new.x_unit))
+        elif self.y_unit != new.y_unit:
+            warnings.warn("LinearSpectrum.__add__(): y_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(self.y_unit, new.y_unit))
+        
+        if numpy.all(self.x == new.x):
+            x = self.x
+            y = self.y + new.y
+        else:
+            raise ValueError("LinearSpectrum.__add__(): A.x and B.x are not exactly the same.")
+        
+        return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)
+
+    def __sub__(self, new):
+        
+        if self.x_unit != new.x_unit:
+            warnings.warn("LinearSpectrum.__add__(): x_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(self.x_unit, new.x_unit))
+        elif self.y_unit != new.y_unit:
+            warnings.warn("LinearSpectrum.__add__(): y_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(self.y_unit, new.y_unit))
+        
+        if numpy.all(self.x == new.x):
+            x = self.x
+            y = self.y - new.y
+        else: 
+            raise ValueError("LinearSpectrum.__sub__(): the length of A and B are not the same.")
+        
+        return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)
+
+    def concatenate(self, new):
+        """
+        Concatenate data in objects A and B. 
+        To add two objects with **exactly** the same x-axis, use A + B. 
+        """
+        if self.x_unit != new.x_unit:
+            warnings.warn("LinearSpectrum.__add__(): x_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(self.x_unit, new.x_unit))
+        elif self.y_unit != new.y_unit:
+            warnings.warn("LinearSpectrum.__add__(): y_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(self.y_unit, new.y_unit))
+
+        x = numpy.concatenate((self.x, new.x))
+        y = numpy.concatenate((self.y, new.y))
+        
+        return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)
+        
+        
     @property
     def x(self):
         return self._x
