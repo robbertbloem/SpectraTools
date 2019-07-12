@@ -601,59 +601,59 @@ class LinearSpectrum(CT.ClassTools):
         elif y is None:
             y = self.y[:]
 
-
+        return UC.convert_y(y = y, old_unit = old_unit, new_unit = new_unit, verbose = self.verbose)
         
-        if old_unit in self.absorption_labels:
-            if new_unit in self.absorption_labels:
-                y_unit = self.absorption_labels[0]
-                new_y = y        
-            if new_unit in self.transmission_1_labels:
-                y_unit = self.transmission_1_labels[0]
-                new_y = 10**(-y)
-            elif new_unit in self.transmission_pct_labels:
-                y_unit = self.transmission_pct_labels[0]
-                new_y = 100 * 10**(-y)         
-            else:
-                warnings.warn("LinearSpectrum.convert_y(): new unit ({:s}) is not supported".format(new_unit)) 
-                y_unit = old_unit
-                new_y = y
+        # if old_unit in self.absorption_labels:
+            # if new_unit in self.absorption_labels:
+                # y_unit = self.absorption_labels[0]
+                # new_y = y        
+            # if new_unit in self.transmission_1_labels:
+                # y_unit = self.transmission_1_labels[0]
+                # new_y = 10**(-y)
+            # elif new_unit in self.transmission_pct_labels:
+                # y_unit = self.transmission_pct_labels[0]
+                # new_y = 100 * 10**(-y)         
+            # else:
+                # warnings.warn("LinearSpectrum.convert_y(): new unit ({:s}) is not supported".format(new_unit)) 
+                # y_unit = old_unit
+                # new_y = y
                 
-        elif old_unit in self.transmission_1_labels:
-            if new_unit in self.absorption_labels:
-                y_unit = self.absorption_labels[0]
-                new_y = -numpy.log10(y)    
-            elif new_unit in self.transmission_1_labels:
-                y_unit = self.transmission_1_labels[0]
-                new_y = y               
-            elif new_unit in self.transmission_pct_labels:
-                y_unit = self.transmission_pct_labels[0]
-                new_y = y * 100      
-            else:
-                warnings.warn("LinearSpectrum.convert_y(): new unit ({:s}) is not supported".format(new_unit))       
-                y_unit = old_unit
-                new_y = y
+        # elif old_unit in self.transmission_1_labels:
+            # if new_unit in self.absorption_labels:
+                # y_unit = self.absorption_labels[0]
+                # new_y = -numpy.log10(y)    
+            # elif new_unit in self.transmission_1_labels:
+                # y_unit = self.transmission_1_labels[0]
+                # new_y = y               
+            # elif new_unit in self.transmission_pct_labels:
+                # y_unit = self.transmission_pct_labels[0]
+                # new_y = y * 100      
+            # else:
+                # warnings.warn("LinearSpectrum.convert_y(): new unit ({:s}) is not supported".format(new_unit))       
+                # y_unit = old_unit
+                # new_y = y
                 
-        elif old_unit in self.transmission_pct_labels:
-            if new_unit in self.absorption_labels:
-                y_unit = self.absorption_labels[0]
-                new_y = -numpy.log10(y / 100)              
-            elif new_unit in self.transmission_1_labels:
-                y_unit = self.transmission_1_labels[0]
-                new_y = y / 100
-            elif new_unit in self.transmission_pct_labels:
-                y_unit = self.transmission_pct_labels[0]
-                new_y = y           
-            else:
-                warnings.warn("LinearSpectrum.convert_y(): new unit ({:s}) is not supported".format(new_unit)) 
-                y_unit = old_unit
-                new_y = y
+        # elif old_unit in self.transmission_pct_labels:
+            # if new_unit in self.absorption_labels:
+                # y_unit = self.absorption_labels[0]
+                # new_y = -numpy.log10(y / 100)              
+            # elif new_unit in self.transmission_1_labels:
+                # y_unit = self.transmission_1_labels[0]
+                # new_y = y / 100
+            # elif new_unit in self.transmission_pct_labels:
+                # y_unit = self.transmission_pct_labels[0]
+                # new_y = y           
+            # else:
+                # warnings.warn("LinearSpectrum.convert_y(): new unit ({:s}) is not supported".format(new_unit)) 
+                # y_unit = old_unit
+                # new_y = y
 
-        else:
-            warnings.warn("LinearSpectrum.convert_y(): old unit ({:s}) is not supported".format(old_unit))
-            y_unit = old_unit
-            new_y = y
+        # else:
+            # warnings.warn("LinearSpectrum.convert_y(): old unit ({:s}) is not supported".format(old_unit))
+            # y_unit = old_unit
+            # new_y = y
                 
-        return new_y, y_unit
+        # return new_y, y_unit
     
     def labels_y(self, y_unit = None, latex = True):
         """
