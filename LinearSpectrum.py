@@ -156,7 +156,7 @@ class LinearSpectrum(CT.ClassTools):
 
             
         if self.y is None or new.y is None:
-            raise ValueError("LinearSpectrum.__add__(): A.y and/or B.y are None.")
+            raise ValueError("LinearSpectrum.__sub__(): A.y and/or B.y are None.")
             
         if numpy.all(self.x == new.x):
             x = self.x
@@ -189,7 +189,7 @@ class LinearSpectrum(CT.ClassTools):
         self.test_x_y_units(new, label = "__truediv__")
 
         if self.y is None or new.y is None:
-            raise ValueError("LinearSpectrum.__add__(): A.y and/or B.y are None.")
+            raise ValueError("LinearSpectrum.__truediv__(): A.y and/or B.y are None.")
             
         if numpy.all(self.x == new.x):
             x = self.x
@@ -211,7 +211,7 @@ class LinearSpectrum(CT.ClassTools):
         self.test_x_y_units(new, label = "concatenate")
 
         if self.y is None or new.y is None:
-            raise ValueError("LinearSpectrum.__add__(): A.y and/or B.y are None.")            
+            raise ValueError("LinearSpectrum.concatenate(): A.y and/or B.y are None.")            
             
         x = numpy.concatenate((self.x, new.x))
         y = numpy.concatenate((self.y, new.y))
