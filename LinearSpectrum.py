@@ -470,7 +470,7 @@ class LinearSpectrum(CT.ClassTools):
         """ 
         if self.verbose > 1:
             print("LinearSpectrum.calculate_signal() -- placeholder")         
-        pass
+        
 
     def import_data(self):
         """
@@ -479,7 +479,7 @@ class LinearSpectrum(CT.ClassTools):
         """     
         if self.verbose > 1:
             print("LinearSpectrum.import_data() -- placeholder")         
-        pass        
+                
         
     def convert_x(self, new_unit, x = None, old_unit = ""):
         """
@@ -688,31 +688,7 @@ class LinearSpectrum(CT.ClassTools):
         
         axi.set_xlabel(x_label)
         axi.set_ylabel(y_label)
-        
-    
-    # def calculate_y(self, **kwargs):
-        # """
-        
-        # absorption: assume M-1 cm-1:
-            # calculate 
-        
-        # INPUT:
-        # - 
-        
-        # OUTPUT:
-        # - -
-        
-        # CHANGELOG:
-        # 2019-01-07/RB: started function
-        # """      
-        # if self.verbose > 1:
-            # print("LinearSpectrum.calculate_y()")         
-        # if self.verbose > 2:
-            # print("kwargs:")  
-            # for k, v in kwargs.items():
-                # print("  {:} : {:}".format(k, v))
 
-        # if self.y_unit in self.transmission_1_units:
     
     def __make_header(self, header, col_names, delimiter):
         """
