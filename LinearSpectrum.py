@@ -120,6 +120,23 @@ class LinearSpectrum(CT.ClassTools):
         
         return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)
 
+        
+    def __truediv__(self, new):
+        
+        if self.x_unit != new.x_unit:
+            warnings.warn("LinearSpectrum.__add__(): x_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(self.x_unit, new.x_unit))
+        elif self.y_unit != new.y_unit:
+            warnings.warn("LinearSpectrum.__add__(): y_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(self.y_unit, new.y_unit))
+        
+        if numpy.all(self.x == new.x):
+            x = self.x
+            y = self.y / new.y
+        else: 
+            raise ValueError("LinearSpectrum.__truediv__(): the length of A and B are not the same.")
+        
+        return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)        
+        
+        
     def concatenate(self, new):
         """
         Concatenate data in objects A and B. 
