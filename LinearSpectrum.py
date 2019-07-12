@@ -83,6 +83,7 @@ class LinearSpectrum(CT.ClassTools):
         self.ev_labels = UC.ev_labels # ["ev", "eV"]
             
         self.absorption_labels = UC.absorption_labels # ["A"]
+        self.milli_absorption_labels = UC.absorption_labels
         self.transmission_1_labels = UC.transmission_1_labels # ["T1"]
         self.transmission_pct_labels = UC. transmission_pct_labels # ["T100"]            
 
@@ -520,31 +521,33 @@ class LinearSpectrum(CT.ClassTools):
         -------
         y_unit_label : string
             A nicely formatted label for the y-axis
-        
-       
+               
         """           
-#          - 2019-01-07/RB: started function
-        
+
         if self.verbose > 1:
             print("LinearSpectrum.labels_y()") 
-
 
         if self.y_unit is None and y_unit is None:
             return None
         elif y_unit is None:
             y_unit = self.y_unit
         
-        if y_unit in self.absorption_labels:
-            return "Absorption (OD)"
-        elif y_unit in self.transmission_1_labels:
-            return "Transmission"
-        elif y_unit in self.transmission_pct_labels:
-            if latex:
-                return r"Transmission (\%)"
-            else:
-                return "Transmission (%)"
-        else:
-            return y_unit
+        return UC.labels_y(y_unit = y_unit, latex = latex, verbose = self.verbose)
+        
+        
+        # if y_unit in self.absorption_labels:
+            # return "Absorption (OD)"
+        # elif y_unit in self.milli_absorption_labels:
+            # return "Absorption (mOD)"            
+        # elif y_unit in self.transmission_1_labels:
+            # return "Transmission"
+        # elif y_unit in self.transmission_pct_labels:
+            # if latex:
+                # return r"Transmission (\%)"
+            # else:
+                # return "Transmission (%)"
+        # else:
+            # return y_unit
             
     def labels_x(self, x_unit = None, latex = True):
         """
@@ -563,7 +566,6 @@ class LinearSpectrum(CT.ClassTools):
             A nicely formatted label for the x-axis.
         
         """           
-#         - 2019-01-07/RB: started function
         
         if self.verbose > 1:
             print("LinearSpectrum.labels_x()") 
@@ -577,29 +579,12 @@ class LinearSpectrum(CT.ClassTools):
             else:
                 print("  self.x_unit: {:}".format(self.x_unit))            
                 
-
-        
         if self.x_unit is None and x_unit is None:
             return None
         elif x_unit is None:
             x_unit = self.x_unit
         
-        if x_unit in self.nm_labels:
-            return "Wavelength (nm)"
-        elif x_unit in self.um_labels:
-            if latex:
-                return r"Wavelength ($\mu$m)"
-            else:
-                return "Wavelength (micron)"
-        elif x_unit in self.cm_labels:
-            if latex:
-                return r"Energy (cm$^{-1}$)"
-            else:
-                return "Energy (cm-1)"
-        elif x_unit in self.ev_labels:
-            return "Energy (eV)"  
-        else:
-            return x_unit            
+        return UC.labels_x(x_unit, latex = True, verbose = 0)          
 
             
     def plot_spectrum(self, axi = None, **kwargs):

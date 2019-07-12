@@ -43,10 +43,84 @@ cm_labels = ["cm-1", "wavenumber"]
 ev_labels = ["ev", "eV"]
     
 absorption_labels = ["A"]
+milli_absorption_labels = ["mA"]
 transmission_1_labels = ["T1"]
 transmission_pct_labels = ["T100"]            
 
+def labels_x(x_unit, latex = True, verbose = 0):
+    """
+    Return the label for the x-axis of a plot.
+    
+    Arguments
+    ---------
+    x_unit : string
+        The unit for the x axis
+    latex : bool (True)
+        If True, use LaTex notation.
+    
+    Returns
+    -------
+    x_unit_label : string
+        A nicely formatted label for the x-axis.
+    
+    """           
+    
+    if self.verbose > 1:
+        print("SpectraTools.Resources.UnitConversion.labels_x()") 
+    
+    if x_unit in self.nm_labels:
+        return "Wavelength (nm)"
+    elif x_unit in self.um_labels:
+        if latex:
+            return r"Wavelength ($\mu$m)"
+        else:
+            return "Wavelength (micron)"
+    elif x_unit in self.cm_labels:
+        if latex:
+            return r"Energy (cm$^{-1}$)"
+        else:
+            return "Energy (cm-1)"
+    elif x_unit in self.ev_labels:
+        return "Energy (eV)"  
+    else:
+        return x_unit     
 
+
+def labels_y(y_unit, latex = True, verbose = 0):
+    """
+    Return the label for the y-axis of a plot.
+    
+    Arguments
+    ---------
+    y_unit : string 
+        The unit for the y-axis
+    latex : bool (True)
+        If True, use LaTex notation.
+    Returns
+    -------
+    y_unit_label : string
+        A nicely formatted label for the y-axis
+    
+   
+    """           
+
+    
+    if self.verbose > 1:
+        print("SpectraTools.Resources.UnitConversion.labels_y()") 
+    
+    if y_unit in absorption_labels:
+        return "Absorption (OD)"
+    elif y_unit in milli_absorption_labels:
+        return "Absorption (mOD)"            
+    elif y_unit in transmission_1_labels:
+        return "Transmission"
+    elif y_unit in transmission_pct_labels:
+        if latex:
+            return r"Transmission (\%)"
+        else:
+            return "Transmission (%)"
+    else:
+        return y_unit
 
 
 def prefix_names_to_base10(prefix_name, verbose = 0):  

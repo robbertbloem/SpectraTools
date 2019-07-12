@@ -170,6 +170,10 @@ class Test_make_new_x(unittest.TestCase):
         self.assertTrue(numpy.allclose(new_y, [1,2,3]))        
         
 class Test_conversions(unittest.TestCase):
+    """
+    Use the tests for UnitConversion. 
+    """
+
 
     def setUp(self):
         self.verbose = 0
