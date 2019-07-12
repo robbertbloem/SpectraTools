@@ -105,7 +105,14 @@ class LinearSpectrum(CT.ClassTools):
     
         if self.__class__.__name__ != other_class.__class__.__name__:
             raise ValueError("LinearSpectrum.{:}: the two classes are not the same ({:} and {:}).".format(label, self.__class__.__name__, other_class.__class__.__name__))
-    
+
+        if self.y is None or other_class.y is None:
+            raise ValueError("PAS.{:}(): A.y and/or B.y are None.".format(label))
+            
+        if label != "concatenate":
+            if numpy.all(self.x == other_class.x) == False:
+                raise ValueError("PAS.{:}(): A.x and B.x are not the same.".format(label))
+            
         if self.x_unit != other_class.x_unit:
             warnings.warn("LinearSpectrum.{:}(): x_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(label, self.x_unit, other_class.x_unit))
         elif self.x_unit == "":
@@ -135,15 +142,9 @@ class LinearSpectrum(CT.ClassTools):
             print("LinearSpectrum.__add__()")
         
         self.object_comparison_tests(new, label = "__add__")
-        
-        if self.y is None or new.y is None:
-            raise ValueError("LinearSpectrum.__add__(): A.y and/or B.y are None.")
-        
-        if numpy.all(self.x == new.x):
-            x = self.x
-            y = self.y + new.y
-        else:
-            raise ValueError("LinearSpectrum.__add__(): A.x and B.x are not exactly the same.")
+
+        x = self.x
+        y = self.y + new.y
         
         return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)
 
@@ -167,15 +168,8 @@ class LinearSpectrum(CT.ClassTools):
             print("LinearSpectrum.__sub__()")
         self.object_comparison_tests(new, label = "__sub__")
 
-            
-        if self.y is None or new.y is None:
-            raise ValueError("LinearSpectrum.__sub__(): A.y and/or B.y are None.")
-            
-        if numpy.all(self.x == new.x):
-            x = self.x
-            y = self.y - new.y
-        else: 
-            raise ValueError("LinearSpectrum.__sub__(): the length of A and B are not the same.")
+        x = self.x
+        y = self.y - new.y
         
         return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)
 
@@ -201,14 +195,8 @@ class LinearSpectrum(CT.ClassTools):
             
         self.object_comparison_tests(new, label = "__truediv__")
 
-        if self.y is None or new.y is None:
-            raise ValueError("LinearSpectrum.__truediv__(): A.y and/or B.y are None.")
-            
-        if numpy.all(self.x == new.x):
-            x = self.x
-            y = self.y / new.y
-        else: 
-            raise ValueError("LinearSpectrum.__truediv__(): the length of A and B are not the same.")
+        x = self.x
+        y = self.y / new.y
         
         return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)        
         
@@ -221,10 +209,7 @@ class LinearSpectrum(CT.ClassTools):
         if self.verbose > 1:
             print("LinearSpectrum.concatenate()")    
             
-        self.object_comparison_tests(new, label = "concatenate")
-
-        if self.y is None or new.y is None:
-            raise ValueError("LinearSpectrum.concatenate(): A.y and/or B.y are None.")            
+        self.object_comparison_tests(new, label = "concatenate")      
             
         x = numpy.concatenate((self.x, new.x))
         y = numpy.concatenate((self.y, new.y))
