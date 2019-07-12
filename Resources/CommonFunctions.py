@@ -178,9 +178,82 @@ def get_min_max_x(x, min_x = 1e9, max_x = -1e9, verbose = 0):
     
 
     
+def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index = False, verbose = 0):
+    """
+    Find the indices between min_x and max_x and pad them. min_x and/or max_x has to be given. min_x and max_x can be outside the values of x, but the function returns a warning if no indices are found. 
+
+    x has to ascending or descending. 
+
+    Arguments
+    ---------
+    x : ndarray
+        if x is given, it is used instead of self.x    
+    min_x : number, optional 
+    max_x : number, optional
+    pad : number (5)
+        Default: 5
+    crop_index : bool (False)
+        If True, min_x and max_x are considered as indices. Otherwise, they are considered to be values. 
+
+    Returns
+    -------
+    idx : ndarray 
+        Indices to be used
+
+    Notes
+    -----
+    ::
     
+        x = [0,1,2,3]
+        find_indices_for_cropping(x, min_x = -5, max_x = 5)
+        
+        
+
+    """
+    if verbose > 1:
+        print("SpectraTools.Resources.CommonFunctions.find_indices_for_cropping()")        
+        
+    if crop_index == False:
+        if min_x is not None and max_x is not None:
+            if min_x > max_x:
+                temp = max_x
+                max_x = min_x
+                min_x = temp            
+            idx = numpy.where(numpy.logical_and(x >= min_x, x <= max_x))[0]
+        elif min_x is not None:
+            idx = numpy.where(x > min_x)[0]
+        elif max_x is not None:
+            idx = numpy.where(x < max_x)[0]    
+        else:
+            return None
+    else:
+        if min_x > max_x:
+            temp = max_x
+            max_x = min_x
+            min_x = temp    
+        if type(min_x) != int:
+            min_x = int(min_x)
+        if type(max_x) != int:
+            max_x = int(max_x)                
+        idx = numpy.arange(min_x, max_x + 1)
+            
     
+    if len(idx) == 0:
+        warnings.warn("SpectraTools.Resources.CommonFunctions.find_indices_for_cropping(): array ({:}-{:}) does not contain values in the range {:}-{:}".format(x[0], x[-1], min_x, max_x))
+        return None
     
+    if type(pad) != int:
+        pad = 5
+    if pad < 1:
+        pad = 1
+    
+    idx = numpy.insert(idx, 0, numpy.arange(idx[0] - pad, idx[0]))         
+    idx = numpy.append(idx, numpy.arange(idx[-1] + 1, idx[-1] + pad + 1))  
+    temp = numpy.where(numpy.logical_and(idx >= 0, idx < len(x)))[0]
+    idx = idx[temp] 
+    
+    return idx
+        
     
     
     

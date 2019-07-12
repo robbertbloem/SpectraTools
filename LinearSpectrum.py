@@ -263,45 +263,8 @@ class LinearSpectrum(CT.ClassTools):
             else:
                 x = self.x
 
-        if crop_index == False:
-            if min_x is not None and max_x is not None:
-                if min_x > max_x:
-                    temp = max_x
-                    max_x = min_x
-                    min_x = temp            
-                idx = numpy.where(numpy.logical_and(x >= min_x, x <= max_x))[0]
-            elif min_x is not None:
-                idx = numpy.where(x > min_x)[0]
-            elif max_x is not None:
-                idx = numpy.where(x < max_x)[0]    
-            else:
-                return None
-        else:
-            if min_x > max_x:
-                temp = max_x
-                max_x = min_x
-                min_x = temp    
-            if type(min_x) != int:
-                min_x = int(min_x)
-            if type(max_x) != int:
-                max_x = int(max_x)                
-            idx = numpy.arange(min_x, max_x + 1)
-                
-        
-        if len(idx) == 0:
-            warnings.warn("LinearSpectrum.find_indices_for_cropping(): array ({:}-{:}) does not contain values in the range {:}-{:}".format(x[0], x[-1], min_x, max_x))
-            return None
-        
-        if type(pad) != int:
-            pad = 5
-        if pad < 1:
-            pad = 1
-        
-        idx = numpy.insert(idx, 0, numpy.arange(idx[0] - pad, idx[0]))         
-        idx = numpy.append(idx, numpy.arange(idx[-1] + 1, idx[-1] + pad + 1))  
-        temp = numpy.where(numpy.logical_and(idx >= 0, idx < len(x)))[0]
-        idx = idx[temp] 
-            
+        idx = ST_CF.find_indices_for_cropping(x = x, min_x = min_x, max_x = max_x, pad = pad, crop_index = crop_index, verbose = self.verbose)
+
         return idx
 
 

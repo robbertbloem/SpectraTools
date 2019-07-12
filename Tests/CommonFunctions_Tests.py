@@ -378,6 +378,105 @@ class Test_get_min_max_x(unittest.TestCase):
         min_x, max_x = CF.get_min_max_x(x = x)
 
         
+class Test_find_indices_for_cropping(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 0
+        
+    def test_crop_x(self):
+        """
+        Basic test
+        2019-01-08/RB
+        
+        x1
+        idx 0 1 2 3 4 5 6 7 8 9
+        val 0 1 2 3 4 5 6 7 8 9
+
+        x2
+        idx 0 1 2 3 4 5 6 7 8 9
+        val 9 8 7 6 5 4 3 2 1 0
+
+        x3
+        idx 0  1  2  3  4  5  6  7  8  9
+        val 0 -1 -2 -3 -4 -5 -6 -7 -8 -9
+        
+        x4
+        idx  0  1  2  3  4  5  6  7  8  9
+        val -9 -8 -7 -6 -5 -4 -3 -2 -1  0        
+        
+        """        
+        
+        
+        x1 = numpy.arange(10)
+        x2 = numpy.arange(10)[::-1]
+        x3 = -numpy.arange(10)
+        x4 = -numpy.arange(10)[::-1]        
+        
+        tests = [
+            [x1, 3.5, 6.5, numpy.arange(3,8)],
+            [x1, 3, 6, numpy.arange(2,8)],
+            [x1, -1, 6.5, numpy.arange(8)],
+            [x1, 3.5, 11, numpy.arange(3,10)],
+            [x1, -1, 11, numpy.arange(10)],            
+            
+            [x2, 3.5, 6.5, numpy.array([2,3,4,5,6])],
+            [x2, 3, 6, numpy.arange(2,8)],
+            [x2, -1, 6.5, numpy.arange(2,10)],
+            [x2, 2.5, 11, numpy.arange(8)],    
+            [x2, -1, 11, numpy.arange(10)],               
+
+            [x3, -3.5, -6.5, numpy.arange(3,8)],
+            [x3, -3, -6, numpy.arange(2,8)],
+            [x3, 1, -6.5, numpy.arange(8)],
+            [x3, -3.5, -11, numpy.arange(3,10)],
+            [x3, -1, -11, numpy.arange(10)],   
+            
+            [x4, -3.5, -6.5, numpy.array([2,3,4,5,6])],
+            [x4, -3, -6, numpy.arange(2,8)],
+            [x4, 1, -6.5, numpy.arange(2,10)],
+            [x4, -3.5, -11, numpy.arange(7)],    
+            [x4, -1, -11, numpy.arange(10)],   
+            
+            [x1, None, 6.5, numpy.arange(8)],
+            [x1, 3.5, None, numpy.arange(3,10)],
+          
+        ]
+       
+        for t in tests:
+            res = CF.find_indices_for_cropping(x = t[0], min_x = t[1], max_x = t[2], pad = 1, verbose = self.verbose)
+            s = "{:}->{:}, {:}, {:}, {:} ?= {:}".format(t[0][0], t[0][-1], t[1], t[2], t[3], res)
+            with self.subTest(s):
+                # print(s)
+                self.assertTrue(len(res) == len(t[3]))
+                self.assertTrue(numpy.allclose(res, t[3]))            
+
+    def test_crop_x_no_xmin_xmax(self):
+
+        x = numpy.arange(10)
+        res = CF.find_indices_for_cropping(x, None, None, verbose = self.verbose)
+        self.assertTrue(res is None)  
+        
+    def test_crop_x_xmin_xmax_out_of_range(self):
+
+        x = numpy.arange(10)
+        res = CF.find_indices_for_cropping(x, 12, 16, verbose = self.verbose)
+        self.assertTrue(res is None)                 
+
+    def test_pad_int(self):
+
+        x = numpy.arange(10)
+        res = CF.find_indices_for_cropping(x = x, min_x = 3.5, max_x = 6.5, pad = 1, verbose = self.verbose)
+        self.assertTrue(len(res) == 5)
+        self.assertTrue(numpy.allclose(res, numpy.arange(3,8)))        
+
+    def test_pad_float(self):
+
+        x = numpy.arange(25)
+        res = CF.find_indices_for_cropping(x = x, min_x = 8.5, max_x = 13.5, pad = 2.3, verbose = self.verbose)
+        self.assertTrue(len(res) == 15)
+        self.assertTrue(numpy.allclose(res, numpy.arange(4,19)))             
+        
+        
 
 if __name__ == '__main__': 
 
@@ -395,8 +494,10 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_indices_for_binning)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)              
 
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_get_min_max_x)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)     
 
-     
+    if 1:
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_indices_for_cropping)
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)          

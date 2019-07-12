@@ -278,7 +278,10 @@ class Test_conversions(unittest.TestCase):
 
 
 class Test_find_indices_for_cropping(unittest.TestCase):
-
+    """
+    These tests were written when the function in the class contained the algorithm. The algorithm has been moved to CommonFunctions. Most tests have been copied there. These tests should only be used to check the functionality of the function in the class.
+    """
+    
     def setUp(self):
         self.verbose = 0
         
@@ -546,7 +549,7 @@ class Test_save_data(unittest.TestCase):
 
         
 if __name__ == '__main__': 
-    verbosity = 2
+    verbosity = 1
     
     """
     Methods:
@@ -587,14 +590,14 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_conversions)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)      
     
-    if 0:
+    if 1:
         """
         + find_indices_for_cropping
         """
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_indices_for_cropping)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)    
 
-    if 1:
+    if 0:
         """
         + save_data
         """
