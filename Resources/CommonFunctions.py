@@ -136,3 +136,49 @@ def find_overlap_in_arrays(x_list = None, x1 = None, x2 = None, verbose = 0):
         print(start, finish)
     
     return start, finish
+    
+    
+
+    
+def get_min_max_x(x, min_x = 1e9, max_x = -1e9, verbose = 0):
+    """
+    Get the minimum and maximum value of x. By using the output of this function as the input for this function with another dataset, the minimum and maximum wavenumber for a set of data can be found. This can be used to make bins for all data. 
+    
+    Arguments
+    ---------
+    x : array
+        Data for which the minimum and maximum should be determined.
+    min_x : float
+        Default: 1e9
+    max_x : float
+        Default: -1e9
+    
+    Returns
+    -------
+    min_x,max_x : float
+
+
+    Notes    
+    -----
+    - 2018-12-12/RB: started function
+    - 2019-01-08/RB: moved function to LinearSpectrum
+    - 2019-07-12/RB: moved function to CommonFunctions
+    """
+
+
+    if verbose > 1:
+        print("SpectraTools.CommonFunctions.get_min_max_x()")    
+        
+    if numpy.amin(x) < min_x:
+        min_x = numpy.amin(x)
+    if numpy.amax(x) > max_x:
+        max_x = numpy.amax(x)   
+        
+    return min_x, max_x   
+    
+    
+    
+    
+    
+    
+    

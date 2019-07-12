@@ -200,6 +200,8 @@ class LinearSpectrum(CT.ClassTools):
         """
         Get the minimum and maximum value of x. By using the output of this function as the input for this function with another dataset, the minimum and maximum wavenumber for a set of data can be found. This can be used to make bins for all data. 
         
+        Wrapper around SpectraTools.CommonFunctions.get_min_max_x().
+        
         Arguments
         ---------
         min_x : float
@@ -211,19 +213,17 @@ class LinearSpectrum(CT.ClassTools):
         -------
         min_x,max_x : float
         
-
+        Notes    
+        -----
+        - 2018-12-12/RB: started function
+        - 2019-01-08/RB: moved function to LinearSpectrum
+        - 2019-07-12/RB: moved function to CommonFunctions
         """
-#         - 2018-12-12/RB: started function
-#         - 2019-01-08/RB: moved function to LinearSpectrum
-
         if self.verbose > 1:
-            print("LinearSpectrum.get_min_max_x()")    
-            
-        if numpy.amin(self.x) < min_x:
-            min_x = numpy.amin(self.x)
-        if numpy.amax(self.x) > max_x:
-            max_x = numpy.amax(self.x)   
-        return min_x, max_x        
+            print("SpectraTools.LinearSpectrum.get_min_max_x()")    
+        
+        return ST_CF.get_min_max_x(x = self.x, min_x = min_x, max_x = max_x, verbose = self.verbose)
+      
 
 
     def find_indices_for_cropping(self, min_x = None, max_x = None, x = None, pad = 5, crop_index = False):
