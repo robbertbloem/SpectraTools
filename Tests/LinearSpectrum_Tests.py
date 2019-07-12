@@ -700,6 +700,18 @@ class Test_add_sub_div_concat(unittest.TestCase):
             C = self.A / self.B        
         with self.assertWarns(Warning) as cm:
             C = self.A.concatenate(self.B)     
+    
+    def test_different_classes(self):
+        
+        D = ExampleClass()
+        with self.assertRaises(ValueError) as cm:
+            C = self.A + D
+
+class ExampleClass():
+    def __init__(self):
+        pass
+    
+        
         
 if __name__ == '__main__': 
     verbosity = 1

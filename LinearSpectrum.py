@@ -103,6 +103,9 @@ class LinearSpectrum(CT.ClassTools):
         if self.verbose > 1:
             print("LinearSpectrum.object_comparison_tests()")    
     
+        if self.__class__.__name__ != other_class.__class__.__name__:
+            raise ValueError("LinearSpectrum.{:}: the two classes are not the same ({:} and {:}).".format(label, self.__class__.__name__, other_class.__class__.__name__))
+    
         if self.x_unit != other_class.x_unit:
             warnings.warn("LinearSpectrum.{:}(): x_units are not the same (A = '{:}' and B = '{:}'). The unit of A will be used.".format(label, self.x_unit, other_class.x_unit))
         elif self.x_unit == "":
