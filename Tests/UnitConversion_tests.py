@@ -133,8 +133,8 @@ class Test_conversions(unittest.TestCase):
         """        
         x = numpy.array([1,1000])     
         new_x, x_unit = UC.convert_x(x = x, old_unit = "nm", new_unit = "bla")
-        self.assertTrue(new_x is None)
-        self.assertTrue(x_unit is None)
+        self.assertTrue(numpy.allclose(new_x, x))
+        self.assertTrue(x_unit == "nm")
 
     def test_convert_x_unknown_old_unit(self):
         """
@@ -144,8 +144,8 @@ class Test_conversions(unittest.TestCase):
         """        
         x = numpy.array([1,1000])     
         new_x, x_unit = UC.convert_x(x = x, old_unit = "bla", new_unit = "nm")
-        self.assertTrue(new_x is None)
-        self.assertTrue(x_unit is None) 
+        self.assertTrue(numpy.allclose(new_x, x))
+        self.assertTrue(x_unit == "bla")
 
 
         

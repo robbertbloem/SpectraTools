@@ -104,7 +104,6 @@ def labels_y(y_unit, latex = True, verbose = 0):
    
     """           
 
-    
     if self.verbose > 1:
         print("SpectraTools.Resources.UnitConversion.labels_y()") 
     
@@ -304,8 +303,8 @@ def convert_x(x, old_unit, new_unit, verbose = 0):
             new_x = 1239.84 / x
         else:
             warnings.warn("UnitConversion.convert_x(): new unit ({:s}) is not supported".format(new_unit))
-            x_unit = None 
-            new_x = None
+            x_unit = old_unit 
+            new_x = x
             
     elif old_unit in um_labels:
         if new_unit in nm_labels:
@@ -322,8 +321,8 @@ def convert_x(x, old_unit, new_unit, verbose = 0):
             new_x = 1.23984 / x
         else:
             warnings.warn("UnitConversion.convert_x(): new unit ({:s}) is not supported".format(new_unit))
-            x_unit = None 
-            new_x = None
+            x_unit = old_unit 
+            new_x = x
             
     elif old_unit in cm_labels:
         if new_unit in nm_labels:
@@ -340,8 +339,8 @@ def convert_x(x, old_unit, new_unit, verbose = 0):
             new_x = 1239.84 * x / 1e7
         else:
             warnings.warn("UnitConversion.convert_x(): new unit ({:s}) is not supported".format(new_unit))
-            x_unit = None 
-            new_x = None          
+            x_unit = old_unit 
+            new_x = x        
     
     elif old_unit in ev_labels:
         if new_unit in nm_labels:
@@ -358,13 +357,13 @@ def convert_x(x, old_unit, new_unit, verbose = 0):
             new_x = x
         else:
             warnings.warn("UnitConversion.convert_x(): new unit ({:s}) is not supported".format(new_unit))
-            x_unit = None 
-            new_x = None
+            x_unit = old_unit 
+            new_x = x
             
     else:
         warnings.warn("UnitConversion.convert_x(): old unit ({:s}) is not supported".format(old_unit))
-        x_unit = None 
-        new_x = None
+        x_unit = old_unit 
+        new_x = x
             
     return new_x, x_unit
 
@@ -413,8 +412,8 @@ def convert_y(y, old_unit, new_unit, verbose = 0):
             new_y = 100 * 10**(-y)         
         else:
             warnings.warn("UnitConversion.convert_y(): new unit ({:s}) is not supported".format(new_unit)) 
-            y_unit = None
-            new_y = None
+            y_unit = old_unit
+            new_y = y
             
     elif old_unit in transmission_1_labels:
         if new_unit in absorption_labels:
@@ -428,8 +427,8 @@ def convert_y(y, old_unit, new_unit, verbose = 0):
             new_y = y * 100      
         else:
             warnings.warn("UnitConversion.convert_y(): new unit ({:s}) is not supported".format(new_unit))       
-            y_unit = None
-            new_y = None
+            y_unit = old_unit
+            new_y = y
 
             
     elif old_unit in transmission_pct_labels:
@@ -444,14 +443,14 @@ def convert_y(y, old_unit, new_unit, verbose = 0):
             new_y = y           
         else:
             warnings.warn("UnitConversion.convert_y(): new unit ({:s}) is not supported".format(new_unit)) 
-            y_unit = None
-            new_y = None
+            y_unit = old_unit
+            new_y = y
 
 
     else:
         warnings.warn("UnitConversion.convert_y(): old unit ({:s}) is not supported".format(old_unit))
-        y_unit = None
-        new_y = None
+        y_unit = old_unit
+        new_y = y
             
     return new_y, y_unit
     
