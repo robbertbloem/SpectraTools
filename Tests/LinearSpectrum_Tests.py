@@ -226,8 +226,8 @@ class Test_conversions(unittest.TestCase):
         x_unit = "nm"
         P = LS.LinearSpectrum(verbose = self.verbose, x = x, x_unit = x_unit)                
         new_x, x_unit = P.convert_x("bla")
-        self.assertTrue(new_x is None)
-        self.assertTrue(x_unit is None)
+        self.assertTrue(numpy.allclose(new_x, x))
+        self.assertTrue(x_unit == "nm")
 
     def test_convert_x_unknown_old_unit(self):
         """
@@ -238,8 +238,8 @@ class Test_conversions(unittest.TestCase):
         x_unit = "bla"
         P = LS.LinearSpectrum(verbose = self.verbose, x = x, x_unit = x_unit)                
         new_x, x_unit = P.convert_x("nm")
-        self.assertTrue(new_x is None)
-        self.assertTrue(x_unit is None)
+        self.assertTrue(numpy.allclose(new_x, x))
+        self.assertTrue(x_unit == "bla")
 
     def test_convert_x_no_x(self):
         """

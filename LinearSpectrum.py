@@ -441,8 +441,8 @@ class LinearSpectrum(CT.ClassTools):
 #         - 2019-01-04/RB: started function
 #         - 2019-01-08/RB: x as input, self.x and self.x_unit are not affected. 
 
-        if self.verbose > 1:
-            print("LinearSpectrum.convert_x()") 
+        # if self.verbose > 1:
+        print("LinearSpectrum.convert_x(): DEPRECATED") 
             
         if old_unit == "":
             if self.x_unit == "":
@@ -488,8 +488,8 @@ class LinearSpectrum(CT.ClassTools):
 #         - 2019-01-08/RB: y as input, self.y and self.y_unit are not affected. 
 
 
-        if self.verbose > 1:
-            print("LinearSpectrum.convert_y()") 
+        # if self.verbose > 1:
+        print("LinearSpectrum.convert_y(): DEPRECATED") 
             
         if old_unit == "":
             if self.y_unit == "":
@@ -524,8 +524,8 @@ class LinearSpectrum(CT.ClassTools):
                
         """           
 
-        if self.verbose > 1:
-            print("LinearSpectrum.labels_y()") 
+        # if self.verbose > 1:
+        print("LinearSpectrum.labels_y(): DEPRECATED") 
 
         if self.y_unit is None and y_unit is None:
             return None
@@ -567,8 +567,8 @@ class LinearSpectrum(CT.ClassTools):
         
         """           
         
-        if self.verbose > 1:
-            print("LinearSpectrum.labels_x()") 
+        # if self.verbose > 1:
+        print("LinearSpectrum.labels_x(): DEPRECATED") 
         if self.verbose > 2:
             if x_unit is None:
                 print("  x_unit: None")
@@ -627,11 +627,11 @@ class LinearSpectrum(CT.ClassTools):
             x = kwargs.pop("x")
             x_unit = self.x_unit
         elif "x_unit" in kwargs:
-            x, x_unit = self.convert_x(kwargs.pop("x_unit")) 
+            x, x_unit = UC.convert_x(x = self.x, new_unit = kwargs.pop("x_unit"), old_unit = self.x_unit) 
         else:
             x = self.x
             x_unit = self.x_unit
-        x_label = self.labels_x(self.x_unit)
+        x_label = UC.labels_x(self.x_unit)
 
         if "y" in kwargs and "y_unit" in kwargs:
             y = kwargs.pop("y")
@@ -640,11 +640,11 @@ class LinearSpectrum(CT.ClassTools):
             y = kwargs.pop("y")
             y_unit = self.y_unit
         elif "y_unit" in kwargs:
-            y, y_unit = self.convert_x(kwargs.pop("y_unit")) 
+            y, y_unit = self.convert_y(y = self.y, new_unit = kwargs.pop("y_unit"), old_unit = self.y_unit) 
         else:
             y = self.y
             y_unit = self.y_unit
-        y_label = self.labels_y(self.y_unit)        
+        y_label = UC.labels_y(self.y_unit)        
 
         if axi is None:
             fig = plt.figure()
