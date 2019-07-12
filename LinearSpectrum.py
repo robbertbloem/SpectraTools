@@ -385,29 +385,8 @@ class LinearSpectrum(CT.ClassTools):
             else:
                 y = self.y[:]
 
-        digitized = ST_CF.indices_for_binning(self.x, new_x)
+        return ST_CF.bin_data(x = self.x, new_x = new_x, y = y, verbose = self.verbose)
 
-        dim = len(numpy.shape(y))
-        if dim == 1:
-            y = numpy.reshape(y, (1, len(y)))        
-        n_y = numpy.shape(y)[0]
-        new_y = numpy.zeros((n_y, len(new_x)))     
-        empty_bin_count = 0
-        for b in range(len(new_x)):
-            temp = y[:, digitized == b]
-            if numpy.shape(temp)[1] == 0:
-                new_y[:,b] = numpy.nan
-                empty_bin_count += 1                    
-            else:
-                new_y[:, b] = temp.mean(axis = 1)         
-        
-        if dim == 1:    
-            new_y = new_y[0,:]
-        
-        if self.verbose > 0:
-            print("LinearSpectrum : bin_data: Number of empty bins: {:d}".format(empty_bin_count))
-
-        return new_x, new_y
 
     def bin_data(self, new_x = None, x_resolution = None):    
         """
