@@ -69,15 +69,15 @@ class LinearSpectrum(CT.ClassTools):
         self.y = kwargs.get("y", None)
         self.y_unit = kwargs.get("y_unit", "")
 
-        self.nm_labels = UC.nm_labels 
-        self.um_labels = UC.um_labels 
-        self.cm_labels = UC.cm_labels 
-        self.ev_labels = UC.ev_labels 
+        # self.nm_labels = UC.nm_labels 
+        # self.um_labels = UC.um_labels 
+        # self.cm_labels = UC.cm_labels 
+        # self.ev_labels = UC.ev_labels 
             
-        self.absorption_labels = UC.absorption_labels 
-        self.milli_absorption_labels = UC.absorption_labels
-        self.transmission_1_labels = UC.transmission_1_labels 
-        self.transmission_pct_labels = UC. transmission_pct_labels            
+        # self.absorption_labels = UC.absorption_labels 
+        # self.milli_absorption_labels = UC.absorption_labels
+        # self.transmission_1_labels = UC.transmission_1_labels 
+        # self.transmission_pct_labels = UC. transmission_pct_labels            
 
         
     def object_comparison_tests(self, other_class, label):
