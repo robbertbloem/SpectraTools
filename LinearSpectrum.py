@@ -140,6 +140,17 @@ class LinearSpectrum(CT.ClassTools):
         
         return LinearSpectrum(x = x, y = y, x_unit = self.x_unit, y_unit = self.y_unit)
 
+        
+    def __radd__(self, new):
+        """
+        Reverse add.
+        """
+        if self.verbose > 1:
+            print("LinearSpectrum.__radd__()")
+        
+        return self.__add__(new)        
+
+        
     def __sub__(self, new):
         """
         Make a new object C, with B.y subtracted from B.y. Only works if A.x and B.x are **exactly** the same.
