@@ -8,6 +8,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 import PythonTools.ClassTools as CT
+import SpectraTools.LinearSpectrum as LS
 
 flag_ST = True
 try:
@@ -316,9 +317,9 @@ class MultiLinearSpectra(CT.ClassTools):
         """  
 
         if self.verbose > 1:
-            print("MultiLinearSpectra.make_bins()")   
+            print("MultiLinearSpectra.bin_data()")   
     
-        bins = self.mess[0]["object"].make_bins(x_resolution = x_resolution, min_x = min_x, max_x = max_x) 
+        bins = self.mess[0]["object"].make_new_x(x_resolution = x_resolution, min_x = min_x, max_x = max_x) 
     
         for m in range(len(self.mess)):
             if m not in exclude and self.mess[m]["class"] not in exclude:
@@ -435,7 +436,7 @@ class MultiLinearSpectra(CT.ClassTools):
             
             batch["index"] = b + n_mess
             batch["class"] = "batch"
-            batch["object"] = PAS.PAS(verbose = self.verbose)
+            batch["object"] = LS.LinearSpectrum(verbose = self.verbose)
             
             batch["object"].x = numpy.array([])
             batch["object"].y = numpy.array([])
