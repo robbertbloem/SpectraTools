@@ -30,6 +30,7 @@ import numpy
 import hapi
 
 import SpectraTools.LinearSpectrum as LS
+import SpectraTools.UnitConversion as UC
 
 importlib.reload(hapi)
 
@@ -288,12 +289,12 @@ class hitran(LS.LinearSpectrum):
 
         if self.y_unit == "":
             self.x, self.y = hapi.absorptionSpectrum(w, c, Environment = environment)   
-            self.y_unit = self.absorption_labels[0]
-        if self.y_unit in self.transmission_1_labels:
+            self.y_unit = UC.absorption_labels[0]
+        if self.y_unit in UC.transmission_1_labels:
             self.x, self.y = hapi.transmittanceSpectrum(w, c, Environment = environment)
-        elif self.y_unit in self.transmission_pct_labels:
+        elif self.y_unit in UC.transmission_pct_labels:
             self.x, self.y = 100 * hapi.transmittanceSpectrum(w, c, Environment = environment)            
-        elif self.y_unit in self.absorption_labels:
+        elif self.y_unit in UC.absorption_labels:
             self.x, self.y = hapi.absorptionSpectrum(w, c, Environment = environment)     
         elif self.y_unit in ["cm-1", "cm2/molecule"]:
             self.x = w
