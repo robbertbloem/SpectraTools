@@ -6,7 +6,7 @@ import importlib
 
 import numpy
 
-import RefractiveIndexTools.Resources.RI_read_yaml as RIRY
+import SpectraTools.Resources.RI_read_yaml as RIRY
 
 importlib.reload(RIRY)
 
