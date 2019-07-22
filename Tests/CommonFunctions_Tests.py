@@ -482,11 +482,11 @@ if __name__ == '__main__':
 
     verbosity = 1
         
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)      
     
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_overlap_in_arrays)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)             
 
@@ -494,7 +494,7 @@ if __name__ == '__main__':
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_indices_for_binning)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)              
 
-    if 0:
+    if 1:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_get_min_max_x)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)     
 
