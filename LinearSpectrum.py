@@ -677,14 +677,20 @@ class LinearSpectrum(CT.ClassTools):
             y_unit = self.y_unit
         y_label = UC.labels_y(self.y_unit)        
 
+        if "no_legend" in kwargs:
+            no_legend = kwargs.pop("no_legend")
+        else:
+            no_legend = False
+        
         if axi is None:
             fig = plt.figure()
             axi = fig.add_subplot(111)
             
         axi.plot(x, y, **kwargs)
         
-        if "label" in kwargs:
-            axi.legend()
+        if no_legend == False:
+            if "label" in kwargs:
+                axi.legend()
         
         axi.set_xlabel(x_label)
         axi.set_ylabel(y_label)
