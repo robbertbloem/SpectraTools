@@ -593,6 +593,33 @@ class Test_add_sub_div_concat(unittest.TestCase):
         self.assertTrue(len(C.y) == 20)   
         self.assertTrue(C.y[-1] == 10)
 
+        
+    def test_add_3(self):
+        A = LS.LinearSpectrum()
+        B = LS.LinearSpectrum()   
+        C = LS.LinearSpectrum()           
+        A.x = numpy.arange(10)
+        B.x = numpy.arange(10)
+        C.x = numpy.arange(10)
+        A.y = numpy.arange(10) + 1.0
+        B.y = numpy.arange(10) + 1.0
+        C.y = numpy.arange(10) + 1.0
+        A.x_unit = "x"
+        B.x_unit = "x"
+        C.x_unit = "x"
+        A.y_unit = "y"
+        B.y_unit = "y"
+        C.y_unit = "y"
+        
+        D = A + B
+        D = D + C
+        self.assertTrue(D.y[-1] == 30)
+
+        E = A + B
+        F = E + C
+        self.assertTrue(F.y[-1] == 30)
+        
+        
 
     def test_y_has_nan(self):
         
