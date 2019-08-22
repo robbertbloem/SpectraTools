@@ -320,7 +320,7 @@ class LinearSpectrum(CT.ClassTools):
         return ST_CF.get_min_max_x(x = self.x, min_x = min_x, max_x = max_x, verbose = self.verbose)
       
 
-    def find_indices_for_cropping(self, min_x = None, max_x = None, x = None, pad = 5, crop_index = False):
+    def find_indices_for_cropping(self, min_x = None, max_x = None, x = None, pad = 5, crop_index = False, **kwargs):
         """
         Find the indices between min_x and max_x and pad them. min_x and/or max_x has to be given. min_x and max_x can be outside the values of x, but the function returns a warning if no indices are found. 
         
@@ -336,7 +336,8 @@ class LinearSpectrum(CT.ClassTools):
             Default: 5
         crop_index : bool (False)
             If True, min_x and max_x are considered as indices. Otherwise, they are considered to be values. 
-        
+        suppress_range_warning : Bool (False)
+            Suppress the warning if no indices are found in the given range. The function will return None. 
         
         Returns
         -------
@@ -354,7 +355,7 @@ class LinearSpectrum(CT.ClassTools):
             else:
                 x = self.x
 
-        return ST_CF.find_indices_for_cropping(x = x, min_x = min_x, max_x = max_x, pad = pad, crop_index = crop_index, verbose = self.verbose)
+        return ST_CF.find_indices_for_cropping(x = x, min_x = min_x, max_x = max_x, pad = pad, crop_index = crop_index, verbose = self.verbose, **kwargs)
 
         
     def bin_data_helper(self, new_x, y = None):

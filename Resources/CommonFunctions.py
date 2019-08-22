@@ -184,7 +184,7 @@ def get_min_max_x(x, min_x = 1e9, max_x = -1e9, verbose = 0):
     
 
     
-def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index = False, verbose = 0):
+def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index = False, verbose = 0, **kwargs):
     """
     Find the indices between min_x and max_x and pad them. min_x and/or max_x has to be given. min_x and max_x can be outside the values of x, but the function returns a warning if no indices are found. 
 
@@ -200,7 +200,9 @@ def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index
         Default: 5
     crop_index : bool (False)
         If True, min_x and max_x are considered as indices. Otherwise, they are considered to be values. 
-
+    suppress_range_warning : Bool (False)
+        Suppress the warning if no indices are found in the given range. The function will return None. 
+        
     Returns
     -------
     idx : ndarray 
@@ -238,7 +240,9 @@ def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index
     """
     if verbose > 1:
         print("SpectraTools.Resources.CommonFunctions.find_indices_for_cropping()")        
-        
+    
+    suppress_range_warning = kwargs.get("suppress_range_warning", False)
+    
     if crop_index == False:
         if min_x is not None and max_x is not None:
             if min_x > max_x:
@@ -265,7 +269,8 @@ def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index
             
     
     if len(idx) == 0:
-        warnings.warn("SpectraTools.Resources.CommonFunctions.find_indices_for_cropping(): array ({:}-{:}) does not contain values in the range {:}-{:}".format(x[0], x[-1], min_x, max_x))
+        if suppress_range_warning == False:
+            warnings.warn("SpectraTools.Resources.CommonFunctions.find_indices_for_cropping(): array ({:}-{:}) does not contain values in the range {:}-{:}".format(x[0], x[-1], min_x, max_x))
         return None
     
     if type(pad) != int:
