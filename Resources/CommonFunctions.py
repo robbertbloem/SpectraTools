@@ -186,14 +186,14 @@ def get_min_max_x(x, min_x = 1e9, max_x = -1e9, verbose = 0):
     
 def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index = False, verbose = 0, **kwargs):
     """
-    Find the indices between min_x and max_x and pad them. min_x and/or max_x has to be given. min_x and max_x can be outside the values of x, but the function returns a warning if no indices are found. 
-
-    x has to ascending or descending. 
-
+    For array ``x``, where the values are ascending or descending, find the indices between ``min_x`` and ``max_x``. The range can be padded. If ``min_x`` or ``max_x`` is not given, it will return all indices below ``max_x`` or above ``min_x``, respectively. ``min_x`` and ``max_x`` can be outside the range of ``x``. The function returns a warning if no indices are found. 
+    
+    Array ``x`` can be cropped by values (``crop_index == False`` (default)) or by indices (``crop_index == True``). 
+    
     Arguments
     ---------
     x : ndarray
-        if x is given, it is used instead of self.x    
+        The axis to be cropped.   
     min_x : number, optional 
     max_x : number, optional
     pad : number (5)
@@ -208,8 +208,8 @@ def find_indices_for_cropping(x, min_x = None, max_x = None, pad = 5, crop_index
     idx : ndarray 
         Indices to be used
 
-    Notes
-    -----
+    Examples
+    --------
     ::
     
         x = numpy.arange(10)
