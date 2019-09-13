@@ -61,7 +61,7 @@ class nist(LS.LinearSpectrum):
         self.filename = kwargs.get("filename", None)
         
     
-    def import_data(self):
+    def import_data(self, suppress_unit_warning = False):
         """
         Import the data. 
         
@@ -78,11 +78,11 @@ class nist(LS.LinearSpectrum):
                     
         c = NIJ.NistImportJcamp(path = self.path, filename = self.filename)
         self.db_record = c.import_file()        
-        self.extract_data_from_db_record()   
+        self.extract_data_from_db_record(suppress_unit_warning = suppress_unit_warning)   
     
     
     
-    def extract_data_from_db_record(self):
+    def extract_data_from_db_record(self, suppress_unit_warning = False):
         """
         Extract the data from the nist file into something usable for this class.
         
