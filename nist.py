@@ -61,11 +61,18 @@ class nist(LS.LinearSpectrum):
         self.filename = kwargs.get("filename", None)
         
     
-    def import_data(self, suppress_unit_warning = False):
+    def import_data(self, x_unit = None, y_unit = None):
         """
         Import the data. 
         
         self.path and self.filename should have been set. 
+
+        Arguments
+        ---------
+        x_unit : str (optional, None)
+            The x_unit is normally given in the file. Use this to override that.
+        y_unit : str (optional, None)
+            The y_unit is normally given in the file. Use this to override that.
         
         Notes
         -----
@@ -78,14 +85,21 @@ class nist(LS.LinearSpectrum):
                     
         c = NIJ.NistImportJcamp(path = self.path, filename = self.filename)
         self.db_record = c.import_file()        
-        self.extract_data_from_db_record(suppress_unit_warning = suppress_unit_warning)   
+        self.extract_data_from_db_record(x_unit = x_unit, y_unit = y_unit)   
     
     
     
-    def extract_data_from_db_record(self, suppress_unit_warning = False):
+    def extract_data_from_db_record(self, x_unit = None, y_unit = None):
         """
         Extract the data from the nist file into something usable for this class.
         
+        Arguments
+        ---------
+        x_unit : str (optional, None)
+            The x_unit is normally given in the file. Use this to override that.
+        y_unit : str (optional, None)
+            The y_unit is normally given in the file. Use this to override that.
+            
         Notes
         -----
     
@@ -101,18 +115,22 @@ class nist(LS.LinearSpectrum):
         if "y" in self.db_record:
             self.y = self.db_record.pop("y")
 
-        
-        if "xunits" in self.db_record:
-            if self.db_record["xunits"] == "1/CM":
+        if x_unit is None and "xunits" in self.db_record:
+            if self.db_record["xunits"] in ["1/CM", "1/cm"]:
                 self.x_unit = "wavenumber"
             else:   
                 print("NistTools.nist.extract_data_from_db_record(): {:} is an unknown (or not implemented) unit for x".format(self.db_record["xunits"]))  
-                
-        if "yunits" in self.db_record:
+        else:
+            self.x_unit = x_unit
+        
+        
+        if y_unit is None and "yunits" in self.db_record:
             if self.db_record["yunits"] == "TRANSMITTANCE":
                 self.y_unit = "T1"
             else:   
-                print("NistTools.nist.extract_data_from_db_record(): {:} is an unknown (or not implemented) unit for y".format(self.db_record["yunits"]))             
+                print("NistTools.nist.extract_data_from_db_record(): {:} is an unknown (or not implemented) unit for y".format(self.db_record["yunits"]))    
+        else:
+            self.y_unit = y_unit
         
         
                 
