@@ -61,7 +61,7 @@ class Test_init(unittest.TestCase):
         ]
 
         P = MLS.MultiLinearSpectra(verbose = self.verbose, mess = mess)        
-        P.import_data()
+        P.import_data(filetype = "ASD")
         P.select_single_slope()
         min_x, max_x = P.get_min_max_x() 
         P.bin_data(x_resolution = 0.01, min_x = min_x, max_x = max_x)
@@ -127,7 +127,7 @@ class Test_batches(unittest.TestCase):
         mess[8]["filename"] = "NW1008.ASD"
         
         self.P = MLS.MultiLinearSpectra(verbose = self.verbose, mess = mess)
-        self.P.import_data()
+        self.P.import_data(filetype = "ASD")
         self.P.select_single_slope()
         min_x, max_x = self.P.get_min_max_x() 
         self.P.bin_data(x_resolution = 0.01, min_x = min_x, max_x = max_x)
@@ -187,7 +187,7 @@ class Test_batches(unittest.TestCase):
         mess[8]["filename"] = "NW1008.ASD"
         
         self.P = MLS.MultiLinearSpectra(verbose = self.verbose, mess = mess)
-        self.P.import_data()
+        self.P.import_data(filetype = "ASD")
         self.P.select_single_slope()
         min_x, max_x = self.P.get_min_max_x() 
         self.P.bin_data(x_resolution = 0.01, min_x = min_x, max_x = max_x)
@@ -225,7 +225,7 @@ class Test_batches(unittest.TestCase):
         mess = [gas, liquid]
 
         self.P = MLS.MultiLinearSpectra(verbose = self.verbose, mess = mess)
-        self.P.import_data()
+        self.P.import_data(filetype = "ASD")
         self.P.select_single_slope()
         min_x, max_x = self.P.get_min_max_x() 
         self.P.bin_data(x_resolution = 0.01, min_x = min_x, max_x = max_x)
@@ -265,7 +265,7 @@ class Test_batches(unittest.TestCase):
         mess = [gas, liquid, liquid, liquid]
 
         self.P = MLS.MultiLinearSpectra(verbose = self.verbose, mess = mess)
-        self.P.import_data()
+        self.P.import_data(filetype = "ASD")
         self.P.select_single_slope()
         min_x, max_x = self.P.get_min_max_x() 
         self.P.bin_data(x_resolution = 0.01, min_x = min_x, max_x = max_x)

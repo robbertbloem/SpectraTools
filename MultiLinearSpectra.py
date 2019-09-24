@@ -156,6 +156,10 @@ class MultiLinearSpectra(CT.ClassTools):
                 elif "reload" in self.mess[m]:
                     _kwargs["reload"] = self.mess[m]["reload"]
                 
+                if "filetype" in kwargs:
+                    _kwargs["filetype"] = kwargs["filetype"]
+                elif "filetype" in self.mess[m]:
+                    _kwargs["filetype"] = self.mess[m]["filetype"]                
                 
                 self.mess[m]["object"].import_data(**_kwargs) 
 
