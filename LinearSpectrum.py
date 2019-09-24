@@ -473,7 +473,7 @@ class LinearSpectrum(CT.ClassTools):
             print("LinearSpectrum.calculate_signal() -- placeholder")         
         
 
-    def import_data(self):
+    def import_data(self, filetype = None, reload = False):
         """
         Placeholder function. Should be implemented in subclasses, if needed.  
 
