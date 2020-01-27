@@ -144,8 +144,136 @@ def find_overlap_in_arrays(x_list = None, x1 = None, x2 = None, verbose = 0):
     return start, finish
     
     
+def find_array_limits(x_list = None, union = True, verbose = 0):
+    """
+    Take 2 or more arrays as input and find their common limits. When union == True, the largest range is returned. When union == False, the range where the arrays overlap is returned. 
+    
+    This function is intended to find the limits of a few spectra. The arrays in x_list are assumed to be continuous. For a true union or intersection function, use numpy.union or numpy.intersection. 
+    
+    Arguments
+    ---------
+    x_list : list with arrays
+        The list with arrays to be compared. 
+    union : Bool
+        If true (default) return the largest range. If False the smallest overlapping range is returned.
+        
+    Returns
+    -------
+    begin, end : numbers
+    
+    Notes
+    -----
+    
+    ::
+    
+        x1          x2          union       intersection
+        10 - 20      5 - 15      5 - 20     10-15
+        10 - 20      5 - 25      5 - 25     10-20
+        10 - 20     30 - 40     10 - 40     None-None
+        10 - 20     12 - 18     10 - 20     12 - 18
+
+        x1          x2          x3          union      intersection
+        10 - 20      5 - 15      6 - 11      5 - 20    10 - 11 
+        10 - 20      5 - 15      6 - 18      5 - 20    10 - 15 
+        10 - 20      5 - 15      6 - 25      5 - 25    10 - 15 
+        10 - 20      5 - 15     18 - 25      5 - 25    None-None 
+        
+    """
+    if verbose > 1:
+        print("SpectraTools.Resources.CommonFunctions:find_array_limits()")    
+
+    if union:
+        return find_array_limits_union(x_list = x_list, verbose = verbose)
+    else:
+        return find_array_limits_intersection(x_list = x_list, verbose = verbose)
+        
 
     
+def find_array_limits_union(x_list = None, verbose = 0):
+    """
+    Take 2 or more arrays as input and find their common limits. The largest range is returned. See further explanation of find_array_limits. 
+    
+    Arguments
+    ---------
+    x_list : list with arrays
+        The list with arrays to be compared
+        
+    Returns
+    -------
+    begin, end : numbers
+    
+    
+    """
+    if verbose > 1:
+        print("SpectraTools.Resources.CommonFunctions:find_array_limits_union()")       
+
+    x_list = check_x_list(x_list, "find_array_limits_union")
+        
+    n = len(x_list)
+        
+    x_min = numpy.zeros(n)
+    x_max = numpy.zeros(n)
+    
+    for i in range(n):
+        x_min[i] = numpy.nanmin(x_list[i])
+        x_max[i] = numpy.nanmax(x_list[i])
+        
+    return numpy.amin(x_min), numpy.amax(x_max)
+    
+
+
+def find_array_limits_intersection(x_list = None, verbose = 0):
+    """
+    Take 2 or more arrays as input and find their common limits. The common range is returned. See further explanation of find_array_limits. 
+    
+    Arguments
+    ---------
+    x_list : list with arrays
+        The list with arrays to be compared
+        
+    Returns
+    -------
+    begin, end : numbers
+    
+    
+    """
+    if verbose > 1:
+        print("SpectraTools.Resources.CommonFunctions:find_array_limits_intersection()")    
+
+    x_list = check_x_list(x_list, "find_array_limits_intersection")
+    
+
+    
+    n = len(x_list)
+        
+    x_min = numpy.zeros(n)
+    x_max = numpy.zeros(n)
+    
+    for i in range(n):
+        x_min[i] = numpy.nanmin(x_list[i])
+        x_max[i] = numpy.nanmax(x_list[i])
+    
+    if numpy.amax(x_min) > numpy.amin(x_max):
+        # warnings.warn("LinearSpectrum.{:}: the two classes are not the same ({:} and {:}).".format(l
+        return None, None
+    else:
+        return numpy.amax(x_min), numpy.amin(x_max)        
+
+def check_x_list(x_list, function):
+    if type(x_list) != list:
+        raise TypeError("{:s}: argument x_list should be a list, not a {:s}".format(function, type(x_list)))
+    
+    if len(x_list) < 2:
+        raise ValueError("{:s}: argument x_list has to be at least 2 long, but is {:d} long".format(function, len(x_list)))
+
+    for x in x_list:
+        if type(x) != numpy.ndarray:
+            x = numpy.array(x)
+    
+    return x_list
+        
+        
+        
 def get_min_max_x(x, min_x = 1e9, max_x = -1e9, verbose = 0):
     """
     Get the minimum and maximum value of x. By using the output of this function as the input for this function with another dataset, the minimum and maximum wavenumber for a set of data can be found. This can be used to make bins for all data. 

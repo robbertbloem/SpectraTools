@@ -298,6 +298,61 @@ class Test_find_overlap_in_arrays(unittest.TestCase):
                     self.assertTrue(numpy.allclose(start, t[3][0]))
                     self.assertTrue(numpy.allclose(finish, t[3][1]))          
 
+class Test_find_array_limits(unittest.TestCase):
+
+    def setUp(self):
+        self.verbose = 0
+    
+    def test_limits_2_arrays(self):
+        
+        tests = [
+            {"x1": [10,20], "x2": [5,15], "union": [5,20], "intersection": [10,15]},
+            {"x1": [10,20], "x2": [5,25], "union": [5,25], "intersection": [10,20]},
+            {"x1": [10,20], "x2": [30,40], "union": [10,40], "intersection": [None, None]},
+            {"x1": [10,20], "x2": [12,18], "union": [10,20], "intersection": [12,18]},
+        ]
+        
+        for t in tests:
+            u1, u2 = CF.find_array_limits_union([t["x1"], t["x2"]])
+            self.assertTrue(u1 == t["union"][0])
+            self.assertTrue(u2 == t["union"][1])
+            # print(u1, u2)
+            
+            i1, i2 = CF.find_array_limits_intersection([t["x1"], t["x2"]])
+            if None in t["intersection"]:
+                self.assertIsNone(i1)
+                self.assertIsNone(i2)
+            else:
+                self.assertTrue(i1 == t["intersection"][0])
+                self.assertTrue(i2 == t["intersection"][1])
+            # print(i1, i2)
+
+    def test_limits_3_arrays(self):
+        
+        tests = [
+            {"x1": [10,20], "x2": [5,15], "x3": [6,11], "union": [5,20], "intersection": [10,11]},
+            {"x1": [10,20], "x2": [5,15], "x3": [6,18], "union": [5,20], "intersection": [10,15]},
+            {"x1": [10,20], "x2": [5,15], "x3": [6,25], "union": [5,25], "intersection": [10,15]},
+            {"x1": [10,20], "x2": [5,15], "x3": [18,25], "union": [5,25], "intersection": [None, None]},
+        ]
+        
+        for t in tests:
+            u1, u2 = CF.find_array_limits_union([t["x1"], t["x2"], t["x3"]])
+            self.assertTrue(u1 == t["union"][0])
+            self.assertTrue(u2 == t["union"][1])
+            # print(u1, u2)
+            
+            i1, i2 = CF.find_array_limits_intersection([t["x1"], t["x2"], t["x3"]])
+            if None in t["intersection"]:
+                self.assertIsNone(i1)
+                self.assertIsNone(i2)
+            else:
+                self.assertTrue(i1 == t["intersection"][0])
+                self.assertTrue(i2 == t["intersection"][1])
+            # print(i1, i2)
+            
+    
+                    
 class Test_indices_for_binning(unittest.TestCase):
 
     def setUp(self):
@@ -482,22 +537,29 @@ if __name__ == '__main__':
 
     verbosity = 1
         
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_init)
         unittest.TextTestRunner(verbosity = verbosity).run(suite)      
     
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_overlap_in_arrays)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)             
 
     if 1:
+        suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_array_limits)
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)          
+        
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_indices_for_binning)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)              
 
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_get_min_max_x)
         unittest.TextTestRunner(verbosity=verbosity).run(suite)     
 
-    if 1:
+    if 0:
         suite = unittest.TestLoader().loadTestsFromTestCase(Test_find_indices_for_cropping)
-        unittest.TextTestRunner(verbosity=verbosity).run(suite)          
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)     
+
+  
+
