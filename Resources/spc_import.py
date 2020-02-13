@@ -1,5 +1,9 @@
 """
+SPC is a file format from Galactic Industries, also known as the Galactic Universal Data Format. 
 
+There are different versions: new and old. EPA uses the old format. 
+
+As far as I have seen, the 
 
 """
 

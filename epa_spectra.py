@@ -1,4 +1,8 @@
 """
+SPC is a file format from Galactic Industries, also known as the Galactic Universal Data Format. 
+
+There are different versions: new and old. EPA uses the old format. EPA uses the old format. It is not as well-defined as the new format. 
+
 
 """
 
@@ -53,7 +57,7 @@ class epa_spectra(LS.LinearSpectrum):
         self.filename = kwargs.get("filename", None)
         
     
-    def import_data(self, x_unit = None, y_unit = None):
+    def import_data(self, x_unit = None, y_unit = None, load_all = False):
         """
         Import the data. 
         
@@ -74,12 +78,12 @@ class epa_spectra(LS.LinearSpectrum):
                     
         c = SPC.SPCImport(path = self.path, filename = self.filename)
         self.spc_record = c.import_file()        
-        self.extract_data_from_spc(x_unit = x_unit, y_unit = y_unit)  
+        self.extract_data_from_spc(x_unit = x_unit, y_unit = y_unit, load_all = load_all)  
 
         
         
         
-    def extract_data_from_spc(self, x_unit = None, y_unit = None):
+    def extract_data_from_spc(self, x_unit = None, y_unit = None, load_all = False):
         """
         Extract the data from the spc file into something usable for this class.
         
@@ -94,6 +98,26 @@ class epa_spectra(LS.LinearSpectrum):
         if self.verbose > 1:
             print("SpectraTools.epa_spectra.extract_data_from_spc()")         
         
+        
+        self.x = self.spc_record.x
+        self.y = self.spc_record.sub[0].y
+        
+        if self.spc_record.xlabel == "Wavenumber (cm-1)":
+            self.x_unit = "cm-1"
+            
+        if self.spc_record.ylabel == "Absorbance":
+            self.y_unit = "A"
+            
+        self.comment = self.spc_record.ocmnt.decode("utf-8")
+        
+        if load_all == False:
+            self.spc_record = 0
+        
+        # for key in sorted(self.spc_record.__dict__):
+            # print(key, getattr(self.spc_record, key))        
+            
+
+                
         
         
         

@@ -10,9 +10,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 import SpectraTools
-import SpectraTools.Resources.nist_import_jcamp as NIJ
+import SpectraTools.Resources.spc_import as SPC
 
-importlib.reload(NIJ)
+importlib.reload(SPC)
 
 
 class Test_init(unittest.TestCase):
@@ -21,7 +21,7 @@ class Test_init(unittest.TestCase):
         self.verbose = 1
 
     def test_simple_init(self):
-        x = NIJ.NistImportJcamp()
+        x = SPC.SPCImport()
         print(x)
         
 class Test_import(unittest.TestCase):
@@ -32,24 +32,21 @@ class Test_import(unittest.TestCase):
     def test_imports(self):
         tests = [
             {
-            "path": pathlib.Path("Testdata/"),
-            "filename": pathlib.Path("74-82-8-IR.jdx"),
-            "title": "METHANE",
+            "path": pathlib.Path("Testdata/epa"),
+            "filename": pathlib.Path("001a4asc.spc"),
+            "title": "Acetaldehyde 99.7ppm",
             },
             {
-            "path": pathlib.Path("Testdata/"),
-            "filename": pathlib.Path("7732-18-5-IR.jdx"),
-            "title": "WATER",
+            "path": pathlib.Path("Testdata/epa"),
+            "filename": pathlib.Path("104a4ssd.spc"),
+            "title": "methanol (SG) 100.0 ppm",
             },
-            ]
+        ]
         
         for t in tests:
-            c = NIJ.NistImportJcamp(path = t["path"], filename = t["filename"])
+            c = SPC.SPCImport(path = t["path"], filename = t["filename"])
             d = c.import_file()
-            self.assertTrue(t["title"] == d["title"])
-
-            
-
+           
 
 
 
