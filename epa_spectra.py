@@ -58,7 +58,7 @@ class epa_spectra(LS.LinearSpectrum):
         self.filename = kwargs.get("filename", None)
         
     
-    def import_data(self, x_unit = None, y_unit = None, load_all = False):
+    def import_data(self, load_all = False):
         """
         Import the data. 
         
@@ -66,10 +66,8 @@ class epa_spectra(LS.LinearSpectrum):
 
         Arguments
         ---------
-        x_unit : str (optional, None)
-            The x_unit is normally given in the file. Use this to override that.
-        y_unit : str (optional, None)
-            The y_unit is normally given in the file. Use this to override that.
+        load_all : Bool
+            Delete the imported SPC object. If True, the SPC object is retained, if False, it is deleted. This saves space. 
         
     
         
@@ -79,21 +77,19 @@ class epa_spectra(LS.LinearSpectrum):
                     
         c = SPC.SPCImport(path = self.path, filename = self.filename)
         self.spc_record = c.import_file()        
-        self.extract_data_from_spc(x_unit = x_unit, y_unit = y_unit, load_all = load_all)  
+        self.extract_data_from_spc(load_all = load_all)  
 
         
         
         
-    def extract_data_from_spc(self, x_unit = None, y_unit = None, load_all = False):
+    def extract_data_from_spc(self, load_all = False):
         """
         Extract the data from the spc file into something usable for this class.
         
         Arguments
         ---------
-        x_unit : str (optional, None)
-            The x_unit is normally given in the file. Use this to override that.
-        y_unit : str (optional, None)
-            The y_unit is normally given in the file. Use this to override that.
+        load_all : Bool
+            Delete the imported SPC object. If True, the SPC object is retained, if False, it is deleted. This saves space. 
             
         """
         if self.verbose > 1:
