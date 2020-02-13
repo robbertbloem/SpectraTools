@@ -3,6 +3,7 @@ SPC is a file format from Galactic Industries, also known as the Galactic Univer
 
 There are different versions: new and old. EPA uses the old format. EPA uses the old format. It is not as well-defined as the new format. 
 
+The format -- at least for the EPA data -- uses a single x-axis and a list with 1 or more objects that are the y-axes. For the EPA data this list is 2 objects, but only the first object is correct. The second object has a single value for y. 
 
 """
 
