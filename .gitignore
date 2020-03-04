@@ -4,4 +4,5 @@ temp/
 Tests/Testdata/
 docs/build/
 database/
+hapi.py
 
