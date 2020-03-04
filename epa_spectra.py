@@ -33,7 +33,7 @@ class epa_spectra(LS.LinearSpectrum):
     """
     
     
-    def __init__(self, verbose = 0, **kwargs):
+    def __init__(self, path = None, filename = None, verbose = 0, **kwargs):
         """
         
         Arguments
@@ -54,8 +54,11 @@ class epa_spectra(LS.LinearSpectrum):
             for k, v in kwargs.items():
                 print("  {:} : {:}".format(k, v))        
         
-        self.path = kwargs.get("path", None)
-        self.filename = kwargs.get("filename", None)
+        self.path = path
+        self.filename = filename
+        
+        # self.path = kwargs.get("path", None)
+        # self.filename = kwargs.get("filename", None)
         
     
     def import_data(self, load_all = False):
@@ -73,7 +76,12 @@ class epa_spectra(LS.LinearSpectrum):
         
         """     
         if self.verbose > 1:
-            print("SpectraTools.epa_spectra.import_data()")   
+            print("SpectraTools.epa_spectra.import_data()")  
+
+        if self.path is None: 
+            raise KeyError("SpectraTools.epa_spectra.import_data(): No path is given.")
+        if self.filename is None:
+            raise KeyError("SpectraTools.epa_spectra.import_data(): No filename is given.")
                     
         c = SPC.SPCImport(path = self.path, filename = self.filename)
         self.spc_record = c.import_file()        
