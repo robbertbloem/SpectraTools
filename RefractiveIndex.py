@@ -272,9 +272,9 @@ class RefractiveIndex(LS.LinearSpectrum):
         if numpy.amax(self.x) > self.x_range[1]:
             raise ValueError("RefractiveIndex.get_k(): highest wavelength is above range.")
             
-        self.n = RIF.extinction(x = self.x, s = self.coefficients, formula = self.formula, verbose = self.verbose)
+        self.k = RIF.extinction(x = self.x, s = self.coefficients, formula = self.formula, verbose = self.verbose)
 
-        return self.n        
+        return self.k
         
         
     def get_gvd(self):
