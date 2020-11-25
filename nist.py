@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 import SpectraTools as ST
 import SpectraTools.LinearSpectrum as LS
-
+import SpectraTools.UnitConversion as UC
 import SpectraTools.Resources.nist_import_jcamp as NIJ
 
 importlib.reload(LS)
@@ -123,20 +123,25 @@ class nist(LS.LinearSpectrum):
         else:
             self.x_unit = x_unit
         
-        
-        if y_unit is None and "yunits" in self.db_record:
+        if self.verbose > 2:
+            print(self.db_record["yunits"])   
+
+        if "yunits" in self.db_record:
             if self.db_record["yunits"] == "TRANSMITTANCE":
                 self.y_unit = "T1"
-            else:   
-                print("NistTools.nist.extract_data_from_db_record(): {:} is an unknown (or not implemented) unit for y".format(self.db_record["yunits"]))    
+            elif self.db_record["yunits"] == "ABSORBANCE":
+                self.y_unit = "A"
+            else:
+                print("NistTools.nist.extract_data_from_db_record(): {:} is an unknown (or not implemented) unit for y".format(self.db_record["yunits"]))  
+
         else:
-            self.y_unit = y_unit
-        
-        
+            print("NistTools.nist.extract_data_from_db_record(): y_unit is not given and is assumed to be transmission (T1)") 
+            self.y_unit = "T1"
                 
-        
+        if y_unit != self.y_unit:
 
-
+            self.y = UC.transmission_to_transmission(T = self.y, c = 1, l = 1, c_new = 1, l_new = 1, T_unit = self.y_unit, T_unit_out = y_unit)
+            self.y_unit = y_unit
 
 
 if __name__ == "__main__": 
