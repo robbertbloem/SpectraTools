@@ -36,7 +36,6 @@ importlib.reload(hapi)
 
 
 
-
 class hitran(LS.LinearSpectrum):
     """
     A wrapper class around the HITRAN API (HAPI). 
@@ -275,6 +274,7 @@ class hitran(LS.LinearSpectrum):
         else:
             HITRAN_units = False
         
+        # print(coeff_kwargs)
         
         if line_profile in ['Voigt']:
             w, c = hapi.absorptionCoefficient_Voigt(Components = components, SourceTables = self.tablename, HITRAN_units = HITRAN_units, Environment = environment, **coeff_kwargs)
@@ -324,7 +324,8 @@ class hitran(LS.LinearSpectrum):
                 conv_kwargs = {"SlitFunction": convolution_functions[convolution]}
                 for k, v in kwargs.items():
                     if k in ["Resolution", "AF_wing"]:
-                        conv_kwargs[k] = v
+                        if v is not None:
+                            conv_kwargs[k] = v
 
                 self.x, self.y, _i1, _i2, __slit = hapi.convolveSpectrum(Omega = self.x, CrossSection = self.y, **conv_kwargs)
             
